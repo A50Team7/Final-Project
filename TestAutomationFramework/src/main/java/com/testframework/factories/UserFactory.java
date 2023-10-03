@@ -1,7 +1,7 @@
 package com.testframework.factories;
 
 import com.testframework.generations.GenerateRandom;
-import com.testframework.models.ProfessionalCategory;
+import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
 
 public class UserFactory {

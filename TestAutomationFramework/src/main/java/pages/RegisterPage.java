@@ -1,7 +1,7 @@
 package pages;
 
 import com.testframework.Utils;
-import com.testframework.models.ProfessionalCategory;
+import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

@@ -1,17 +1,21 @@
 package com.testframework.models;
 
+import com.testframework.models.enums.ProfessionalCategory;
+
 public class User {
     public User(String username, String email, String password, ProfessionalCategory category) {
         setUsername(username);
         setEmail(email);
         setPassword(password);
         setCategory(category);
+        profile = new Profile();
     }
 
     private String username;
     private String email;
     private String password;
     private ProfessionalCategory category;
+    private Profile profile;
 
     public String getUsername() {
         return username;

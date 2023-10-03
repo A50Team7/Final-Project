@@ -1,4 +1,4 @@
-package com.testframework.models;
+package com.testframework.models.enums;
 
 import com.testframework.generations.GenerateRandom;
 
