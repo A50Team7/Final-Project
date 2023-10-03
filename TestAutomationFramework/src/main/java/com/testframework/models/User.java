@@ -17,6 +17,7 @@ public class User {
     private ProfessionalCategory category;
     private Profile profile;
 
+    //############# GETTERS #########
     public String getUsername() {
         return username;
     }
@@ -32,7 +33,9 @@ public class User {
     public ProfessionalCategory getCategory() {
         return category;
     }
+    public Profile getProfile() {return profile;}
 
+    //############# SETTERS #########
     private void setUsername(String username) {
         this.username = username;
     }
