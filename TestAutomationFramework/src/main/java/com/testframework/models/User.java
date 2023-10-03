@@ -11,11 +11,11 @@ public class User {
         profile = new Profile();
     }
 
+    public Profile profile;
     private String username;
     private String email;
     private String password;
     private ProfessionalCategory category;
-    private Profile profile;
 
     //############# GETTERS #########
     public String getUsername() {
@@ -33,7 +33,6 @@ public class User {
     public ProfessionalCategory getCategory() {
         return category;
     }
-    public Profile getProfile() {return profile;}
 
     //############# SETTERS #########
     private void setUsername(String username) {
