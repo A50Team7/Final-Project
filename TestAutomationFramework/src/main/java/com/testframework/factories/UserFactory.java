@@ -1,17 +1,28 @@
 package com.testframework.factories;
 
 import com.testframework.generations.GenerateRandom;
+import com.testframework.models.Profile;
 import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
 public class UserFactory {
 
-    public static User createUserWithProfileData() {
+    public static User createUserWithProfile() {
         return new User(
                 generateUsername(),
                 generateValidEmail(),
                 generatePassword(),
                 selectCategory(),
                 ProfileFactory.createProfile()
+        );
+    }
+
+    public static User createUserWithProfile(Profile profile) {
+        return new User(
+                generateUsername(),
+                generateValidEmail(),
+                generatePassword(),
+                selectCategory(),
+                profile
         );
     }
 
@@ -27,11 +38,11 @@ public class UserFactory {
     //############# GENERATORS #########
     public static String generateUsername() {
         int length = GenerateRandom.generateLength("username.lowerbound", "username.upperbound");
-        return GenerateRandom.generateRandomBoundedAlphanumericString(length);
+        return GenerateRandom.generateRandomBoundedAlphabeticString(length);
     }
 
     public static String generateUsername(int length) {
-        return GenerateRandom.generateRandomBoundedAlphanumericString(length);
+        return GenerateRandom.generateRandomBoundedAlphabeticString(length);
     }
 
     public static String generateValidEmail() {

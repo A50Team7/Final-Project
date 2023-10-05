@@ -2,6 +2,8 @@ package com.testframework.models;
 
 import com.testframework.models.enums.ProfessionalCategory;
 
+import java.util.Date;
+
 public class User {
     public User(String username, String email, String password, ProfessionalCategory category) {
         setUsername(username);
@@ -18,13 +20,18 @@ public class User {
         setProfile(profile);
     }
 
-    public Profile profile;
+    private Profile profile;
     private String username;
     private String email;
     private String password;
     private ProfessionalCategory category;
+    private Date registrationDate;
 
     //############# GETTERS #########
+    public Profile getProfile() {
+        return profile;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -39,6 +46,10 @@ public class User {
 
     public ProfessionalCategory getCategory() {
         return category;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
     }
 
     //############# SETTERS #########
@@ -60,5 +71,9 @@ public class User {
 
     private void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }
