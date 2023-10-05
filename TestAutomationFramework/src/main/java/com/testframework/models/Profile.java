@@ -1,6 +1,7 @@
 package com.testframework.models;
 
 import com.testframework.models.enums.Gender;
+import com.testframework.models.enums.Location;
 import com.testframework.models.interfaces.Friendable;
 import com.testframework.models.interfaces.Postability;
 
@@ -19,7 +20,7 @@ public class Profile implements Friendable, Postability {
     private String lastName;
     private Date birthday;
     private Gender gender;
-    private String location;
+    private Location location;
     private ArrayList<User> friendList;
     private ArrayList<Post> posts;
     private String bio;
@@ -63,7 +64,7 @@ public class Profile implements Friendable, Postability {
         return gender;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -100,7 +101,7 @@ public class Profile implements Friendable, Postability {
         this.gender = gender;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

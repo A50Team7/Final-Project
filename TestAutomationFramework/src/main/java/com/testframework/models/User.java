@@ -8,7 +8,14 @@ public class User {
         setEmail(email);
         setPassword(password);
         setCategory(category);
-        profile = new Profile();
+    }
+
+    public User(String username, String email, String password, ProfessionalCategory category, Profile profile) {
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+        setCategory(category);
+        setProfile(profile);
     }
 
     public Profile profile;
@@ -49,5 +56,9 @@ public class User {
 
     private void setCategory(ProfessionalCategory category) {
         this.category = category;
+    }
+
+    private void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }
