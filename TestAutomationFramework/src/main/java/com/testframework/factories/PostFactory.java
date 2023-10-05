@@ -7,11 +7,11 @@ import com.testframework.models.enums.Visibility;
 
 public class PostFactory {
 
-    public static Post createPost(User author) {
+    public static Post createPost(User author, Visibility visibility) {
         return new Post(
                 author,
                 generateContent(),
-                Visibility.PUBLIC
+                visibility
         );
     }
 
