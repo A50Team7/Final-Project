@@ -43,7 +43,7 @@ public class UserActions {
     public void typeValueInField(By locator, String value) {
         waitForElementClickable(locator);
 
-        Utils.LOGGER.info("Typing value: " + value + " In field" + locator);
+        Utils.LOGGER.info("Typing value: " + value + " In field " + locator);
         WebElement element = driver.findElement(locator);
         element.sendKeys(value);
     }
