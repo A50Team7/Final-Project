@@ -1,26 +1,27 @@
 package com.testframework.factories;
 
-import com.testframework.Utils;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
-import org.apache.logging.log4j.core.tools.Generate;
-
 public class UserFactory {
 
     public static User createUserWithProfileData() {
-        return new User(generateUsername(),
+        return new User(
+                generateUsername(),
                 generateValidEmail(),
                 generatePassword(),
                 selectCategory(),
-                ProfileFactory.createProfile());
+                ProfileFactory.createProfile()
+        );
     }
 
     public static User createUser() {
-        return new User (generateUsername(),
+        return new User (
+                generateUsername(),
                 generateValidEmail(),
                 generatePassword(),
-                selectCategory());
+                selectCategory()
+        );
     }
 
     //############# GENERATORS #########

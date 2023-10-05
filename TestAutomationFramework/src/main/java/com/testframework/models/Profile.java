@@ -16,6 +16,14 @@ public class Profile implements Friendable, Postability {
         posts = new ArrayList<Post>();
     }
 
+    public Profile(String firstName, String lastName, Date birthday) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setBirthday(birthday);
+        friendList = new ArrayList<User>();
+        posts = new ArrayList<Post>();
+    }
+
     private String firstName;
     private String lastName;
     private Date birthday;

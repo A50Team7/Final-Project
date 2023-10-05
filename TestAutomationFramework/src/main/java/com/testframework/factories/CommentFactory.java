@@ -1,22 +1,22 @@
 package com.testframework.factories;
 
 import com.testframework.generations.GenerateRandom;
+import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
-import com.testframework.models.enums.Visibility;
 
-public class PostFactory {
+public class CommentFactory {
 
-    public static Post createPost(User author) {
-        return new Post(
-                author,
-                generateContent(),
-                Visibility.PUBLIC
+    public static Comment createComment(Post post, User user) {
+        return new Comment(
+                post,
+                user,
+                generateContent()
         );
     }
 
     public static String generateContent() {
-        int length = GenerateRandom.generateLength("post.content.lowerbound", "post.content.upperbound");
+        int length = GenerateRandom.generateLength("comment.content.lowerbound", "comment.content.upperbound");
         return GenerateRandom.generateRandomBoundedAlphanumericString(length);
     }
 

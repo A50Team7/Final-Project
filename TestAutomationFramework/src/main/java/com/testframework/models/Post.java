@@ -3,21 +3,28 @@ package com.testframework.models;
 import com.testframework.models.enums.Visibility;
 import com.testframework.models.interfaces.Commentable;
 import com.testframework.models.interfaces.Likable;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Post implements Likable, Commentable {
 
-    public Post(String content, Visibility visibility) {
+    public Post(User author, String content, Visibility visibility) {
+        setAuthor(author);
         setContent(content);
         setVisibility(visibility);
+        setCreationDateTime(LocalDateTime.now());
         comments = new ArrayList<>();
         likes = 0;
     }
 
-    private ArrayList<Comment> comments;
+    private User author;
+    private LocalDateTime creationDateTime;
     private String content;
     private Visibility visibility;
     private int likes;
+    private ArrayList<Comment> comments;
 
     public void like() {
         likes++;
@@ -38,8 +45,12 @@ public class Post implements Likable, Commentable {
     }
 
     //############# GETTERS #########
-    public ArrayList<Comment> getComments() {
-        return new ArrayList<>(comments);
+    public User getAuthor() {
+        return author;
+    }
+
+    public LocalDateTime getCreationDateTime() {
+        return creationDateTime;
     }
 
     public String getContent() {
@@ -54,7 +65,19 @@ public class Post implements Likable, Commentable {
         return likes;
     }
 
+    public ArrayList<Comment> getComments() {
+        return new ArrayList<>(comments);
+    }
+
     //############# SETTERS #########
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void setCreationDateTime(LocalDateTime creationDateTime) {
+        this.creationDateTime = creationDateTime;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }

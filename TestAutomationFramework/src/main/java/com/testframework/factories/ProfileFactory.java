@@ -4,17 +4,17 @@ import com.testframework.Utils;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.Profile;
 import com.testframework.models.enums.Location;
-
 import java.sql.Date;
 import java.text.DecimalFormat;
 
 public class ProfileFactory {
 
     public static Profile createProfile() {
-        Profile profile = new Profile();
-        profile.setFirstName(generateFirstName());
-        profile.setLastName(generateLastName());
-        profile.setBirthday(generateBirthday());
+        Profile profile = new Profile(
+                generateFirstName(),
+                generateLastName(),
+                generateBirthday()
+        );
         profile.setLocation(selectLocation());
         profile.setBio(generateBio());
         profile.setWeeklyAvailability(generateWeeklyAvailability());
