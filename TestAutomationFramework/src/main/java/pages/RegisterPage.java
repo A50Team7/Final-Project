@@ -18,11 +18,6 @@ public class RegisterPage extends BasePage{
         confirmPassword(user.getPassword());
         selectProfessionalCategory(user.getCategory());
         submit();
-
-        // WIP: should return a page object of the page the user is being redirected to when successfully registered
-        // or not, I am still considering if we should instantiate POM once or in every test
-        // the first option looks more readable from a business perspective
-        // the second option looks more readable for programmers
     }
 
     private static final By usernameBy = By.xpath(Utils.getUIMappingByKey("register.username"));
@@ -31,6 +26,7 @@ public class RegisterPage extends BasePage{
     private static final By passwordConfirmationBy = By.xpath(Utils.getUIMappingByKey("register.passwordConfirmation"));
     private static final By categoryDropdownBy = By.xpath(Utils.getUIMappingByKey("register.categoryDropdown"));
     private static final By registerButtonBy = By.xpath(Utils.getUIMappingByKey("register.registerButton"));
+    private static final By welcomeMessageBy = By.xpath(Utils.getUIMappingByKey("register.welcomeMessage"));
 
     public void enterUsername(String username) {
         actions.typeValueInField(usernameBy, username);
@@ -55,5 +51,10 @@ public class RegisterPage extends BasePage{
 
     public void submit() {
         actions.clickElement(registerButtonBy);
+    }
+
+    public void assertWelcomeMessagePresent() {
+        actions.waitForElementPresent(welcomeMessageBy);
+        actions.assertElementPresent(welcomeMessageBy);
     }
 }
