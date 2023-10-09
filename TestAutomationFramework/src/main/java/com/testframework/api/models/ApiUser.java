@@ -1,4 +1,4 @@
-package com.testframework.api;
+package com.testframework.api.models;
 
 import com.testframework.models.User;
 

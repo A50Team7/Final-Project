@@ -1,13 +1,12 @@
 package testcases.api;
 
-import com.testframework.api.ApiSkill;
-import io.restassured.http.ContentType;
+import com.testframework.api.RestSkillController;
+import com.testframework.api.models.ApiSkill;
+import com.testframework.generations.GenerateRandom;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static io.restassured.RestAssured.given;
-
 public class RestSkillControllerTests extends BaseApiTest {
 
     boolean deleted = false;
@@ -18,35 +17,17 @@ public class RestSkillControllerTests extends BaseApiTest {
     public void setup() {
         skill = new ApiSkill();
 
-        createResponse = given()
-                .contentType(ContentType.JSON)
-                .and()
-                .body(skill)
-                .when()
-                .post("/skill/create")
-                .then()
-                .assertThat().statusCode(200)
-                .extract().response().as(ApiSkill.class);
+        createResponse = RestSkillController.createSkill(skill);
 
         skill.setSkillId(createResponse.getSkillId());
     }
 
     @Test
     public void findAll() {
-        var skills = given()
-                .get("/skill")
-                .then()
-                .assertThat().statusCode(200)
-                .extract().response().as(ApiSkill[].class);
+        var skills = RestSkillController.getAll();
 
         for (ApiSkill skill : skills) {
-            var getOneResponse = given()
-                    .queryParam("skillId", skill.getSkillId())
-                    .when()
-                    .get("/skill/getOne")
-                    .then()
-                    .assertThat().statusCode(200)
-                    .extract().response().as(ApiSkill.class);
+            var getOneResponse = RestSkillController.getOne(skill.getSkillId());
 
             Assertions.assertEquals(skill, getOneResponse);
         }
@@ -54,13 +35,7 @@ public class RestSkillControllerTests extends BaseApiTest {
 
     @Test
     public void getOne() {
-        var getOneResponse = given()
-                .queryParam("skillId", skill.getSkillId())
-                .when()
-                .get("/skill/getOne")
-                .then()
-                .assertThat().statusCode(200)
-                .extract().response().as(ApiSkill.class);
+        var getOneResponse = RestSkillController.getOne(skill.getSkillId());
 
         Assertions.assertEquals(skill, getOneResponse);
     }
@@ -72,29 +47,27 @@ public class RestSkillControllerTests extends BaseApiTest {
 
     @Test
     public void deleteSkill() {
-        var deleteResponse = given()
-                .queryParam("skillId", skill.getSkillId())
-                .when()
-                .put("/skill/delete")
-                .then()
-                .assertThat().statusCode(200)
-                .extract().response();
+        var deleteResponse = RestSkillController.deleteSkill(skill.getSkillId());
 
-        given()
-                .queryParam("skillId", skill.getSkillId())
-                .when()
-                .get("/skill/getOne")
-                .then()
-                .assertThat().statusCode(404)
-                .extract().response().as(ApiSkill.class);
+        RestSkillController.getOne(skill.getSkillId(), 404);
 
         if (deleteResponse.statusCode()==200) deleted = true;
+    }
+
+    @Test
+    public void editSkill() {
+        skill.setSkill(GenerateRandom.generateRandomBoundedAlphabeticString(15));
+        RestSkillController.editSkill(skill.getSkill(), skill.getSkillId());
+
+        var getOneResponse = RestSkillController.getOne(skill.getSkillId());
+        Assertions.assertEquals(skill, getOneResponse);
     }
 
     @AfterEach
     public void cleanup() {
         if (deleted) return;
 
-        given().queryParam("skillId", skill.getSkillId()).when().put("/skill/delete");
+        RestSkillController.deleteSkill(skill.getSkillId());
     }
+
 }
