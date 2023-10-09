@@ -1,4 +1,4 @@
-package api;
+package com.testframework.api;
 
 import com.testframework.models.enums.ProfessionalCategory;
 
@@ -18,6 +18,14 @@ public class Category {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category c = (Category) o;
+        return id == c.id && name.equals(c.name);
     }
 
     public void setId(int id) {

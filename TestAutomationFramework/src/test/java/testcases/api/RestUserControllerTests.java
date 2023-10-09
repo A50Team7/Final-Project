@@ -1,6 +1,6 @@
 package testcases.api;
 
-import api.ApiUser;
+import com.testframework.api.ApiUser;
 import com.testframework.factories.UserFactory;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Assertions;

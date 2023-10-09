@@ -1,4 +1,4 @@
-package testcases;
+package testcases.ui;
 
 import com.testframework.Utils;
 import com.testframework.factories.UserFactory;

@@ -1,4 +1,4 @@
-package testcases;
+package testcases.ui;
 
 import com.testframework.UserActions;
 import org.junit.jupiter.api.AfterAll;
