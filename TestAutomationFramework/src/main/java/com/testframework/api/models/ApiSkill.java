@@ -8,12 +8,12 @@ public class ApiSkill {
     public ApiSkill() {
         setSkillId(0);
         setSkill(GenerateRandom.generateRandomBoundedAlphabeticString(15));
-        setCategory(new Category(ProfessionalCategory.getProfessionalCategoryById(ProfessionalCategory.selectRandomId())));
+        setCategory(new ApiCategory(ProfessionalCategory.getProfessionalCategoryById(ProfessionalCategory.selectRandomId())));
     }
 
     private int skillId;
     private String skill;
-    private Category category;
+    private ApiCategory category;
 
     public int getSkillId() {
         return skillId;
@@ -23,7 +23,7 @@ public class ApiSkill {
         return skill;
     }
 
-    public Category getCategory() {
+    public ApiCategory getCategory() {
         return category;
     }
 
@@ -46,7 +46,7 @@ public class ApiSkill {
         this.skill = skill;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(ApiCategory category) {
         this.category = category;
     }
 }

@@ -10,14 +10,14 @@ public class ApiUser {
     public ApiUser(String authority, User user) {
         authorities = new ArrayList<String>();
         addAuthority(authority);
-        setCategory(new Category(user.getCategory()));
+        setCategory(new ApiCategory(user.getCategory()));
         setEmail(user.getEmail());
         setPassword(user.getPassword());
         setUsername(user.getUsername());
     }
 
     private List<String> authorities;
-    private Category category;
+    private ApiCategory category;
     private String email;
     private String password;
     private String username;
@@ -26,7 +26,7 @@ public class ApiUser {
         return authorities;
     }
 
-    public Category getCategory() {
+    public ApiCategory getCategory() {
         return category;
     }
 
@@ -59,7 +59,7 @@ public class ApiUser {
         authorities.add(string);
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(ApiCategory category) {
         this.category = category;
     }
 
