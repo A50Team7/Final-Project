@@ -25,7 +25,9 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category c = (Category) o;
-        return id == c.id && name.equals(c.name);
+
+        return id == c.id
+                && name.equals(c.name);
     }
 
     public void setId(int id) {

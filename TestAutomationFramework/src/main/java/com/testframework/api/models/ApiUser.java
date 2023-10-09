@@ -42,6 +42,19 @@ public class ApiUser {
         return username;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ApiUser u = (ApiUser) o;
+
+        return authorities.equals(u.authorities)
+                && category.equals(u.category)
+                && email.equals(u.email)
+                && password.equals(u.password)
+                && username.equals(u.username);
+    }
+
     private void addAuthority(String string) {
         authorities.add(string);
     }

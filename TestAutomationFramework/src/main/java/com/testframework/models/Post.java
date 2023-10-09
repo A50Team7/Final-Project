@@ -1,5 +1,6 @@
 package com.testframework.models;
 
+import com.testframework.api.models.ApiUser;
 import com.testframework.models.enums.Visibility;
 import com.testframework.models.interfaces.Commentable;
 import com.testframework.models.interfaces.Likable;
@@ -25,6 +26,20 @@ public class Post implements Likable, Commentable {
     private Visibility visibility;
     private int likes;
     private ArrayList<Comment> comments;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post p = (Post) o;
+
+        return author.equals(p.author)
+                && creationDateTime.equals(p.creationDateTime)
+                && content.equals(p.content)
+                && visibility.equals(p.visibility)
+                && likes==p.likes
+                && comments.equals(p.comments);
+    }
 
     public void like() {
         likes++;

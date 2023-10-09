@@ -1,5 +1,6 @@
 package com.testframework.models;
 
+import com.testframework.api.models.ApiUser;
 import com.testframework.models.enums.ProfessionalCategory;
 
 import java.util.Date;
@@ -26,6 +27,20 @@ public class User {
     private String password;
     private ProfessionalCategory category;
     private Date registrationDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User u = (User) o;
+
+        return username.equals(u.username)
+                && email.equals(u.email)
+                && password.equals(u.password)
+                && category.equals(u.category)
+                && registrationDate.equals(u.registrationDate)
+                && profile.equals(u.profile);
+    }
 
     //############# GETTERS #########
     public Profile getProfile() {

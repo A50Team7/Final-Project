@@ -1,5 +1,6 @@
 package com.testframework.models;
 
+import com.testframework.api.models.ApiUser;
 import com.testframework.models.enums.Gender;
 import com.testframework.models.enums.Location;
 import com.testframework.models.interfaces.Friendable;
@@ -33,6 +34,23 @@ public class Profile implements Friendable, Postability {
     private ArrayList<Post> posts;
     private String bio;
     private double weeklyAvailability;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Profile p = (Profile) o;
+
+        return firstName.equals(p.firstName)
+                && lastName.equals(p.lastName)
+                && birthday.equals(p.birthday)
+                && gender.equals(p.gender)
+                && location.equals(p.location)
+                && friendList.equals(p.friendList)
+                && posts.equals(p.posts)
+                && bio.equals(p.bio)
+                && weeklyAvailability==p.weeklyAvailability;
+    }
 
     //############# LISTS #########
     public void addFriend(User user) {

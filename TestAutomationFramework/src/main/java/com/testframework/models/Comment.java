@@ -1,5 +1,6 @@
 package com.testframework.models;
 
+import com.testframework.api.models.ApiUser;
 import com.testframework.models.interfaces.Likable;
 
 import java.time.LocalDateTime;
@@ -7,7 +8,6 @@ import java.time.LocalDateTime;
 public class Comment implements Likable {
 
     public Comment(Post post, User author, String content) {
-        setPost(post);
         setAuthor(author);
         setCreationDateTime(LocalDateTime.now());
         setContent(content);
@@ -17,9 +17,20 @@ public class Comment implements Likable {
 
     private User author;
     private LocalDateTime creationDateTime;
-    private Post post;
     private String content;
     private int likes;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment c = (Comment) o;
+
+        return author.equals(c.author)
+                && creationDateTime.equals(c.creationDateTime)
+                && content.equals(c.content)
+                && likes==c.likes;
+    }
 
     public void like() {
         likes++;
@@ -39,10 +50,6 @@ public class Comment implements Likable {
         return creationDateTime;
     }
 
-    public Post getPost() {
-        return post;
-    }
-
     public String getContent() {
         return content;
     }
@@ -58,10 +65,6 @@ public class Comment implements Likable {
 
     public void setCreationDateTime(LocalDateTime creationDateTime) {
         this.creationDateTime = creationDateTime;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
     }
 
     public void setContent(String content) {

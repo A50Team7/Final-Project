@@ -32,7 +32,10 @@ public class ApiSkill {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ApiSkill c = (ApiSkill) o;
-        return skillId == c.skillId && skill.equals(c.skill) && category.equals(c.category);
+
+        return skillId == c.skillId
+                && skill.equals(c.skill)
+                && category.equals(c.category);
     }
 
     public void setSkillId(int skillId) {
