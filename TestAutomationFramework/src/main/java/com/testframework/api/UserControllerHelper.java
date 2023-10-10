@@ -12,7 +12,7 @@ public class UserControllerHelper {
         String dbUrl = Utils.getConfigPropertyByKey("weare.db.url");
         String username = Utils.getConfigPropertyByKey("weare.db.username");
         String password = Utils.getConfigPropertyByKey("weare.db.password");
-        String query = String.format("DELETE FROM users WHERE %s='%s';", key, value);
+        String query = String.format("DELETE FROM users WHERE %s=%s;", key, value);
 
         try {
             Class.forName("org.mariadb.jdbc.Driver");
