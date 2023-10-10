@@ -1,5 +1,6 @@
 package testcases.api;
 
+import com.testframework.Utils;
 import io.restassured.RestAssured;
 import io.restassured.config.EncoderConfig;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,6 +13,6 @@ public class BaseApiTest {
 
         RestAssured.config = RestAssured.config().encoderConfig(encoderConfig);
 
-        RestAssured.baseURI = "http://localhost:8081/api";
+        RestAssured.baseURI = Utils.getConfigPropertyByKey("weare.api.url");
     }
 }
