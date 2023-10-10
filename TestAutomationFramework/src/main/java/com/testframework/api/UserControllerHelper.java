@@ -23,6 +23,7 @@ public class UserControllerHelper {
         try(Connection con = DriverManager.getConnection(dbUrl, username, password)) {
             try (Statement stmt = con.createStatement()) {
                 stmt.executeUpdate(query);
+                Utils.LOGGER.info("Successfully deleted the user.");
             }
         } catch (SQLException e) {
             System.out.println(e);
