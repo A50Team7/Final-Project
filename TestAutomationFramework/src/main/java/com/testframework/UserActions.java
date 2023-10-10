@@ -98,7 +98,7 @@ public class UserActions {
 
     public void assertElementPresent(By locator) {
         Assertions.assertNotNull(driver.findElement(locator),
-                format("Element with %s doesn't present.", locator));
+                format("Element with %s isn't present.", locator));
     }
 
     public void assertElementAttribute(By locator, String attributeName, String attributeValue) {
