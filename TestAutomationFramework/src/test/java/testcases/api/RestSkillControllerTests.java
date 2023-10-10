@@ -29,7 +29,7 @@ public class RestSkillControllerTests extends BaseApiTest {
         for (ApiSkill skill : skills) {
             var getOneResponse = RestSkillController.getOne(skill.getSkillId());
 
-            Assertions.assertEquals(skill, getOneResponse);
+            Assertions.assertEquals(skill, getOneResponse, "The json body doesn't match the created skill.");
         }
     }
 
@@ -37,12 +37,12 @@ public class RestSkillControllerTests extends BaseApiTest {
     public void getOne() {
         var getOneResponse = RestSkillController.getOne(skill.getSkillId());
 
-        Assertions.assertEquals(skill, getOneResponse);
+        Assertions.assertEquals(skill, getOneResponse, "The json body doesn't match the created skill.");
     }
 
     @Test
     public void createSkill() {
-        Assertions.assertEquals(skill, createResponse);
+        Assertions.assertEquals(skill, createResponse, "The json body doesn't match the created skill.");
     }
 
     @Test
@@ -60,7 +60,7 @@ public class RestSkillControllerTests extends BaseApiTest {
         RestSkillController.editSkill(skill.getSkill(), skill.getSkillId());
 
         var getOneResponse = RestSkillController.getOne(skill.getSkillId());
-        Assertions.assertEquals(skill, getOneResponse);
+        Assertions.assertEquals(skill, getOneResponse, "The json body doesn't match the created skill.");
     }
 
     @AfterEach
