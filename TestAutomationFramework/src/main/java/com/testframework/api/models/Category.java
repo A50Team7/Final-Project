@@ -2,9 +2,9 @@ package com.testframework.api.models;
 
 import com.testframework.models.enums.ProfessionalCategory;
 
-public class ApiCategory {
+public class Category {
 
-    public ApiCategory(ProfessionalCategory category) {
+    public Category(ProfessionalCategory category) {
         setId(category.getId());
         setName(category.getStringValue());
     }
@@ -24,7 +24,7 @@ public class ApiCategory {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ApiCategory c = (ApiCategory) o;
+        Category c = (Category) o;
 
         return id == c.id
                 && name.equals(c.name);
