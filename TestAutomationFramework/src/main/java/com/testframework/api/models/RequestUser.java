@@ -5,19 +5,19 @@ import com.testframework.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiUser {
+public class RequestUser {
 
-    public ApiUser(String authority, User user) {
+    public RequestUser(String authority, User user) {
         authorities = new ArrayList<String>();
         addAuthority(authority);
-        setCategory(new ApiCategory(user.getCategory()));
+        setCategory(new Category(user.getCategory()));
         setEmail(user.getEmail());
         setPassword(user.getPassword());
         setUsername(user.getUsername());
     }
 
     private List<String> authorities;
-    private ApiCategory category;
+    private Category category;
     private String email;
     private String password;
     private String username;
@@ -26,7 +26,7 @@ public class ApiUser {
         return authorities;
     }
 
-    public ApiCategory getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -46,12 +46,11 @@ public class ApiUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ApiUser u = (ApiUser) o;
+        RequestUser u = (RequestUser) o;
 
         return authorities.equals(u.authorities)
                 && category.equals(u.category)
                 && email.equals(u.email)
-                && password.equals(u.password)
                 && username.equals(u.username);
     }
 
@@ -59,7 +58,7 @@ public class ApiUser {
         authorities.add(string);
     }
 
-    public void setCategory(ApiCategory category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
