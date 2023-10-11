@@ -52,11 +52,28 @@ public class UserControllerHelper {
         return false;
     }
 
+    private static int getUserId(ResultSet resultSet) {
+        try {
+            return resultSet.getInt("user_id");
+        } catch (SQLException e) {
+            Utils.LOGGER.info(e);
+        }
+        return 0;
+    }
+
     public static void deleteUser(String key, String value) {
         if (userExists(getUser(key, value))) delete(key, value);
         else Utils.LOGGER.info("No user found.");
 
         if (!userExists(getUser(key, value))) Utils.LOGGER.info("Successfully deleted user.");
         else Utils.LOGGER.info("Deleting user was unsuccessful.");
+    }
+
+    public static int getUserIdByUsername(String username) {
+        ResultSet resultSet = getUser("username", username);
+
+        if (!userExists(resultSet)) Utils.LOGGER.info("No user found.");
+        else return getUserId(resultSet);
+        return 0;
     }
 }
