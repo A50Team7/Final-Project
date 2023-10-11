@@ -32,6 +32,12 @@ public class UserActions {
         Utils.tearDownWebDriver();
     }
 
+    public void cleanDriver(String baseUrlKey) {
+        driver.manage().deleteAllCookies();
+        driver.get(Utils.getConfigPropertyByKey(baseUrlKey));
+        Utils.LOGGER.info("cleaned driver and navigated to: " + baseUrlKey);
+    }
+
     public void clickElement(By locator) {
         waitForElementClickable(locator);
 
@@ -46,6 +52,14 @@ public class UserActions {
         Utils.LOGGER.info("Typing value: " + value + " In field " + locator);
         WebElement element = driver.findElement(locator);
         element.sendKeys(value);
+    }
+
+    public void clearField(By locator) {
+        waitForElementClickable(locator);
+
+        Utils.LOGGER.info("Clearing text in field" + locator);
+        WebElement element = driver.findElement(locator);
+        element.clear();
     }
 
     public void clearAndTypeValueInField(By locator, String value) {
