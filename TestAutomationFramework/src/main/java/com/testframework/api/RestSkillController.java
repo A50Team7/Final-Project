@@ -1,6 +1,6 @@
 package com.testframework.api;
 
-import com.testframework.api.models.ApiSkill;
+import com.testframework.api.models.Skill;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -8,35 +8,35 @@ import static io.restassured.RestAssured.given;
 
 public class RestSkillController {
 
-    public static ApiSkill[] getAll() {
+    public static Skill[] getAll() {
         return given()
                 .get("/skill")
                 .then()
                 .assertThat().statusCode(200)
-                .extract().response().as(ApiSkill[].class);
+                .extract().response().as(Skill[].class);
     }
 
-    public static ApiSkill getOne(int skillId, int statusCode) {
+    public static Skill getOne(int skillId, int statusCode) {
         return given()
                 .queryParam("skillId", skillId)
                 .when()
                 .get("/skill/getOne")
                 .then()
                 .assertThat().statusCode(statusCode)
-                .extract().response().as(ApiSkill.class);
+                .extract().response().as(Skill.class);
     }
 
-    public static ApiSkill getOne(int skillId) {
+    public static Skill getOne(int skillId) {
         return given()
                 .queryParam("skillId", skillId)
                 .when()
                 .get("/skill/getOne")
                 .then()
                 .assertThat().statusCode(200)
-                .extract().response().as(ApiSkill.class);
+                .extract().response().as(Skill.class);
     }
 
-    public static ApiSkill createSkill(ApiSkill skill) {
+    public static Skill createSkill(Skill skill) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -45,7 +45,7 @@ public class RestSkillController {
                 .post("/skill/create")
                 .then()
                 .assertThat().statusCode(200)
-                .extract().response().as(ApiSkill.class);
+                .extract().response().as(Skill.class);
     }
 
     public static Response deleteSkill(int skillId) {

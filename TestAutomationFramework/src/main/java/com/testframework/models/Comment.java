@@ -1,6 +1,5 @@
 package com.testframework.models;
 
-import com.testframework.api.models.ApiUser;
 import com.testframework.models.interfaces.Likable;
 
 import java.time.LocalDateTime;

@@ -1,6 +1,5 @@
 package com.testframework.models;
 
-import com.testframework.api.models.ApiUser;
 import com.testframework.models.enums.Gender;
 import com.testframework.models.enums.Location;
 import com.testframework.models.interfaces.Friendable;

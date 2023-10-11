@@ -1,7 +1,7 @@
 package testcases.api;
 
 import com.testframework.api.RestSkillController;
-import com.testframework.api.models.ApiSkill;
+import com.testframework.api.models.Skill;
 import com.testframework.generations.GenerateRandom;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 public class RestSkillControllerTests extends BaseApiTest {
 
     boolean deleted = false;
-    ApiSkill skill;
-    ApiSkill createResponse;
+    Skill skill;
+    Skill createResponse;
 
     @BeforeEach
     public void setup() {
-        skill = new ApiSkill();
+        skill = new Skill();
 
         createResponse = RestSkillController.createSkill(skill);
 
@@ -26,7 +26,7 @@ public class RestSkillControllerTests extends BaseApiTest {
     public void findAll() {
         var skills = RestSkillController.getAll();
 
-        for (ApiSkill skill : skills) {
+        for (Skill skill : skills) {
             var getOneResponse = RestSkillController.getOne(skill.getSkillId());
 
             Assertions.assertEquals(skill, getOneResponse, "The json body doesn't match the created skill.");

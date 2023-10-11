@@ -1,11 +1,9 @@
 package com.testframework.models;
 
-import com.testframework.api.models.ApiUser;
 import com.testframework.models.enums.Visibility;
 import com.testframework.models.interfaces.Commentable;
 import com.testframework.models.interfaces.Likable;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 

@@ -1,6 +1,5 @@
 package com.testframework.models;
 
-import com.testframework.api.models.ApiUser;
 import com.testframework.models.enums.ProfessionalCategory;
 
 import java.util.Date;
@@ -68,23 +67,23 @@ public class User {
     }
 
     //############# SETTERS #########
-    private void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    private void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    private void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    private void setCategory(ProfessionalCategory category) {
+    public void setCategory(ProfessionalCategory category) {
         this.category = category;
     }
 
-    private void setProfile(Profile profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
