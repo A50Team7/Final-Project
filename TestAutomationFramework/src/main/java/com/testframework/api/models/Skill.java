@@ -3,17 +3,17 @@ package com.testframework.api.models;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.enums.ProfessionalCategory;
 
-public class ApiSkill {
+public class Skill {
 
-    public ApiSkill() {
+    public Skill() {
         setSkillId(0);
         setSkill(GenerateRandom.generateRandomBoundedAlphabeticString(15));
-        setCategory(new ApiCategory(ProfessionalCategory.getProfessionalCategoryById(ProfessionalCategory.selectRandomId())));
+        setCategory(new Category(ProfessionalCategory.getProfessionalCategoryById(ProfessionalCategory.selectRandomId())));
     }
 
     private int skillId;
     private String skill;
-    private ApiCategory category;
+    private Category category;
 
     public int getSkillId() {
         return skillId;
@@ -23,7 +23,7 @@ public class ApiSkill {
         return skill;
     }
 
-    public ApiCategory getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -31,7 +31,7 @@ public class ApiSkill {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ApiSkill c = (ApiSkill) o;
+        Skill c = (Skill) o;
 
         return skillId == c.skillId
                 && skill.equals(c.skill)
@@ -46,7 +46,7 @@ public class ApiSkill {
         this.skill = skill;
     }
 
-    public void setCategory(ApiCategory category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }
