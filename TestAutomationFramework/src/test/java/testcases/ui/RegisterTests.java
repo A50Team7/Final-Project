@@ -43,9 +43,7 @@ public class RegisterTests extends BaseTest {
         user.setUsername(" ");
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent("no whitespaces");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails("no whitespaces", user);
     }
 
     @Test
@@ -54,9 +52,7 @@ public class RegisterTests extends BaseTest {
         registerPage.clearConfirmationPassword();
         registerPage.submit();
 
-        registerPage.assertErrorMessagePresent("not confirmed");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails("not confirmed", user);
     }
 
     @Test
@@ -105,9 +101,7 @@ public class RegisterTests extends BaseTest {
         registerPage.confirmPassword(GenerateRandom.generateRandomBoundedAlphanumericString(8));
         registerPage.submit();
 
-        registerPage.assertErrorMessagePresent("not confirmed");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails("not confirmed", user);
     }
 
     @Test
@@ -116,9 +110,7 @@ public class RegisterTests extends BaseTest {
         user.setPassword(GenerateRandom.generateRandomBoundedAlphabeticString(lowerbound)+"!"+"3");
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent("Uppercase letter");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails("uppercase letter", user);
     }
 
     @Test
@@ -127,9 +119,7 @@ public class RegisterTests extends BaseTest {
         user.setPassword(GenerateRandom.generateRandomBoundedAlphabeticString(lowerbound) + "A!");
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent("digit");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails("digit", user);
     }
 
     @Test
@@ -138,9 +128,7 @@ public class RegisterTests extends BaseTest {
         user.setPassword(GenerateRandom.generateRandomBoundedAlphanumericString(lowerbound));
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent("symbol");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails("special symbol", user);
     }
 
     @Test
@@ -151,9 +139,7 @@ public class RegisterTests extends BaseTest {
         user.setPassword(UserFactory.generatePassword(invalidLength));
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent(String.format("minimum %s characters", validLength));
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails(String.format("minimum %s characters", validLength), user);
     }
 
     @Test
@@ -162,9 +148,7 @@ public class RegisterTests extends BaseTest {
 
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent("email");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails("email", user);
     }
 
     @Test
@@ -174,9 +158,7 @@ public class RegisterTests extends BaseTest {
 
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent(String.format("%s", upperbound));
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails(String.format("%s", upperbound), user);
     }
 
     @Test
@@ -186,9 +168,7 @@ public class RegisterTests extends BaseTest {
 
         registerPage.enterAllDataAndRegister(user);
 
-        registerPage.assertErrorMessagePresent(String.format("%s", lowerbound));
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+        assertFails(String.format("%s", lowerbound), user);
     }
 
     @Test
@@ -200,13 +180,18 @@ public class RegisterTests extends BaseTest {
         newUser.setEmail(user.getEmail());
         registerPage.enterAllDataAndRegister(newUser);
 
-        registerPage.assertErrorMessagePresent("exist");
-
-        Assertions.assertFalse(registerPage.existsInTheDatabase(newUser), EXISTS_ERROR);
+        assertFails("exist", newUser);
     }
 
     @AfterEach
     public void userCleanup() {
         UserControllerHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
+
+    private void assertFails(String expectedErrorMessage, User user) {
+        registerPage.assertErrorMessagePresent(expectedErrorMessage);
+
+        Assertions.assertFalse(registerPage.existsInTheDatabase(user), EXISTS_ERROR);
+    }
+
 }
