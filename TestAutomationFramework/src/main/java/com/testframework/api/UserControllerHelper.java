@@ -62,11 +62,12 @@ public class UserControllerHelper {
     }
 
     public static void deleteUser(String key, String value) {
-        if (userExists(getUser(key, value))) delete(key, value);
+        if (userExists(getUser(key, value))) {
+            delete(key, value);
+            if (!userExists(getUser(key, value))) Utils.LOGGER.info("Successfully deleted user.");
+            else Utils.LOGGER.info("Deleting user was unsuccessful.");
+        }
         else Utils.LOGGER.info("No user found.");
-
-        if (!userExists(getUser(key, value))) Utils.LOGGER.info("Successfully deleted user.");
-        else Utils.LOGGER.info("Deleting user was unsuccessful.");
     }
 
     public static int getUserIdByUsername(String username) {
