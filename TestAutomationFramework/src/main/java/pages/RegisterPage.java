@@ -1,10 +1,14 @@
 package pages;
 
 import com.testframework.Utils;
+import com.testframework.api.UserControllerHelper;
 import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+import java.sql.ResultSet;
 
 public class RegisterPage extends BasePage{
     public RegisterPage(WebDriver driver, String url) {
@@ -12,12 +16,16 @@ public class RegisterPage extends BasePage{
     }
 
     public void enterAllDataAndRegister(User user) {
+        enterAllData(user);
+        submit();
+    }
+
+    public void enterAllData(User user) {
         enterUsername(user.getUsername());
         enterEmail(user.getEmail());
         enterPassword(user.getPassword());
         confirmPassword(user.getPassword());
         selectProfessionalCategory(user.getCategory());
-        submit();
     }
 
     private static final By usernameBy = By.xpath(Utils.getUIMappingByKey("register.username"));
@@ -54,6 +62,22 @@ public class RegisterPage extends BasePage{
         actions.clickElement(registerButtonBy);
     }
 
+    public void clearUsername() {
+        actions.clearField(usernameBy);
+    }
+
+    public void clearEmail() {
+        actions.clearField(emailBy);
+    }
+
+    public void clearPassword() {
+        actions.clearField(passwordBy);
+    }
+
+    public void clearConfirmationPassword() {
+        actions.clearField(passwordConfirmationBy);
+    }
+
     public void assertWelcomeMessagePresent() {
         actions.waitForElementPresent(welcomeMessageBy);
         actions.assertElementPresent(welcomeMessageBy);
@@ -63,5 +87,11 @@ public class RegisterPage extends BasePage{
         By errorMessageBy = By.xpath(String.format(errorMessage, message));
         actions.waitForElementPresent(errorMessageBy);
         actions.assertElementPresent(errorMessageBy);
+    }
+
+    public boolean existsInTheDatabase(User user) {
+        ResultSet resultSet = UserControllerHelper.getUser("username", String.format("'%s'", user.getUsername()));
+
+        return UserControllerHelper.userExists(resultSet);
     }
 }
