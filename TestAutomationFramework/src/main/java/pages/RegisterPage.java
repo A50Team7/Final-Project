@@ -27,6 +27,7 @@ public class RegisterPage extends BasePage{
     private static final By categoryDropdownBy = By.xpath(Utils.getUIMappingByKey("register.categoryDropdown"));
     private static final By registerButtonBy = By.xpath(Utils.getUIMappingByKey("register.registerButton"));
     private static final By welcomeMessageBy = By.xpath(Utils.getUIMappingByKey("register.welcomeMessage"));
+    private static final String errorMessage = Utils.getUIMappingByKey("register.errorMessage");
 
     public void enterUsername(String username) {
         actions.typeValueInField(usernameBy, username);
@@ -56,5 +57,11 @@ public class RegisterPage extends BasePage{
     public void assertWelcomeMessagePresent() {
         actions.waitForElementPresent(welcomeMessageBy);
         actions.assertElementPresent(welcomeMessageBy);
+    }
+
+    public void assertErrorMessagePresent(String message) {
+        By errorMessageBy = By.xpath(String.format(errorMessage, message));
+        actions.waitForElementPresent(errorMessageBy);
+        actions.assertElementPresent(errorMessageBy);
     }
 }
