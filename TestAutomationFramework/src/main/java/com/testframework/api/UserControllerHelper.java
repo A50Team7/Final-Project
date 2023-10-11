@@ -11,28 +11,7 @@ public class UserControllerHelper {
     private static final String deleteQuery =  "DELETE FROM users WHERE %s=%s;";
     private static final String findQuery = "SELECT * FROM users WHERE %s=%s;";
 
-
-    private static void delete(String key, String value) {
-        String query = String.format(deleteQuery, key, value);
-
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        try(Connection con = DriverManager.getConnection(dbUrl, username, password)) {
-            try (Statement stmt = con.createStatement()) {
-                stmt.executeUpdate(query);
-            }
-        } catch (SQLException e) {
-            Utils.LOGGER.info(e);
-        }
-    }
-
-    private static ResultSet getUser(String key, String value) {
-        String query = String.format(findQuery, key, value);
-
+    private static ResultSet executeQuery(String query) {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -45,8 +24,20 @@ public class UserControllerHelper {
             }
         } catch (SQLException e) {
             Utils.LOGGER.info(e);
-            return null;
         }
+        return null;
+    }
+
+    private static ResultSet delete(String key, String value) {
+        String query = String.format(deleteQuery, key, value);
+
+        return executeQuery(query);
+    }
+
+    private static ResultSet getUser(String key, String value) {
+        String query = String.format(findQuery, key, value);
+
+        return executeQuery(query);
     }
 
     private static boolean userExists(ResultSet resultSet) {
