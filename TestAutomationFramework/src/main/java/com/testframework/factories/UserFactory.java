@@ -60,7 +60,7 @@ public class UserFactory {
     }
 
     public static String generatePassword(int length) {
-        return GenerateRandom.generateRandomBoundedAlphanumericString(length) + "!";
+        return GenerateRandom.generateRandomBoundedAlphanumericString(length - 1) + "!";
     }
 
     public static ProfessionalCategory selectCategory() {
