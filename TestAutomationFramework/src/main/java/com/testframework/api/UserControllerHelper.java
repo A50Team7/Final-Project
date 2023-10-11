@@ -34,13 +34,13 @@ public class UserControllerHelper {
         return executeQuery(query);
     }
 
-    private static ResultSet getUser(String key, String value) {
+    public static ResultSet getUser(String key, String value) {
         String query = String.format(findQuery, key, value);
 
         return executeQuery(query);
     }
 
-    private static boolean userExists(ResultSet resultSet) {
+    public static boolean userExists(ResultSet resultSet) {
         try {
             if (resultSet!=null) return resultSet.next();
             else {
@@ -52,7 +52,7 @@ public class UserControllerHelper {
         return false;
     }
 
-    private static int getUserId(ResultSet resultSet) {
+    public static int getUserId(ResultSet resultSet) {
         try {
             return resultSet.getInt("user_id");
         } catch (SQLException e) {
@@ -76,4 +76,5 @@ public class UserControllerHelper {
         else return getUserId(resultSet);
         return 0;
     }
+
 }
