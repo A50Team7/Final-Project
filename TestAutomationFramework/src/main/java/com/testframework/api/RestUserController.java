@@ -6,10 +6,13 @@ import com.testframework.api.models.ResponseUser;
 import com.testframework.api.models.ResponseUsers;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.given;
 
 public class RestUserController {
+
+
     public static Response createUser(RequestUser user) {
         return given()
                 .contentType(ContentType.JSON)
@@ -42,5 +45,12 @@ public class RestUserController {
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(ResponseUser.class);
+    }
+
+    public static RequestSpecification authUser(String username, String password) {
+        return given()
+                .multiPart("username", username)
+                .multiPart("password", password);
+
     }
 }
