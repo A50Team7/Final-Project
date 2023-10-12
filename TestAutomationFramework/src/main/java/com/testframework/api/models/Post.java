@@ -12,22 +12,22 @@ public class Post {
         setPostId(0);
         setPostContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
         setPicture("");
-        setPostPrivate(false);
+        setPostPrivate(true);
     }
 
-    protected int getPostId() {
+    public int getPostId() {
         return postId;
     }
 
-    protected void setPostId(int postId) {
+    public void setPostId(int postId) {
         this.postId = postId;
     }
 
-    protected String getContent() {
+    public String getContent() {
         return content;
     }
 
-    protected void setPostContent(String content) {
+    public void setPostContent(String content) {
         this.content = content;
     }
 
@@ -53,7 +53,7 @@ public class Post {
         if (o == null || getClass() != o.getClass()) return false;
         Post p = (Post) o;
 
-        return postId == p.postId
+        return  postId == p.postId
                 && content.equals(p.content)
                 && picture.equals(p.picture);
     }

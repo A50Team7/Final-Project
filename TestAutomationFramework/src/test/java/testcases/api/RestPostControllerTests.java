@@ -2,6 +2,7 @@ package testcases.api;
 
 import com.testframework.api.RestPostController;
 import com.testframework.api.models.Post;
+import com.testframework.api.models.PostEditor;
 import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
 import io.restassured.http.ContentType;
@@ -16,14 +17,16 @@ import com.testframework.api.models.RequestUser;
 import static io.restassured.RestAssured.given;
 
 public class RestPostControllerTests extends BaseApiTest {
-    RequestUser user;
+    private RequestUser user;
     private Cookie authCookie;
     private Post post;
+    private Post createdPost;
+
     @BeforeEach
     public void setup() {
         user = new RequestUser("ROLE_USER", UserFactory.createUser());
 
-        Response creationResponse = RestUserController.createUser(user);
+        Response createdUser = RestUserController.createUser(user);
         String username = user.getUsername();
         String password = user.getPassword();
 
@@ -33,6 +36,9 @@ public class RestPostControllerTests extends BaseApiTest {
                 .when()
                 .post();
         authCookie = auth.getDetailedCookie("JSESSIONID");
+        post = new Post();
+        createdPost = new RestPostController().createPost(post, authCookie.getValue());
+        post.setPostId(createdPost.getPostId());
 
 
     }
@@ -57,18 +63,39 @@ public class RestPostControllerTests extends BaseApiTest {
     public void createPost() {
 
         post = new Post();
+        createdPost = new RestPostController().createPost(post, authCookie.getValue());
 
-        Post response = given()
-                .contentType(ContentType.JSON)
-                .cookie("JSESSIONID", authCookie.getValue())
-                .body(post)
-                .when()
-                .post("/post/auth/creator")
-                .then()
-                .log().body()
-                .assertThat().statusCode(200)
-                .extract().response().as(Post.class);
+//        Assertions.assertEquals(post, createdPost, "The json body doesn't match the created post.");
 
-        //var post = RestPostController.createPost(new Post());
+
+        //        Post response = given()
+//                .contentType(ContentType.JSON)
+//                .cookie("JSESSIONID", authCookie.getValue())
+//                .body(post)
+//                .when()
+//                .post("/post/auth/creator")
+//                .then()
+//                .log().body()
+//                .assertThat().statusCode(200)
+//                .extract().response().as(Post.class);
+
     }
+
+    @Test
+    public void editPost() {
+      //  post.setPostContent(GenerateRandom.generateRandomBoundedAlphabeticString(15));
+
+        PostEditor editor = new PostEditor();
+
+        Response editPost = RestPostController.editPost(createdPost.getPostId(),editor, authCookie.getValue());
+
+        System.out.println(editPost.asPrettyString());
+
+    }
+
+    @Test
+    public void likePost() {
+
+    }
+
 }
