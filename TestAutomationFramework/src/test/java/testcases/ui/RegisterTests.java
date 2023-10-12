@@ -1,10 +1,7 @@
 package testcases.ui;
 
-import com.testframework.UserActions;
 import com.testframework.Utils;
-import com.testframework.api.RestUserController;
 import com.testframework.api.UserControllerHelper;
-import com.testframework.api.models.ResponseUsers;
 import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.User;
