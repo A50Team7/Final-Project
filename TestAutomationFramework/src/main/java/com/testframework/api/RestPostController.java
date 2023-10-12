@@ -52,6 +52,32 @@ public class RestPostController {
 
     }
 
+    public static Response likePost(int postId, String cookie) {
+        return given()
+                .contentType(ContentType.JSON)
+                .and()
+                .cookie("JSESSIONID", cookie)
+                .queryParam("postId", postId)
+                .when()
+                .post("/post/auth/likesUp")
+                .then()
+                .assertThat().statusCode(200)
+                .extract().response();
+    }
+
+    public static Response deletePost(int postId, String cookie) {
+        return given()
+                .contentType(ContentType.JSON)
+                .and()
+                .cookie("JSESSIONID", cookie)
+                .queryParam("postId", postId)
+                .when()
+                .delete("/post/auth/manager")
+                .then()
+                .assertThat().statusCode(200)
+                .extract().response();
+    }
+
 
 
 }

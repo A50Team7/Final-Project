@@ -12,7 +12,7 @@ public class Post {
         setPostId(0);
         setPostContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
         setPicture("");
-        setPostPrivate(true);
+        setPostPrivate(false);
     }
 
     public int getPostId() {

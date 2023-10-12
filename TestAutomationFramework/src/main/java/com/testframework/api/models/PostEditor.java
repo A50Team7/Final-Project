@@ -6,12 +6,12 @@ public class PostEditor {
     private String content;
     private String picture;
 
-    private boolean isPublic;
+    private boolean isPrivate;
 
     public PostEditor() {
         setContent(GenerateRandom.generateRandomBoundedAlphanumericString(20));
         setPicture("");
-        setPublic(true);
+        setPrivate(false);
     }
 
     private String getContent() {
@@ -30,11 +30,8 @@ public class PostEditor {
         this.picture = picture;
     }
 
-    private boolean isPublic() {
-        return isPublic;
-    }
 
-    private void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    private void setPrivate(boolean aPublic) {
+        isPrivate = aPublic;
     }
 }

@@ -15,8 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class RestUserControllerTests extends BaseApiTest {
-    RequestUser user;
-    Response creationResponse;
+    private RequestUser user;
+    private Response creationResponse;
 
     @BeforeEach
     public void setup() {

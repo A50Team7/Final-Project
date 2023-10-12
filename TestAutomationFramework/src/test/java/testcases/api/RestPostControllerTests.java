@@ -95,6 +95,13 @@ public class RestPostControllerTests extends BaseApiTest {
 
     @Test
     public void likePost() {
+        Response like = RestPostController.likePost(createdPost.getPostId(), authCookie.getValue());
+        System.out.println(like.asPrettyString());
+    }
+
+    @Test
+    public void deletePost() {
+        Response delete = RestPostController.deletePost(createdPost.getPostId(), authCookie.getValue());
 
     }
 
