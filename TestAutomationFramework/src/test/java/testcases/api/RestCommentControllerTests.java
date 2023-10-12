@@ -11,6 +11,7 @@ import com.testframework.api.models.ResponseUser;
 import com.testframework.factories.UserFactory;
 import io.restassured.http.Cookie;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,6 +41,16 @@ public class RestCommentControllerTests extends BaseApiTest {
         post = new Post();
         createdPost = new RestPostController().createPost(post, authCookie.getValue());
         post.setPostId(createdPost.getPostId());
+        ResponseBody body = createdUser.getBody();
+        System.out.println(body.asString());
+        var myArray = body.asString().split(" ");
+        var responseId = myArray[6];
+        int userId = Integer.valueOf(responseId);
+
+        Comment comment = new Comment(userId, createdPost.getPostId());
+        createdComment = RestCommentController.createComment(comment, authCookie.getValue());
+
+
 
 
 
@@ -53,11 +64,11 @@ public class RestCommentControllerTests extends BaseApiTest {
     @Test
     public void createComment() {
 
-        //FIX USERID
-        int userId = UserControllerHelper.getUserIdByUsername(user.getUsername());
-        int postId = createdPost.getPostId();
-        Comment comment = new Comment(userId, postId);
-        createdComment = RestCommentController.createComment(comment, authCookie.getValue());
+
+//        int userId = UserControllerHelper.getUserIdByUsername(user.getUsername());
+//        int postId = createdPost.getPostId();
+//        Comment comment = new Comment(responseId, postId);
+       // createdComment = RestCommentController.createComment(comment, authCookie.getValue());
 
 
     }
