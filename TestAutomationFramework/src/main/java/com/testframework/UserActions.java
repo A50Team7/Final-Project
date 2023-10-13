@@ -2,6 +2,7 @@ package com.testframework;
 
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -36,6 +37,10 @@ public class UserActions {
         driver.manage().deleteAllCookies();
         driver.get(Utils.getConfigPropertyByKey(baseUrlKey));
         Utils.LOGGER.info("cleaned driver and navigated to: " + baseUrlKey);
+    }
+
+    public void addCookie(String name, String value) {
+        driver.manage().addCookie(new Cookie.Builder(name, value).build());
     }
 
     public void clickElement(By locator) {
