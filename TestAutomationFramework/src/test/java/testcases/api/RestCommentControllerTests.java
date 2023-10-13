@@ -4,7 +4,7 @@ import com.testframework.api.RestCommentController;
 import com.testframework.api.RestPostController;
 import com.testframework.api.RestUserController;
 import com.testframework.api.models.Comment;
-import com.testframework.api.models.Post;
+import com.testframework.api.models.RequestPost;
 import com.testframework.api.models.RequestUser;
 import com.testframework.factories.UserFactory;
 import io.restassured.http.Cookie;
@@ -19,8 +19,8 @@ public class RestCommentControllerTests extends BaseApiTest {
     private RequestUser user;
     private Response createdUser;
     private Cookie authCookie;
-    private Post post;
-    private Post createdPost;
+    private RequestPost post;
+    private RequestPost createdPost;
     private Comment createdComment;
 
     @BeforeEach
@@ -34,7 +34,7 @@ public class RestCommentControllerTests extends BaseApiTest {
         Response auth = RestUserController.authUser(username, password);
 
         authCookie = auth.getDetailedCookie("JSESSIONID");
-        post = new Post();
+        post = new RequestPost();
         createdPost = new RestPostController().createPost(post, authCookie.getValue());
         post.setPostId(createdPost.getPostId());
         ResponseBody body = createdUser.getBody();

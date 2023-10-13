@@ -1,10 +1,9 @@
 package com.testframework.api;
 
-import com.testframework.api.models.Post;
+import com.testframework.api.models.RequestPost;
 import com.testframework.api.models.PostEditor;
-import com.testframework.api.models.Skill;
+import com.testframework.api.models.ResponsePost;
 import io.restassured.http.ContentType;
-import io.restassured.http.Cookie;
 import io.restassured.response.Response;
 
 
@@ -13,17 +12,17 @@ import static io.restassured.RestAssured.given;
 public class RestPostController {
 
 
-    public static Post[] getAllPosts() {
+    public static ResponsePost[] getAllPosts() {
         return given()
                 .get("/post/")
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(Post[].class);
+                .extract().response().as(ResponsePost[].class);
 
     }
 
-    public Post createPost(Post post, String cookie) {
+    public RequestPost createPost(RequestPost post, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -34,7 +33,7 @@ public class RestPostController {
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(Post.class);
+                .extract().response().as(RequestPost.class);
     }
 
     public static Response editPost(int postId, PostEditor postEditor, String cookie) {
@@ -65,11 +64,11 @@ public class RestPostController {
                 .extract().response();
     }
 
-    public static Response deletePost(int postId, String cookie) {
+    public static Response deletePost(int postId, String cookieValue) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
-                .cookie("JSESSIONID", cookie)
+                .cookie("JSESSIONID", cookieValue)
                 .queryParam("postId", postId)
                 .when()
                 .delete("/post/auth/manager")
@@ -78,6 +77,10 @@ public class RestPostController {
                 .extract().response();
     }
 
-
-
+    public static void deleteAllPosts(String cookieValue) {
+        ResponsePost[] posts = getAllPosts();
+        for (ResponsePost post : posts) {
+            deletePost(post.getPostId(), cookieValue);
+        }
+    }
 }

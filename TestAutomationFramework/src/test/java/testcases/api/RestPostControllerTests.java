@@ -1,14 +1,14 @@
 package testcases.api;
 
 import com.testframework.api.RestPostController;
-import com.testframework.api.models.Post;
+import com.testframework.api.models.RequestPost;
 import com.testframework.api.models.PostEditor;
 import com.testframework.factories.UserFactory;
 import io.restassured.http.Cookie;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import com.testframework.api.RestUserController;
-import com.testframework.DatabaseHelper;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.api.models.RequestUser;
 
 import static io.restassured.RestAssured.given;
@@ -16,8 +16,8 @@ import static io.restassured.RestAssured.given;
 public class RestPostControllerTests extends BaseApiTest {
     private RequestUser user;
     private Cookie authCookie;
-    private Post post;
-    private Post createdPost;
+    private RequestPost post;
+    private RequestPost createdPost;
 
     @BeforeEach
     public void setup() {
@@ -30,7 +30,7 @@ public class RestPostControllerTests extends BaseApiTest {
 
         Response auth = RestUserController.authUser(username, password);
         authCookie = auth.getDetailedCookie("JSESSIONID");
-        post = new Post();
+        post = new RequestPost();
         createdPost = new RestPostController().createPost(post, authCookie.getValue());
         post.setPostId(createdPost.getPostId());
 
@@ -39,7 +39,7 @@ public class RestPostControllerTests extends BaseApiTest {
 
     @AfterEach
     public void cleanup() {
-        DatabaseHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RestPostControllerTests extends BaseApiTest {
     @Test
     public void createPost() {
 
-        post = new Post();
+        post = new RequestPost();
         createdPost = new RestPostController().createPost(post, authCookie.getValue());
 
 //        Assertions.assertEquals(post, createdPost, "The json body doesn't match the created post.");

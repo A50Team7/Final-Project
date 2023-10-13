@@ -1,6 +1,5 @@
 package com.testframework.api;
 import com.testframework.api.models.Comment;
-import com.testframework.api.models.Post;
 import io.restassured.http.ContentType;
 
 
