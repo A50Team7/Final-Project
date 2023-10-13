@@ -2,7 +2,10 @@ package com.testframework.api.models;
 
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.enums.ProfessionalCategory;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class Skill {
 
     public Skill() {
@@ -15,18 +18,6 @@ public class Skill {
     private String skill;
     private Category category;
 
-    public int getSkillId() {
-        return skillId;
-    }
-
-    public String getSkill() {
-        return skill;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,15 +29,4 @@ public class Skill {
                 && category.equals(c.category);
     }
 
-    public void setSkillId(int skillId) {
-        this.skillId = skillId;
-    }
-
-    public void setSkill(String skill) {
-        this.skill = skill;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }

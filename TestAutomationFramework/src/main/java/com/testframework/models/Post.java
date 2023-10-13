@@ -3,10 +3,13 @@ package com.testframework.models;
 import com.testframework.models.enums.Visibility;
 import com.testframework.models.interfaces.Commentable;
 import com.testframework.models.interfaces.Likable;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+@Getter @Setter
 public class Post implements Likable, Commentable {
 
     public Post(User author, String content, Visibility visibility) {
@@ -57,46 +60,7 @@ public class Post implements Likable, Commentable {
         comments.remove(comment);
     }
 
-    //############# GETTERS #########
-    public User getAuthor() {
-        return author;
-    }
-
-    public LocalDateTime getCreationDateTime() {
-        return creationDateTime;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
     public ArrayList<Comment> getComments() {
         return new ArrayList<>(comments);
     }
-
-    //############# SETTERS #########
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public void setCreationDateTime(LocalDateTime creationDateTime) {
-        this.creationDateTime = creationDateTime;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setVisibility(Visibility visibility) {
-        this.visibility = visibility;
-    }
-
 }

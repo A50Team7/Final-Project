@@ -1,7 +1,9 @@
 package com.testframework.models.enums;
 
 import com.testframework.generations.GenerateRandom;
+import lombok.Getter;
 
+@Getter
 public enum Location {
     SOFIA("Sofia", 1),
     PLOVDIV("Plovdiv", 2),
@@ -49,14 +51,6 @@ public enum Location {
     Location(String stringValue, int id) {
         this.stringValue = stringValue;
         this.id = id;
-    }
-
-    public String getStringValue() {
-        return stringValue;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public static Location getLocationById(int id) {
