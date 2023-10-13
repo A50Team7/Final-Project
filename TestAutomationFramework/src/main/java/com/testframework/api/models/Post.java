@@ -1,7 +1,10 @@
 package com.testframework.api.models;
 
 import com.testframework.generations.GenerateRandom;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class Post {
     private int postId;
     private String content;
@@ -10,41 +13,9 @@ public class Post {
 
     public Post() {
         setPostId(0);
-        setPostContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
+        setContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
         setPicture("");
         setPostPrivate(false);
-    }
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setPostContent(String content) {
-        this.content = content;
-    }
-
-    protected String getPicture() {
-        return picture;
-    }
-
-    protected void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    protected boolean isPostPrivate() {
-        return isPostPrivate;
-    }
-
-    protected void setPostPrivate(boolean postPrivate) {
-        this.isPostPrivate = postPrivate;
     }
 
     @Override
