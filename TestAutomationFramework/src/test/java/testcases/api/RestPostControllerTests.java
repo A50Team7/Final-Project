@@ -4,14 +4,11 @@ import com.testframework.api.RestPostController;
 import com.testframework.api.models.Post;
 import com.testframework.api.models.PostEditor;
 import com.testframework.factories.UserFactory;
-import com.testframework.generations.GenerateRandom;
-import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
 import com.testframework.api.RestUserController;
-import com.testframework.api.UserControllerHelper;
+import com.testframework.DatabaseHelper;
 import com.testframework.api.models.RequestUser;
 
 import static io.restassured.RestAssured.given;
@@ -45,7 +42,7 @@ public class RestPostControllerTests extends BaseApiTest {
 
     @AfterEach
     public void cleanup() {
-        UserControllerHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        DatabaseHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
     @Test

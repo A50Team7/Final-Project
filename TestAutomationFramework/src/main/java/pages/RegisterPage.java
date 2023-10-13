@@ -1,10 +1,9 @@
 package pages;
 
 import com.testframework.Utils;
-import com.testframework.api.UserControllerHelper;
+import com.testframework.DatabaseHelper;
 import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -28,14 +27,31 @@ public class RegisterPage extends BasePage{
         selectProfessionalCategory(user.getCategory());
     }
 
-    private static final By usernameBy = By.xpath(Utils.getUIMappingByKey("register.username"));
-    private static final By emailBy = By.xpath(Utils.getUIMappingByKey("register.email"));
-    private static final By passwordBy = By.xpath(Utils.getUIMappingByKey("register.password"));
-    private static final By passwordConfirmationBy = By.xpath(Utils.getUIMappingByKey("register.passwordConfirmation"));
-    private static final By categoryDropdownBy = By.xpath(Utils.getUIMappingByKey("register.categoryDropdown"));
-    private static final By registerButtonBy = By.xpath(Utils.getUIMappingByKey("register.registerButton"));
-    private static final By welcomeMessageBy = By.xpath(Utils.getUIMappingByKey("register.welcomeMessage"));
-    private static final String errorMessage = Utils.getUIMappingByKey("register.errorMessage");
+    public void assertWelcomeMessagePresent() {
+        actions.waitForElementPresent(welcomeMessageBy);
+        actions.assertElementPresent(welcomeMessageBy);
+    }
+
+    public void assertErrorMessagePresent(String message) {
+        By errorMessageBy = By.xpath(String.format(errorMessage, message));
+        actions.waitForElementPresent(errorMessageBy);
+        actions.assertElementPresent(errorMessageBy);
+    }
+
+    public boolean existsInTheDatabase(User user) {
+        ResultSet resultSet = DatabaseHelper.getUser("username", String.format("'%s'", user.getUsername()));
+
+        return DatabaseHelper.userExists(resultSet);
+    }
+
+    private static By usernameBy = By.xpath(Utils.getUIMappingByKey("register.username"));
+    private static By emailBy = By.xpath(Utils.getUIMappingByKey("register.email"));
+    private static By passwordBy = By.xpath(Utils.getUIMappingByKey("register.password"));
+    private static By passwordConfirmationBy = By.xpath(Utils.getUIMappingByKey("register.passwordConfirmation"));
+    private static By categoryDropdownBy = By.xpath(Utils.getUIMappingByKey("register.categoryDropdown"));
+    private static By registerButtonBy = By.xpath(Utils.getUIMappingByKey("register.registerButton"));
+    private static By welcomeMessageBy = By.xpath(Utils.getUIMappingByKey("register.welcomeMessage"));
+    private static String errorMessage = Utils.getUIMappingByKey("register.errorMessage");
 
     public void enterUsername(String username) {
         actions.typeValueInField(usernameBy, username);
@@ -78,20 +94,4 @@ public class RegisterPage extends BasePage{
         actions.clearField(passwordConfirmationBy);
     }
 
-    public void assertWelcomeMessagePresent() {
-        actions.waitForElementPresent(welcomeMessageBy);
-        actions.assertElementPresent(welcomeMessageBy);
-    }
-
-    public void assertErrorMessagePresent(String message) {
-        By errorMessageBy = By.xpath(String.format(errorMessage, message));
-        actions.waitForElementPresent(errorMessageBy);
-        actions.assertElementPresent(errorMessageBy);
-    }
-
-    public boolean existsInTheDatabase(User user) {
-        ResultSet resultSet = UserControllerHelper.getUser("username", String.format("'%s'", user.getUsername()));
-
-        return UserControllerHelper.userExists(resultSet);
-    }
 }

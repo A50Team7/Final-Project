@@ -1,7 +1,7 @@
 package testcases.ui;
 
 import com.testframework.Utils;
-import com.testframework.api.UserControllerHelper;
+import com.testframework.DatabaseHelper;
 import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.User;
@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.RegisterPage;
-
-import java.sql.ResultSet;
 
 public class RegisterTests extends BaseTest {
     private static String registerPageUrl = Utils.getConfigPropertyByKey("weare.register.url");
@@ -169,7 +167,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithEmailAreadyInUse_Should_Fail() {
+    public void registerWithEmailAlreadyInUse_Should_Fail() {
         registerPage.enterAllDataAndRegister(user);
         actions.getDriver().get(registerPageUrl);
 
@@ -182,7 +180,7 @@ public class RegisterTests extends BaseTest {
 
     @AfterEach
     public void userCleanup() {
-        UserControllerHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        DatabaseHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
     private void assertFails(String expectedErrorMessage, User user) {

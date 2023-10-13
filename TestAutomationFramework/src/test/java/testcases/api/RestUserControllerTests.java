@@ -1,13 +1,12 @@
 package testcases.api;
 
 import com.testframework.api.RestUserController;
-import com.testframework.api.UserControllerHelper;
+import com.testframework.DatabaseHelper;
 import com.testframework.api.models.RequestUser;
 import com.testframework.api.models.RequestUsers;
 import com.testframework.api.models.ResponseUser;
 import com.testframework.api.models.ResponseUsers;
 import com.testframework.factories.UserFactory;
-import dev.failsafe.internal.util.Assert;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -39,7 +38,7 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @Test
     public void getUserById() {
-        int id = UserControllerHelper.getUserIdByUsername(String.format("'%s'", user.getUsername()));
+        int id = DatabaseHelper.getUserIdByUsername(String.format("'%s'", user.getUsername()));
         ResponseUser returnedUser = RestUserController.getUserById(id, "admin");
 
         Assertions.assertEquals(user.getUsername(), returnedUser.getUsername(), "The username didn't match.");
@@ -53,6 +52,6 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @AfterEach
     public void cleanup() {
-        UserControllerHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        DatabaseHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 }
