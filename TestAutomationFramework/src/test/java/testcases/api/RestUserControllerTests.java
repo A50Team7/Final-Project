@@ -1,7 +1,7 @@
 package testcases.api;
 
 import com.testframework.api.RestUserController;
-import com.testframework.DatabaseHelper;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.api.models.RequestUser;
 import com.testframework.api.models.RequestUsers;
 import com.testframework.api.models.ResponseUser;
@@ -38,7 +38,7 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @Test
     public void getUserById() {
-        int id = DatabaseHelper.getUserIdByUsername(String.format("'%s'", user.getUsername()));
+        int id = UserHelper.getUserIdByUsername(String.format("'%s'", user.getUsername()));
         ResponseUser returnedUser = RestUserController.getUserById(id, "admin");
 
         Assertions.assertEquals(user.getUsername(), returnedUser.getUsername(), "The username didn't match.");
@@ -52,6 +52,6 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @AfterEach
     public void cleanup() {
-        DatabaseHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 }
