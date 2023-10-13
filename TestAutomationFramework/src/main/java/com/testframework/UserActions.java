@@ -1,5 +1,6 @@
 package com.testframework;
 
+import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -15,11 +16,7 @@ import static java.lang.String.format;
 
 public class UserActions {
 
-    final WebDriver driver;
-
-    public WebDriver getDriver() {
-        return driver;
-    }
+    @Getter final WebDriver driver;
 
     public UserActions() {
         this.driver = Utils.getWebDriver();
