@@ -1,7 +1,9 @@
 package com.testframework.models.enums;
 
 import com.testframework.generations.GenerateRandom;
+import lombok.Getter;
 
+@Getter
 public enum ProfessionalCategory {
     ALL("All", 100),
     ACCOUNTANT("Accountant", 101),
@@ -67,14 +69,6 @@ public enum ProfessionalCategory {
     ProfessionalCategory(String stringValue, int id) {
         this.stringValue = stringValue;
         this.id = id;
-    }
-
-    public String getStringValue() {
-        return stringValue;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public static ProfessionalCategory getProfessionalCategoryById(int id) {

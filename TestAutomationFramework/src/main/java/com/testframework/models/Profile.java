@@ -4,11 +4,14 @@ import com.testframework.models.enums.Gender;
 import com.testframework.models.enums.Location;
 import com.testframework.models.interfaces.Friendable;
 import com.testframework.models.interfaces.Postability;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter @Setter
 public class Profile implements Friendable, Postability {
 
     public Profile() {
@@ -72,27 +75,6 @@ public class Profile implements Friendable, Postability {
         posts.remove(post);
     }
 
-    //############# GETTERS #########
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
     public List<User> getFriendList() {
         return new ArrayList<User>(friendList);
     }
@@ -101,40 +83,4 @@ public class Profile implements Friendable, Postability {
         return new ArrayList<Post>(posts);
     }
 
-    public String getBio() {
-        return bio;
-    }
-
-    public double getWeeklyAvailability() {
-        return weeklyAvailability;
-    }
-
-    //############# SETTERS #########
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public void setWeeklyAvailability(double weeklyAvailability) {
-        this.weeklyAvailability = weeklyAvailability;
-    }
 }

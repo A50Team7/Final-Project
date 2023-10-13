@@ -1,7 +1,10 @@
 package com.testframework.api.models;
 
 import com.testframework.models.enums.ProfessionalCategory;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class Category {
 
     public Category(ProfessionalCategory category) {
@@ -11,14 +14,6 @@ public class Category {
 
     private int id;
     private String name;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -30,11 +25,4 @@ public class Category {
                 && name.equals(c.name);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

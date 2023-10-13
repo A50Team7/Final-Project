@@ -1,9 +1,12 @@
 package com.testframework.models;
 
 import com.testframework.models.interfaces.Likable;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter @Setter
 public class Comment implements Likable {
 
     public Comment(Post post, User author, String content) {
@@ -39,34 +42,4 @@ public class Comment implements Likable {
         likes--;
     }
 
-    //############# GETTERS #########
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public LocalDateTime getCreationDateTime() {
-        return creationDateTime;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    //############# SETTERS #########
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public void setCreationDateTime(LocalDateTime creationDateTime) {
-        this.creationDateTime = creationDateTime;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

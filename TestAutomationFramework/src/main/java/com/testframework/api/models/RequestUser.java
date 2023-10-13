@@ -1,10 +1,13 @@
 package com.testframework.api.models;
 
 import com.testframework.models.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter @Setter
 public class RequestUser {
 
     public RequestUser(String authority, User user) {
@@ -22,26 +25,6 @@ public class RequestUser {
     private String password;
     private String username;
 
-    public List<String> getAuthorities() {
-        return authorities;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,19 +41,4 @@ public class RequestUser {
         authorities.add(string);
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }
