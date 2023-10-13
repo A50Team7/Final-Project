@@ -1,7 +1,7 @@
 package pages;
 
 import com.testframework.Utils;
-import com.testframework.DatabaseHelper;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
 import org.openqa.selenium.By;
@@ -39,9 +39,9 @@ public class RegisterPage extends BasePage{
     }
 
     public boolean existsInTheDatabase(User user) {
-        ResultSet resultSet = DatabaseHelper.getUser("username", String.format("'%s'", user.getUsername()));
+        ResultSet resultSet = UserHelper.getUser("username", String.format("'%s'", user.getUsername()));
 
-        return DatabaseHelper.userExists(resultSet);
+        return UserHelper.entityExists(resultSet);
     }
 
     private static By usernameBy = By.xpath(Utils.getUIMappingByKey("register.username"));
