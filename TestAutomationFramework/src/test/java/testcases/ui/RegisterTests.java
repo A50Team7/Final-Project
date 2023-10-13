@@ -1,7 +1,7 @@
 package testcases.ui;
 
 import com.testframework.Utils;
-import com.testframework.DatabaseHelper;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.User;
@@ -180,7 +180,7 @@ public class RegisterTests extends BaseTest {
 
     @AfterEach
     public void userCleanup() {
-        DatabaseHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
     private void assertFails(String expectedErrorMessage, User user) {
