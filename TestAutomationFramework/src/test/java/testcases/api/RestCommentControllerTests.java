@@ -31,10 +31,8 @@ public class RestCommentControllerTests extends BaseApiTest {
         String username = user.getUsername();
         String password = user.getPassword();
 
-        Response auth = RestUserController.authUser(username, password)
-                .baseUri("http://localhost:8081/authenticate")
-                .when()
-                .post();
+        Response auth = RestUserController.authUser(username, password);
+
         authCookie = auth.getDetailedCookie("JSESSIONID");
         post = new Post();
         createdPost = new RestPostController().createPost(post, authCookie.getValue());

@@ -1,5 +1,6 @@
 package com.testframework.api;
 
+import com.testframework.Utils;
 import com.testframework.api.models.RequestUser;
 import com.testframework.api.models.RequestUsers;
 import com.testframework.api.models.ResponseUser;
@@ -47,10 +48,11 @@ public class RestUserController {
                 .extract().response().as(ResponseUser.class);
     }
 
-    public static RequestSpecification authUser(String username, String password) {
+    public static Response authUser(String username, String password) {
         return given()
                 .multiPart("username", username)
-                .multiPart("password", password);
+                .multiPart("password", password)
+                .post(Utils.getConfigPropertyByKey("weare.auth.url"));
 
     }
 }
