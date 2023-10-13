@@ -1,13 +1,13 @@
 package testcases.ui;
 
 import com.testframework.UserActions;
-import com.testframework.Utils;
+import com.testframework.models.User;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import testcases.api.BaseApiTest;
 
-public class BaseTest {
+public class BaseTest extends BaseApiTest {
 
     static UserActions actions = new UserActions();
 
@@ -25,5 +25,13 @@ public class BaseTest {
     public static void tearDown() {
         UserActions.quitDriver();
     }
-    
+
+    public String login(User user) {
+        String name = "JSESSIONID";
+        String value = ApiHelper.getCookieValue(user);
+
+        actions.addCookie(name, value);
+
+        return value;
+    }
 }
