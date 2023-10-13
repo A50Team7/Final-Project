@@ -1,13 +1,13 @@
-package com.testframework.api;
+package com.testframework;
 
 import com.testframework.Utils;
 
 import java.sql.*;
 
-public class UserControllerHelper {
-    private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url");
-    private static final String username = Utils.getConfigPropertyByKey("weare.db.username");
-    private static final String password = Utils.getConfigPropertyByKey("weare.db.password");
+public class DatabaseHelper {
+    private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url.local");
+    private static final String username = Utils.getConfigPropertyByKey("weare.db.username.local");
+    private static final String password = Utils.getConfigPropertyByKey("weare.db.password.local");
     private static final String deleteQuery =  "DELETE FROM users WHERE %s=%s;";
     private static final String findQuery = "SELECT * FROM users WHERE %s=%s;";
 
