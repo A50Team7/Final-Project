@@ -3,7 +3,9 @@ package testcases.api;
 import com.testframework.api.RestPostController;
 import com.testframework.api.models.RequestPost;
 import com.testframework.api.models.PostEditor;
+import com.testframework.api.models.ResponsePost;
 import com.testframework.factories.UserFactory;
+import com.testframework.generations.GenerateRandom;
 import io.restassured.http.Cookie;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
@@ -17,19 +19,17 @@ public class RestPostControllerTests extends BaseApiTest {
     private RequestUser user;
     private Cookie authCookie;
     private RequestPost post;
-    private RequestPost createdPost;
+    private ResponsePost createdPost;
 
     @BeforeEach
     public void setup() {
         user = new RequestUser("ROLE_USER", UserFactory.createUser());
-
         Response createdUser = RestUserController.createUser(user);
         String username = user.getUsername();
         String password = user.getPassword();
-
-
         Response auth = RestUserController.authUser(username, password);
         authCookie = auth.getDetailedCookie("JSESSIONID");
+
         post = new RequestPost();
         createdPost = new RestPostController().createPost(post, authCookie.getValue());
         post.setPostId(createdPost.getPostId());
@@ -44,53 +44,37 @@ public class RestPostControllerTests extends BaseApiTest {
 
     @Test
     public void findAllPublicPosts() {
-        var posts = RestPostController.getAllPosts();
+        ResponsePost[] posts = RestPostController.getAllPosts();
+       // Assertions.assertTrue(posts.length > 0, "There are no posts.");
 
-//        for (Post post : posts) {
-//            var getOneResponse = RestPostController.getOne(post.getPostId());
-//
-//            Assertions.assertEquals(post, getOneResponse, "The json body doesn't match the created post.");
-//        }
     }
 
     @Test
     public void createPost() {
 
-        post = new RequestPost();
-        createdPost = new RestPostController().createPost(post, authCookie.getValue());
-
-//        Assertions.assertEquals(post, createdPost, "The json body doesn't match the created post.");
-
-
-        //        Post response = given()
-//                .contentType(ContentType.JSON)
-//                .cookie("JSESSIONID", authCookie.getValue())
-//                .body(post)
-//                .when()
-//                .post("/post/auth/creator")
-//                .then()
-//                .log().body()
-//                .assertThat().statusCode(200)
-//                .extract().response().as(Post.class);
+        Assertions.assertEquals(post.getContent(), createdPost.getContent(), "The content doesn't match the created post.");
 
     }
 
     @Test
     public void editPost() {
-      //  post.setPostContent(GenerateRandom.generateRandomBoundedAlphabeticString(15));
+        String test = GenerateRandom.generateRandomBoundedAlphanumericString(30);
 
-        PostEditor editor = new PostEditor();
+        PostEditor editor = new PostEditor(test);
+      //  String newContent = editor.getContent();
 
         Response editPost = RestPostController.editPost(createdPost.getPostId(),editor, authCookie.getValue());
 
-        System.out.println(editPost.asPrettyString());
+//        String oldContent = createdPost.getContent();
+//        Assertions.assertEquals(test, oldContent, "The json body doesn't match the edited post.");
 
     }
 
     @Test
     public void likePost() {
         Response like = RestPostController.likePost(createdPost.getPostId(), authCookie.getValue());
-        System.out.println(like.asPrettyString());
+        int likeSize = like.jsonPath().getList("likes").size();
+        Assertions.assertTrue(likeSize > 0, "There are no likes on this post.");
     }
 
     @Test

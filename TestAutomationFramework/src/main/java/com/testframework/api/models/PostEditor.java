@@ -11,10 +11,10 @@ public class PostEditor {
 
     private boolean isPrivate;
 
-    public PostEditor() {
-        setContent(GenerateRandom.generateRandomBoundedAlphanumericString(20));
+    public PostEditor(String newContent) {
+        setContent(newContent);
         setPicture("");
-        setPrivate(false);
+        setPrivate(true);
     }
 
 }

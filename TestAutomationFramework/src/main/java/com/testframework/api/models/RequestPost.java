@@ -17,7 +17,7 @@ public class RequestPost {
         setPostId(0);
         setContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
         setPicture("");
-        setPostPrivate(false);
+        setPostPrivate(true);
     }
 
     public RequestPost(Post post) {

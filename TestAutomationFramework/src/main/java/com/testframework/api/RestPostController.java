@@ -14,6 +14,7 @@ public class RestPostController {
 
     public static ResponsePost[] getAllPosts() {
         return given()
+                .contentType(ContentType.JSON)
                 .get("/post/")
                 .then()
                 .log().body()
@@ -22,7 +23,7 @@ public class RestPostController {
 
     }
 
-    public RequestPost createPost(RequestPost post, String cookie) {
+    public ResponsePost createPost(RequestPost post, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -33,7 +34,7 @@ public class RestPostController {
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(RequestPost.class);
+                .extract().response().as(ResponsePost.class);
     }
 
     public static Response editPost(int postId, PostEditor postEditor, String cookie) {
