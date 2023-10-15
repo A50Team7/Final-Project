@@ -4,16 +4,13 @@ import com.testframework.UserActions;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 
-public abstract class BasePage {
+public abstract class BasePage extends BaseSection{
 
     protected String url;
-    protected WebDriver driver;
-    public UserActions actions;
 
     public BasePage(WebDriver driver, String url) {
-        this.driver = driver;
+        super(driver);
         this.url = url;
-        actions = new UserActions();
     }
 
     public String getUrl() {
