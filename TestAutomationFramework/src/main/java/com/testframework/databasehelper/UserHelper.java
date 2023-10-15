@@ -14,6 +14,11 @@ public class UserHelper extends DatabaseHelper{
     }
 
     public static int getUserId(ResultSet resultSet) {
+        try {
+            resultSet.next();
+        } catch (SQLException e) {
+            Utils.LOGGER.info(e);
+        }
         return getEntityId(resultSet, "user_id");
     }
 

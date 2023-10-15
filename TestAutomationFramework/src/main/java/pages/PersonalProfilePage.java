@@ -74,6 +74,10 @@ public class PersonalProfilePage extends BasePage {
 
     }
 
+    public void editProfile() {
+        actions.clickElement(editProfileBy);
+    }
+
     }
 
 
