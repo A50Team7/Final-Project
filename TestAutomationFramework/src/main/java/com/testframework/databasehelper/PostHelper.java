@@ -25,27 +25,4 @@ public class PostHelper extends DatabaseHelper{
         deleteEntity("post", tableName, key, value);
     }
 
-    public static int getPostByContent(String content) {
-        return getEntityIdByKey("post", tableName, "content", content, "post_id");
-    }
-
-    public static ResultSet getPostsToDelete(String content, LocalDateTime dateTime) {
-        return executeQuery(String.format(tableSpecificQuery, content, FormatHelper.formatDateTime(dateTime)));
-    }
-
-    public static ArrayList<Integer> getPostsToDeleteIds(String content, LocalDateTime dateTime) {
-        ResultSet resultSet = getPostsToDelete(content, dateTime);
-        ArrayList<Integer> ids = new ArrayList<Integer>();
-        {
-            ids.add(getPostId(resultSet));
-        } while(entityExists(resultSet));
-        return ids;
-    }
-
-    public static void deleteMultiplePostsById(ArrayList<Integer> ids) {
-        for (int id : ids) {
-            deletePost("post_id", String.valueOf(id));
-        }
-    }
-
 }
