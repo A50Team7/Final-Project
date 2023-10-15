@@ -23,7 +23,7 @@ public class RestPostController {
 
     }
 
-    public ResponsePost createPost(RequestPost post, String cookie) {
+    public static ResponsePost createPost(RequestPost post, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
