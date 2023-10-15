@@ -5,9 +5,9 @@ import com.testframework.Utils;
 import java.sql.*;
 
 public class DatabaseHelper {
-    private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url");
-    private static final String username = Utils.getConfigPropertyByKey("weare.db.username");
-    private static final String password = Utils.getConfigPropertyByKey("weare.db.password");
+    private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url.local");
+    private static final String username = Utils.getConfigPropertyByKey("weare.db.username.local");
+    private static final String password = Utils.getConfigPropertyByKey("weare.db.password.local");
     protected static final String deleteQuery =  "DELETE FROM %s WHERE %s=%s;";
     protected static final String findQuery = "SELECT * FROM %s WHERE %s=%s;";
 
@@ -46,11 +46,11 @@ public class DatabaseHelper {
 
     public static int getEntityId(ResultSet resultSet, String columnLabel) {
         try {
+            resultSet.next();
             return resultSet.getInt(columnLabel);
         } catch (SQLException e) {
-            Utils.LOGGER.info(e);
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     public static void deleteEntity(String table, String key, String value) {
@@ -75,6 +75,6 @@ public class DatabaseHelper {
 
         if (!entityExists(resultSet)) Utils.LOGGER.info(String.format("No %s found.", entityName));
         else return getEntityId(resultSet, idColumnLabel);
-        return 0;
+        return -1;
     }
 }
