@@ -1,5 +1,6 @@
 package com.testframework.models;
 
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.models.enums.ProfessionalCategory;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class User {
         setProfile(profile);
     }
 
+    private int userId;
     private Profile profile;
     private String username;
     private String email;
@@ -42,5 +44,9 @@ public class User {
                 && category.equals(u.category)
                 && registrationDate.equals(u.registrationDate)
                 && profile.equals(u.profile);
+    }
+
+    public int getUserId() {
+        return UserHelper.getUserId(UserHelper.getUser("username", String.format("'%s'", this.username)));
     }
 }
