@@ -1,5 +1,6 @@
 package com.testframework.models;
 
+import com.testframework.databasehelper.CommentHelper;
 import com.testframework.models.interfaces.Likable;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 public class Comment implements Likable {
 
     public Comment(Post post, User author, String content) {
+        setPost(post);
         setAuthor(author);
         setCreationDateTime(LocalDateTime.now());
         setContent(content);
@@ -17,6 +19,8 @@ public class Comment implements Likable {
         post.addComment(this);
     }
 
+    private int commentId;
+    private Post post;
     private User author;
     private LocalDateTime creationDateTime;
     private String content;
@@ -42,4 +46,7 @@ public class Comment implements Likable {
         likes--;
     }
 
+    public int getCommentId() {
+        return CommentHelper.getCommentId(CommentHelper.getComment("content", String.format("'%s'", this.content)));
+    }
 }
