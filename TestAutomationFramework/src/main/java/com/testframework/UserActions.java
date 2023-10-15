@@ -164,4 +164,9 @@ public class UserActions {
             Assertions.fail("Element with locator: '" + locator + "' was not found.");
         }
     }
+
+    public String getText(By locator) {
+        WebElement element = driver.findElement(locator);
+        return element.getText();
+    }
 }
