@@ -17,12 +17,4 @@ public class ApiHelper {
         return auth.getDetailedCookie(name).getValue();
     }
 
-    public static void deleteCreatedPost(Post post, String cookieValue) {
-        ResponsePost[] posts = RestPostController.getAllPosts();
-        ResponsePost postToDelete = Arrays.stream(posts).filter(x -> x.getContent().equals(post.getContent())).findAny().orElse(null);
-        if (postToDelete == null) {
-
-        }
-        RestPostController.deletePost(postToDelete.getPostId(), cookieValue);
-    }
 }

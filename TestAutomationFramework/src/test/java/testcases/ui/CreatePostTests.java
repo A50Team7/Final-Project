@@ -1,6 +1,7 @@
 package testcases.ui;
 
 import com.testframework.Utils;
+import com.testframework.api.RestPostController;
 import com.testframework.api.RestUserController;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.api.models.RequestUser;
@@ -59,7 +60,7 @@ public class CreatePostTests extends BaseTest {
 
     @AfterEach
     public void cleanup() {
-        ApiHelper.deleteCreatedPost(post, cookieValue);
+        RestPostController.deletePost(post.getPostId(), cookieValue);
         UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
