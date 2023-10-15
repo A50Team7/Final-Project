@@ -83,4 +83,7 @@ public class Profile implements Friendable, Postability {
         return new ArrayList<Post>(posts);
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }
