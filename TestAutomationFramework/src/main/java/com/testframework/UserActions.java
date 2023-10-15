@@ -53,6 +53,7 @@ public class UserActions {
         Utils.LOGGER.info("Clicking on element " + locator);
         WebElement element = driver.findElement(locator);
         scrollUntilVisible(element);
+        waitForElementClickable(locator);
         tryClick(element);
     }
 
