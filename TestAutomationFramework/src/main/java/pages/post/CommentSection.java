@@ -28,6 +28,18 @@ public class CommentSection extends BaseSection {
         Assertions.assertEquals(comment.getLikes(), FormatHelper.extractNumber(getCommentLikesCount(id)), "Comment's like count doesn't match");
     }
 
+    public void assertLiked(Comment comment) {
+        actions.waitForElementPresent(getDislikeBy(comment.getCommentId()));
+        actions.assertElementPresent(getDislikeBy(comment.getCommentId()));
+        Assertions.assertEquals(comment.getLikes(), FormatHelper.extractNumber(getCommentLikesCount(comment.getCommentId())));
+    }
+
+    public void assertDisliked(Comment comment) {
+        actions.waitForElementPresent(getLikeBy(comment.getCommentId()));
+        actions.assertElementPresent(getLikeBy(comment.getCommentId()));
+        Assertions.assertEquals(comment.getLikes(), FormatHelper.extractNumber(getCommentLikesCount(comment.getCommentId())));
+    }
+
     public String getCommentAuthor(int id) {
         return actions.getText(getCommentAuthorBy(id));
     }
@@ -44,12 +56,14 @@ public class CommentSection extends BaseSection {
         return actions.getText(getCommentLikesCountBy(id));
     }
 
-    public void likeComment(int id) {
-        actions.clickElement(getLikeBy(id));
+    public void likeComment(Comment comment) {
+        comment.like();
+        actions.clickElement(getLikeBy(comment.getCommentId()));
     }
 
-    public void dislikeComment(int id) {
-        actions.clickElement(getDislikeBy(id));
+    public void dislikeComment(Comment comment) {
+        comment.dislike();
+        actions.clickElement(getDislikeBy(comment.getCommentId()));
     }
 
     private By getCommentAuthorBy(int id) {
