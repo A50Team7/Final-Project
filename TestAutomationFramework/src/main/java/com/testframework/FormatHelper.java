@@ -1,12 +1,20 @@
 package com.testframework;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class FormatHelper {
     public static String formatDateTime(LocalDateTime dateTime) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        return currentDateTime.format(formatter);
+        return dateTime.format(formatter);
+    }
+
+    public static String formatBirthdayDate (Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
     }
 }
