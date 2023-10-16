@@ -73,7 +73,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void creatingCommentWithOneSymbol_Should_Pass() {
+    public void creatingCommentWithMinSymbols_Should_Pass() {
         comment = CommentFactory.createComment(post, user);
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("comment.content.lowerbound"));
         comment.setContent(CommentFactory.generateContent(lowerbound));
