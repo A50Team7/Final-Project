@@ -1,14 +1,13 @@
 package testcases.ui;
 
 import com.testframework.Utils;
-import com.testframework.api.RestPostController;
-import com.testframework.api.RestUserController;
-import com.testframework.api.models.RequestPost;
-import com.testframework.api.models.RequestUser;
+import com.testframework.api.controllers.RestPostController;
+import com.testframework.api.controllers.RestUserController;
+import com.testframework.api.models.PostRequest;
+import com.testframework.api.models.UserRequest;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
-import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
 import com.testframework.models.enums.ConfirmDelete;
@@ -37,11 +36,11 @@ public class PostTests extends BaseTest {
     public void setup() {
         user = UserFactory.createUser();
         post = PostFactory.createPost(user, Visibility.PUBLIC);
-        RestUserController.createUser(new RequestUser("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest("ROLE_USER", user));
 
         cookieValue = login(user);
 
-        RestPostController.createPost(new RequestPost(post), cookieValue);
+        RestPostController.createPost(new PostRequest(post), cookieValue);
 
         personalPostPage = new PersonalPostPage(actions.getDriver(), String.format(postPageUrl, post.getPostId()));
         personalPostPage.navigateToPage();

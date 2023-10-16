@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 @Getter
-public class ResponseComment {
+public class CommentResponse {
 
     private int commentId;
     private String content;

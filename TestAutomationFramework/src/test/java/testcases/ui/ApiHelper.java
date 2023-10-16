@@ -1,13 +1,8 @@
 package testcases.ui;
 
-import com.testframework.api.RestPostController;
-import com.testframework.api.RestUserController;
-import com.testframework.api.models.ResponsePost;
-import com.testframework.models.Post;
+import com.testframework.api.controllers.RestUserController;
 import com.testframework.models.User;
 import io.restassured.response.Response;
-
-import java.util.Arrays;
 
 public class ApiHelper {
 

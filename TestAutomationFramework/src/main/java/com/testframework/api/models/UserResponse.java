@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class ResponseUser {
+public class UserResponse {
 
     private int id;
     private String username;

@@ -3,7 +3,7 @@ package com.testframework.api.models;
 import lombok.Getter;
 
 @Getter
-public class ResponsePost {
+public class PostResponse {
 
     private int postId;
     private String content;

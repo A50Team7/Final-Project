@@ -1,10 +1,10 @@
 package testcases.ui;
 
 import com.testframework.Utils;
-import com.testframework.api.RestPostController;
-import com.testframework.api.RestUserController;
+import com.testframework.api.controllers.RestPostController;
+import com.testframework.api.controllers.RestUserController;
 import com.testframework.databasehelper.UserHelper;
-import com.testframework.api.models.RequestUser;
+import com.testframework.api.models.UserRequest;
 import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.Post;
@@ -26,7 +26,7 @@ public class CreatePostTests extends BaseTest {
     @BeforeEach
     public void setup() {
         user = UserFactory.createUser();
-        RestUserController.createUser(new RequestUser("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest("ROLE_USER", user));
 
         cookieValue = login(user);
 
