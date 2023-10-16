@@ -49,8 +49,9 @@ public class DatabaseHelper {
             resultSet.next();
             return resultSet.getInt(columnLabel);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Utils.LOGGER.info(e);
         }
+        return -1;
     }
 
     public static void deleteEntity(String table, String key, String value) {
