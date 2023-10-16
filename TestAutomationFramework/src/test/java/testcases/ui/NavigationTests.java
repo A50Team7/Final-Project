@@ -1,8 +1,8 @@
 package testcases.ui;
 
 import com.testframework.Utils;
-import com.testframework.api.RestUserController;
-import com.testframework.api.models.RequestUser;
+import com.testframework.api.controllers.RestUserController;
+import com.testframework.api.models.UserRequest;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
 import org.junit.jupiter.api.Assertions;
@@ -90,7 +90,7 @@ public class NavigationTests extends BaseTest {
     public void verify_PersonalProfile_navigatesToPage() {
 
         user = UserFactory.createUser();
-        RestUserController.createUser(new RequestUser("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest("ROLE_USER", user));
         cookieValue = login(user);
 
 
@@ -106,7 +106,7 @@ public class NavigationTests extends BaseTest {
     public void verify_AddNewPost_navigatesToPage() {
 
         user = UserFactory.createUser();
-        RestUserController.createUser(new RequestUser("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest("ROLE_USER", user));
         cookieValue = login(user);
 
         actions.getDriver().get(BASE_URL);
@@ -124,7 +124,7 @@ public class NavigationTests extends BaseTest {
     public void verify_LOGOUT() {
         //Register user -> Login ->
         user = UserFactory.createUser();
-        RestUserController.createUser(new RequestUser("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest("ROLE_USER", user));
         cookieValue = login(user);
 
         actions.getDriver().get(BASE_URL);
