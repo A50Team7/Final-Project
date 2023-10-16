@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ResponseUsers {
+public class UsersResponse {
 
     private int userId;
     private String username;

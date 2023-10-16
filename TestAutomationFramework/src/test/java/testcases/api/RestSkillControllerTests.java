@@ -1,6 +1,6 @@
 package testcases.api;
 
-import com.testframework.api.RestSkillController;
+import com.testframework.api.controllers.RestSkillController;
 import com.testframework.api.models.Skill;
 import com.testframework.generations.GenerateRandom;
 import org.junit.jupiter.api.AfterEach;

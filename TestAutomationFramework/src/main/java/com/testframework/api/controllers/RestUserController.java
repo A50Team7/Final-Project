@@ -1,20 +1,19 @@
-package com.testframework.api;
+package com.testframework.api.controllers;
 
 import com.testframework.Utils;
-import com.testframework.api.models.RequestUser;
-import com.testframework.api.models.RequestUsers;
-import com.testframework.api.models.ResponseUser;
-import com.testframework.api.models.ResponseUsers;
+import com.testframework.api.models.UserRequest;
+import com.testframework.api.models.UsersRequest;
+import com.testframework.api.models.UserResponse;
+import com.testframework.api.models.UsersResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.given;
 
 public class RestUserController {
 
 
-    public static Response createUser(RequestUser user) {
+    public static Response createUser(UserRequest user) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -26,26 +25,26 @@ public class RestUserController {
                 .extract().response();
     }
 
-    public static ResponseUsers[] getUsers(RequestUsers requestUsers) {
+    public static UsersResponse[] getUsers(UsersRequest usersRequest) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
-                .body(requestUsers)
+                .body(usersRequest)
                 .when()
                 .post("/users")
                 .then()
                 .assertThat().statusCode(200)
-                .extract().response().as(ResponseUsers[].class);
+                .extract().response().as(UsersResponse[].class);
     }
 
-    public static ResponseUser getUserById(int id, String principal) {
+    public static UserResponse getUserById(int id, String principal) {
         return given()
                 .queryParam("principal", principal)
                 .when()
                 .get("/users/auth/" + String.valueOf(id))
                 .then()
                 .assertThat().statusCode(200)
-                .extract().response().as(ResponseUser.class);
+                .extract().response().as(UserResponse.class);
     }
 
     public static Response authUser(String username, String password) {

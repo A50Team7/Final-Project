@@ -1,9 +1,9 @@
 package testcases.api;
 
-import com.testframework.api.RestConnectionController;
-import com.testframework.api.RestUserController;
+import com.testframework.api.controllers.RestConnectionController;
+import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.FriendRequest;
-import com.testframework.api.models.RequestUser;
+import com.testframework.api.models.UserRequest;
 import com.testframework.factories.UserFactory;
 import io.restassured.http.Cookie;
 import io.restassured.path.json.JsonPath;
@@ -12,18 +12,18 @@ import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.Test;
 
 public class RestConnectionControllerTests extends BaseApiTest{
-    private RequestUser sender;
+    private UserRequest sender;
     private Response createdSender;
 
-    private RequestUser receiver;
+    private UserRequest receiver;
     private Response createdReceiver;
     private Cookie authCookie;
     @Test
     public void setup() {
-        sender = new RequestUser("ROLE_USER", UserFactory.createUser());
+        sender = new UserRequest("ROLE_USER", UserFactory.createUser());
         createdSender = RestUserController.createUser(sender);
 
-        receiver = new RequestUser("ROLE_USER", UserFactory.createUser());
+        receiver = new UserRequest("ROLE_USER", UserFactory.createUser());
         createdReceiver = RestUserController.createUser(receiver);
 
         String username1 = sender.getUsername();

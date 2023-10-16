@@ -1,6 +1,6 @@
-package com.testframework.api;
-import com.testframework.api.models.RequestComment;
-import com.testframework.api.models.ResponseComment;
+package com.testframework.api.controllers;
+import com.testframework.api.models.CommentRequest;
+import com.testframework.api.models.CommentResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 
 public class RestCommentController {
 
-    public static RequestComment[] getAllCommentsOnPost(int postId, String cookie) {
+    public static CommentRequest[] getAllCommentsOnPost(int postId, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .cookie("JSESSIONID", cookie)
@@ -18,11 +18,11 @@ public class RestCommentController {
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(RequestComment[].class);
+                .extract().response().as(CommentRequest[].class);
 
     }
 
-    public static ResponseComment createComment(RequestComment comment, String cookie) {
+    public static CommentResponse createComment(CommentRequest comment, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -33,7 +33,7 @@ public class RestCommentController {
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(ResponseComment.class);
+                .extract().response().as(CommentResponse.class);
     }
 
     public static Response editComment(int commentId, String content , String cookie) {
@@ -51,7 +51,7 @@ public class RestCommentController {
                 .extract().response();
     }
 
-    public static ResponseComment getSingleComment(int commentId) {
+    public static CommentResponse getSingleComment(int commentId) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -61,7 +61,7 @@ public class RestCommentController {
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(ResponseComment.class);
+                .extract().response().as(CommentResponse.class);
     }
 
     public static Response likeComment(int commentId, String cookie) {

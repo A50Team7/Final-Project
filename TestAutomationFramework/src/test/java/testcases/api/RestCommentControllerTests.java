@@ -1,13 +1,12 @@
 package testcases.api;
 
-import com.testframework.api.RestCommentController;
-import com.testframework.api.RestPostController;
-import com.testframework.api.RestUserController;
+import com.testframework.api.controllers.RestCommentController;
+import com.testframework.api.controllers.RestPostController;
+import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.*;
 import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
 import io.restassured.http.Cookie;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.Assertions;
@@ -17,25 +16,25 @@ import org.junit.jupiter.api.Test;
 public class RestCommentControllerTests extends BaseApiTest {
 
 
-    private RequestUser user;
+    private UserRequest user;
     private Response createdUser;
     private Cookie authCookie;
-    private RequestPost post;
-    private ResponsePost createdPost;
-    private RequestComment comment;
-    private ResponseComment createdComment;
+    private PostRequest post;
+    private PostResponse createdPost;
+    private CommentRequest comment;
+    private CommentResponse createdComment;
     private int commentId;
 
     @BeforeEach
     public void setup() {
-        user = new RequestUser("ROLE_USER", UserFactory.createUser());
+        user = new UserRequest("ROLE_USER", UserFactory.createUser());
         Response createdUser = RestUserController.createUser(user);
         String username = user.getUsername();
         String password = user.getPassword();
         Response auth = RestUserController.authUser(username, password);
         authCookie = auth.getDetailedCookie("JSESSIONID");
 
-        post = new RequestPost();
+        post = new PostRequest();
         createdPost = new RestPostController().createPost(post, authCookie.getValue());
         post.setPostId(createdPost.getPostId());
 
@@ -44,7 +43,7 @@ public class RestCommentControllerTests extends BaseApiTest {
         var responseId = myArray[6];
         int userId = Integer.valueOf(responseId);
 
-        comment = new RequestComment(userId, createdPost.getPostId());
+        comment = new CommentRequest(userId, createdPost.getPostId());
         createdComment = RestCommentController.createComment(comment, authCookie.getValue());
         commentId = createdComment.getCommentId();
     }

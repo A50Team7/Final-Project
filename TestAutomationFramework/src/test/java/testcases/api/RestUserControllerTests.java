@@ -1,11 +1,11 @@
 package testcases.api;
 
-import com.testframework.api.RestUserController;
+import com.testframework.api.controllers.RestUserController;
 import com.testframework.databasehelper.UserHelper;
-import com.testframework.api.models.RequestUser;
-import com.testframework.api.models.RequestUsers;
-import com.testframework.api.models.ResponseUser;
-import com.testframework.api.models.ResponseUsers;
+import com.testframework.api.models.UserRequest;
+import com.testframework.api.models.UsersRequest;
+import com.testframework.api.models.UserResponse;
+import com.testframework.api.models.UsersResponse;
 import com.testframework.factories.UserFactory;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
@@ -14,22 +14,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class RestUserControllerTests extends BaseApiTest {
-    private RequestUser user;
+    private UserRequest user;
     private Response creationResponse;
 
     @BeforeEach
     public void setup() {
-        user = new RequestUser("ROLE_USER", UserFactory.createUser());
+        user = new UserRequest("ROLE_USER", UserFactory.createUser());
         creationResponse = RestUserController.createUser(user);
     }
 
     @Test
     public void getUsers() {
-        RequestUsers requestUsers = new RequestUsers(0, true,"", "", 100);
-        ResponseUsers[] users = RestUserController.getUsers(requestUsers);
+        UsersRequest usersRequest = new UsersRequest(0, true,"", "", 100);
+        UsersResponse[] users = RestUserController.getUsers(usersRequest);
 
-        for (ResponseUsers responseUser : users) {
-            ResponseUser returnedUser = RestUserController.getUserById(responseUser.getUserId(), "admin");
+        for (UsersResponse responseUser : users) {
+            UserResponse returnedUser = RestUserController.getUserById(responseUser.getUserId(), "admin");
 
             Assertions.assertEquals(responseUser.getUsername(), returnedUser.getUsername(), "The username didn't match.");
             Assertions.assertEquals(responseUser.getUserId(), returnedUser.getId(), "The id didn't match.");
@@ -39,7 +39,7 @@ public class RestUserControllerTests extends BaseApiTest {
     @Test
     public void getUserById() {
         int id = UserHelper.getUserIdByUsername(String.format("'%s'", user.getUsername()));
-        ResponseUser returnedUser = RestUserController.getUserById(id, "admin");
+        UserResponse returnedUser = RestUserController.getUserById(id, "admin");
 
         Assertions.assertEquals(user.getUsername(), returnedUser.getUsername(), "The username didn't match.");
         Assertions.assertEquals(user.getEmail(), returnedUser.getEmail(), "The email didn't match.");

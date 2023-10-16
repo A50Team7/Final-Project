@@ -1,8 +1,8 @@
-package com.testframework.api;
+package com.testframework.api.controllers;
 
-import com.testframework.api.models.RequestPost;
+import com.testframework.api.models.PostRequest;
 import com.testframework.api.models.PostEditor;
-import com.testframework.api.models.ResponsePost;
+import com.testframework.api.models.PostResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -12,18 +12,18 @@ import static io.restassured.RestAssured.given;
 public class RestPostController {
 
 
-    public static ResponsePost[] getAllPosts() {
+    public static PostResponse[] getAllPosts() {
         return given()
                 .contentType(ContentType.JSON)
                 .get("/post/")
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(ResponsePost[].class);
+                .extract().response().as(PostResponse[].class);
 
     }
 
-    public static ResponsePost createPost(RequestPost post, String cookie) {
+    public static PostResponse createPost(PostRequest post, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()
@@ -34,7 +34,7 @@ public class RestPostController {
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
-                .extract().response().as(ResponsePost.class);
+                .extract().response().as(PostResponse.class);
     }
 
     public static Response editPost(int postId, PostEditor postEditor, String cookie) {
@@ -79,8 +79,8 @@ public class RestPostController {
     }
 
     public static void deleteAllPosts(String cookieValue) {
-        ResponsePost[] posts = getAllPosts();
-        for (ResponsePost post : posts) {
+        PostResponse[] posts = getAllPosts();
+        for (PostResponse post : posts) {
             deletePost(post.getPostId(), cookieValue);
         }
     }
