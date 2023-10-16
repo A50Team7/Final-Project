@@ -2,7 +2,10 @@ package pages.post;
 
 import com.testframework.FormatHelper;
 import com.testframework.Utils;
+import com.testframework.databasehelper.CommentHelper;
+import com.testframework.databasehelper.PostHelper;
 import com.testframework.models.Comment;
+import com.testframework.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -38,6 +41,16 @@ public class CommentSection extends BaseSection {
         actions.waitForElementPresent(getLikeBy(comment.getCommentId()));
         actions.assertElementPresent(getLikeBy(comment.getCommentId()));
         Assertions.assertEquals(comment.getLikes(), FormatHelper.extractNumber(getCommentLikesCount(comment.getCommentId())));
+    }
+
+    public boolean existsInTheDatabase(Comment comment) {
+        try {
+            int id = comment.getCommentId();
+            return id != -1;
+        } catch(Exception e) {
+            Utils.LOGGER.info(e);
+            return false;
+        }
     }
 
     public String getCommentAuthor(int id) {
