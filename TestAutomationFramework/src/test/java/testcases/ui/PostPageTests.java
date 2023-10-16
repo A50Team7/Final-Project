@@ -13,17 +13,31 @@ import com.testframework.factories.UserFactory;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
+import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
+import dev.failsafe.internal.util.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pages.common.DeletePage;
+import pages.common.EditPage;
+import pages.common.EditPostPage;
 import pages.post.PersonalPostPage;
 
 import java.util.ArrayList;
 
 public class PostPageTests extends BaseTest {
+    private boolean deleted = false;
     private static String postPageUrl = Utils.getConfigPropertyByKey("weare.post.url");
+    private static String editPostPageUrl = Utils.getConfigPropertyByKey("weare.post.edit.url");
+    private static String deletePostPageUrl = Utils.getConfigPropertyByKey("weare.post.delete.url");
+    private static String editCommentPageUrl = Utils.getConfigPropertyByKey("weare.comment.edit.url");
+    private static String deleteCommentPageUrl = Utils.getConfigPropertyByKey("weare.comment.delete.url");
     private static PersonalPostPage personalPostPage;
+    private static EditPostPage editPostPage;
+    private static DeletePage deletePage;
+    private static EditPage editCommentPage;
 
     private User user;
     private Post post;
@@ -47,12 +61,39 @@ public class PostPageTests extends BaseTest {
 
     @Test
     public void editingCreatedPost_Should_Pass() {
-        // WIP
+        personalPostPage.editPost();
+        editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
+        editPostPage.assertPageNavigated();
+
+        post.setContent(PostFactory.generateContent());
+        editPostPage.editPostAndSubmit(post.getContent(), post.getVisibility());
+
+        personalPostPage.assertPost(post);
     }
 
     @Test
-    public void deletingCreatedPost_Should_Pass() {
-        // WIP
+    public void deletingCreatedPostBySelectingDeleteAndSubmitting_Should_Pass() {
+        personalPostPage.deletePost();
+        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
+        deletePage.assertPageNavigated();
+
+        deletePage.selectAndConfirm(ConfirmDelete.DELETE);
+
+        deletePage.assertDeletedSuccessfullyMessagePresent();
+        Assertions.assertFalse(personalPostPage.existsInTheDatabase(post));
+        deleted = true;
+    }
+
+    @Test
+    public void deletingCreatedPostBySelectingCancelAndSubmitting_Should_Fail() {
+        personalPostPage.deletePost();
+        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
+        deletePage.assertPageNavigated();
+
+        deletePage.selectAndConfirm(ConfirmDelete.CANCEL);
+
+        personalPostPage.assertPost(post);
+        Assertions.assertTrue(personalPostPage.existsInTheDatabase(post));
     }
 
     @Test
@@ -121,17 +162,52 @@ public class PostPageTests extends BaseTest {
 
     @Test
     public void editAnExistingComment_Should_Pass() {
-        // WIP
+        comment = CommentFactory.createComment(post, user);
+        personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
+
+        personalPostPage.showComments();
+        personalPostPage.getPersonalComment().editComment(comment.getCommentId());
+        editCommentPage = new EditPage(actions.getDriver(), String.format(editCommentPageUrl, comment.getCommentId()));
+        comment.setContent(CommentFactory.generateContent());
+
+        editCommentPage.editAndSubmit(comment.getContent());
+
+        personalPostPage.showComments();
+        personalPostPage.getCommentSection().assertComment(comment, comment.getCommentId());
     }
 
     @Test
-    public void deleteAnExistingComment_Should_Pass() {
-        // WIP
+    public void deleteAnExistingCommentBySelectingDeleteAndSubmitting_Should_Pass() {
+        comment = CommentFactory.createComment(post, user);
+        personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
+
+        personalPostPage.showComments();
+        personalPostPage.getPersonalComment().deleteComment(comment.getCommentId());
+        deletePage = new DeletePage(actions.getDriver(), String.format(deleteCommentPageUrl, comment.getCommentId()));
+        deletePage.selectAndConfirm(ConfirmDelete.DELETE);
+
+        deletePage.assertDeletedSuccessfullyMessagePresent();
+        Assertions.assertFalse(personalPostPage.getCommentSection().existsInTheDatabase(comment));
+    }
+
+    @Test
+    public void deleteAnExistingCommentBySelectingCancelAndSubmitting_Should_Fail() {
+        comment = CommentFactory.createComment(post, user);
+        personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
+
+        personalPostPage.showComments();
+        personalPostPage.getPersonalComment().deleteComment(comment.getCommentId());
+        deletePage = new DeletePage(actions.getDriver(), String.format(deleteCommentPageUrl, comment.getCommentId()));
+        deletePage.selectAndConfirm(ConfirmDelete.CANCEL);
+
+        personalPostPage.showComments();
+        personalPostPage.getCommentSection().assertComment(comment, comment.getCommentId());
+        Assertions.assertTrue(personalPostPage.getCommentSection().existsInTheDatabase(comment));
     }
 
     @AfterEach
     public void cleanup() {
-        RestPostController.deletePost(post.getPostId(), cookieValue);
+        if (!deleted) RestPostController.deletePost(post.getPostId(), cookieValue);
         UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 }
