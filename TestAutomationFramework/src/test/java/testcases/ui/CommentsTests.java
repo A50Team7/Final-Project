@@ -5,7 +5,6 @@ import com.testframework.api.RestPostController;
 import com.testframework.api.RestUserController;
 import com.testframework.api.models.RequestPost;
 import com.testframework.api.models.RequestUser;
-import com.testframework.databasehelper.PostHelper;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.CommentFactory;
 import com.testframework.factories.PostFactory;
@@ -15,7 +14,6 @@ import com.testframework.models.Post;
 import com.testframework.models.User;
 import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
-import dev.failsafe.internal.util.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,17 +23,11 @@ import pages.common.EditPage;
 import pages.common.EditPostPage;
 import pages.post.PersonalPostPage;
 
-import java.util.ArrayList;
-
-public class PostPageTests extends BaseTest {
-    private boolean deleted = false;
+public class CommentsTests extends BaseTest {
     private static String postPageUrl = Utils.getConfigPropertyByKey("weare.post.url");
-    private static String editPostPageUrl = Utils.getConfigPropertyByKey("weare.post.edit.url");
-    private static String deletePostPageUrl = Utils.getConfigPropertyByKey("weare.post.delete.url");
     private static String editCommentPageUrl = Utils.getConfigPropertyByKey("weare.comment.edit.url");
     private static String deleteCommentPageUrl = Utils.getConfigPropertyByKey("weare.comment.delete.url");
     private static PersonalPostPage personalPostPage;
-    private static EditPostPage editPostPage;
     private static DeletePage deletePage;
     private static EditPage editCommentPage;
 
@@ -57,43 +49,6 @@ public class PostPageTests extends BaseTest {
         personalPostPage = new PersonalPostPage(actions.getDriver(), String.format(postPageUrl, post.getPostId()));
         personalPostPage.navigateToPage();
         personalPostPage.assertPost(post);
-    }
-
-    @Test
-    public void editingCreatedPost_Should_Pass() {
-        personalPostPage.editPost();
-        editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
-        editPostPage.assertPageNavigated();
-
-        post.setContent(PostFactory.generateContent());
-        editPostPage.editPostAndSubmit(post.getContent(), post.getVisibility());
-
-        personalPostPage.assertPost(post);
-    }
-
-    @Test
-    public void deletingCreatedPostBySelectingDeleteAndSubmitting_Should_Pass() {
-        personalPostPage.deletePost();
-        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
-        deletePage.assertPageNavigated();
-
-        deletePage.selectAndConfirm(ConfirmDelete.DELETE);
-
-        deletePage.assertDeletedSuccessfullyMessagePresent();
-        Assertions.assertFalse(personalPostPage.existsInTheDatabase(post));
-        deleted = true;
-    }
-
-    @Test
-    public void deletingCreatedPostBySelectingCancelAndSubmitting_Should_Fail() {
-        personalPostPage.deletePost();
-        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
-        deletePage.assertPageNavigated();
-
-        deletePage.selectAndConfirm(ConfirmDelete.CANCEL);
-
-        personalPostPage.assertPost(post);
-        Assertions.assertTrue(personalPostPage.existsInTheDatabase(post));
     }
 
     @Test
@@ -190,6 +145,7 @@ public class PostPageTests extends BaseTest {
         Assertions.assertFalse(personalPostPage.getCommentSection().existsInTheDatabase(comment));
     }
 
+    //Add this test in Jira
     @Test
     public void deleteAnExistingCommentBySelectingCancelAndSubmitting_Should_Fail() {
         comment = CommentFactory.createComment(post, user);
@@ -207,7 +163,7 @@ public class PostPageTests extends BaseTest {
 
     @AfterEach
     public void cleanup() {
-        if (!deleted) RestPostController.deletePost(post.getPostId(), cookieValue);
+        RestPostController.deletePost(post.getPostId(), cookieValue);
         UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 }
