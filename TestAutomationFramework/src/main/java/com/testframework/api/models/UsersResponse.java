@@ -8,7 +8,7 @@ public class UsersResponse {
 
     private int userId;
     private String username;
-    private ExpertiseProfile expertiseProfile;
+    private ExpertiseProfileRequest expertiseProfile;
     private boolean enabled;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
