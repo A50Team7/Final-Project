@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter @Setter
 public class FriendRequest {
 
-    private int id;
+    private int receiverId;
     private String username;
 
-    public FriendRequest(int id, String username) {
-        setId(id);
+    public FriendRequest(int receiverId, String username) {
+        setReceiverId(receiverId);
         setUsername(username);
     }
 }

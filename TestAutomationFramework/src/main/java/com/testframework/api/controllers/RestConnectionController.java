@@ -32,12 +32,12 @@ public class RestConnectionController {
                 .extract().response();
     }
 
-    public static Response acceptFriendRequest(int friendRequestId, int senderId, String cookie) {
+    public static Response acceptFriendRequest(int friendRequestId, int receiverId, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .queryParam("requestId", friendRequestId)
                 .cookie("JSESSIONID", cookie)
-                .post("/auth/users/"+ senderId +"/request/approve")
+                .post("/auth/users/"+ receiverId +"/request/approve")
                 .then()
                 .log().body()
                 .assertThat().statusCode(200)
