@@ -50,6 +50,11 @@ public class UserFactory {
         return GenerateRandom.generateRandomBoundedAlphanumericString(length) + "@test.bg";
     }
 
+    public static String generateInvalidEmail() {
+        int length = GenerateRandom.generateLength("email.lowerbound", "email.upperbound");
+        return GenerateRandom.generateRandomBoundedAlphanumericString(length) + "@test";
+    }
+
     public static String generateValidEmail(int length) {
         return GenerateRandom.generateRandomBoundedAlphanumericString(length) + "@test.bg";
     }

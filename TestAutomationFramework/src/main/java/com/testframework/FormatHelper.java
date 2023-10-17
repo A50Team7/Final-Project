@@ -25,6 +25,11 @@ public class FormatHelper {
         return formatter.format(date);
     }
 
+    public static String formatDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
+
     public static int extractNumber(String text) {
         try {
             Pattern pattern = Pattern.compile("\\b(\\d+)\\b");

@@ -47,6 +47,8 @@ public class PersonalProfileEditorPage extends BasePage {
     private static By weeklyAvailabilityBy = By.xpath(Utils.getUIMappingByKey("profileEditor.skills.availability"));
     private static By updateSurvicesBy = By.xpath(Utils.getUIMappingByKey("profileEditor.skills.submit"));
 
+    private static String emailErrorMessage = Utils.getUIMappingByKey("profileEditor.invalidEmailMessage");
+
     public void enterAllPersonalInfoAndUpdate(User user) {
         Profile profile = user.getProfile();
         enterFirstName(profile.getFirstName());
@@ -169,6 +171,11 @@ actions.clickElement(updateSurvicesBy);
         }
     }
 
+    public void assertEmailErrorMessagePresent(String message) {
+        By emailErrorMessageBy = By.xpath(String.format(emailErrorMessage, message));
+        actions.waitForElementPresent(emailErrorMessageBy);
+        actions.assertElementPresent(emailErrorMessageBy);
+    }
 
 }
 
