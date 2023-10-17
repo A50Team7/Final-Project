@@ -1,6 +1,14 @@
 package com.testframework.models.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Gender {
-    MALE,
-    FEMALE;
+    MALE("MALE"),
+    FEMALE("FEMALE");
+
+    private String stringValue;
+    Gender(String stringValue) {
+        this.stringValue = stringValue;
+    }
 }
