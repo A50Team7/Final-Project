@@ -17,6 +17,7 @@ public class Profile implements Friendable, Postability {
     public Profile() {
         friendList = new ArrayList<User>();
         posts = new ArrayList<Post>();
+        services = new Services();
     }
 
     public Profile(String firstName, String lastName, Date birthday) {
@@ -35,7 +36,8 @@ public class Profile implements Friendable, Postability {
     private ArrayList<User> friendList;
     private ArrayList<Post> posts;
     private String bio;
-    private double weeklyAvailability;
+    private Services services;
+
 
     @Override
     public boolean equals(Object o) {
@@ -50,8 +52,7 @@ public class Profile implements Friendable, Postability {
                 && location.equals(p.location)
                 && friendList.equals(p.friendList)
                 && posts.equals(p.posts)
-                && bio.equals(p.bio)
-                && weeklyAvailability==p.weeklyAvailability;
+                && bio.equals(p.bio);
     }
 
     //############# LISTS #########

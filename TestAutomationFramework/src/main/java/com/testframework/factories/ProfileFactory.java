@@ -17,7 +17,7 @@ public class ProfileFactory {
         );
         profile.setLocation(selectLocation());
         profile.setBio(generateBio());
-        profile.setWeeklyAvailability(generateWeeklyAvailability());
+        profile.setServices(ServicesFactory.createServices());
         return profile;
     }
 
@@ -67,15 +67,5 @@ public class ProfileFactory {
         return Location.getLocationById(id);
     }
 
-    public static double generateWeeklyAvailability() {
-        int min = Integer.parseInt(Utils.getConfigPropertyByKey("availability.lowerbound"));
-        int max = Integer.parseInt(Utils.getConfigPropertyByKey("availability.upperbound"));
-        double value = GenerateRandom.generateRandomBoundedDouble(min, max);
-        return Double.parseDouble(new DecimalFormat("#.#").format(value));
-    }
 
-    public static double generateWeeklyAvailability(int min, int max) {
-        double value = GenerateRandom.generateRandomBoundedDouble(min, max);
-        return Double.parseDouble(new DecimalFormat("#.#").format(value));
-    }
 }

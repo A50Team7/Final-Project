@@ -16,6 +16,8 @@ public class PersonalProfilePage extends BasePage {
 
     private String baseXpath = Utils.getUIMappingByKey("personalProfile.data");
 
+    private String baseServiceXpath = Utils.getConfigPropertyByKey("personalProfile.service");
+
     private By usernameBy = By.xpath(String.format(baseXpath, "User Id"));
     private By nameBy = By.xpath(String.format(baseXpath, "Name"));
     private By emailBy = By.xpath(String.format(baseXpath, "Email"));
@@ -27,18 +29,29 @@ public class PersonalProfilePage extends BasePage {
 
     private By editProfileBy = By.xpath(Utils.getUIMappingByKey("personalProfile.edit"));
 
+    private By serviceOneBy = By.xpath(String.format(baseServiceXpath, "2"));
+
+    private By serviceTwoBy = By.xpath(String.format(baseServiceXpath, "4"));
+    private By serviceThreeBy = By.xpath(String.format(baseServiceXpath, "6"));
+    private By serviceFourBy = By.xpath(String.format(baseServiceXpath, "8"));
+    private By serviceFiveBy = By.xpath(String.format(baseServiceXpath, "10"));
+
+    private By weeklyAvailabilityBy = By.xpath(Utils.getUIMappingByKey("personaProfile.weeklyAvailability"));
+
+
+
     private String getFieldText(By locator) {
 
         return actions.getText(locator);
 
     }
-    public void assertEqualData(String expectedData, PersonalProfileData data) {
+    public void assertEqualProfileData(String expectedData, PersonalProfileData data) {
 
         switch(data){
             case USER_ID:
                 Assertions.assertEquals(expectedData, getFieldText(usernameBy),"Username doesn't match the expected username");
                 break;
-            case NAME:
+            case FULL_NAME:
                 Assertions.assertEquals(expectedData, getFieldText(nameBy),"Name doesn't match the expected name");
                 break;
             case EMAIL:
@@ -60,17 +73,38 @@ public class PersonalProfilePage extends BasePage {
 
     }
 
+    public void assertEqualServicesData(String expectedData, PersonalProfileData data) {
+
+        switch (data) {
+            case SERVICE_ONE:
+                Assertions.assertEquals(expectedData, getFieldText(serviceOneBy), "First service doesn't match the expected first service");
+                break;
+            case SERVICE_TWO:
+                Assertions.assertEquals(expectedData, getFieldText(serviceTwoBy), "Second service doesn't match the expected second service");
+                break;
+            case SERVICE_THREE:
+                Assertions.assertEquals(expectedData, getFieldText(serviceThreeBy), "Third service doesn't match the expected third service");
+                break;
+            case SERVICE_FOUR:
+                Assertions.assertEquals(expectedData, getFieldText(serviceFourBy), "Fourth service doesn't match the expected fourth service");
+                break;
+            case SERVICE_FIVE:
+                Assertions.assertEquals(expectedData, getFieldText(serviceFiveBy), "Fifth service doesn't match the expected fifth service");
+                break;
+        }
+    }
+
     public void assertEqualData(User user) {
 
         Profile profile = user.getProfile();
 
-        assertEqualData(user.getUsername(), PersonalProfileData.USER_ID);
-        assertEqualData(profile.getFullName(), PersonalProfileData.NAME);
-        assertEqualData(user.getEmail(), PersonalProfileData.EMAIL);
-        assertEqualData(FormatHelper.formatBirthdayDate(profile.getBirthday()), PersonalProfileData.BIRTHDAY);
-        assertEqualData(profile.getLocation().getStringValue(), PersonalProfileData.LOCATION);
-        assertEqualData(String.format("%d friends", profile.getFriendList().size()), PersonalProfileData.FRIEND_LIST);
-        assertEqualData(profile.getBio(), PersonalProfileData.BIO);
+        assertEqualProfileData(user.getUsername(), PersonalProfileData.USER_ID);
+        assertEqualProfileData(profile.getFullName(), PersonalProfileData.FULL_NAME);
+        assertEqualProfileData(user.getEmail(), PersonalProfileData.EMAIL);
+        assertEqualProfileData(FormatHelper.formatBirthdayDate(profile.getBirthday()), PersonalProfileData.BIRTHDAY);
+        assertEqualProfileData(profile.getLocation().getStringValue(), PersonalProfileData.LOCATION);
+        assertEqualProfileData(String.format("%d friends", profile.getFriendList().size()), PersonalProfileData.FRIEND_LIST);
+        assertEqualProfileData(profile.getBio(), PersonalProfileData.BIO);
 
     }
 
