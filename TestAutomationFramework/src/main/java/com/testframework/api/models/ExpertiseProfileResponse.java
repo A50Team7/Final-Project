@@ -6,10 +6,10 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class ExpertiseProfile {
+public class ExpertiseProfileResponse {
 
     private int id;
-    private List<String> skills;
+    private List<Skill> skills;
     private Category category;
     private double availability;
 
