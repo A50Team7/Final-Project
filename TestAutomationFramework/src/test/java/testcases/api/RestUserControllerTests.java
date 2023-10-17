@@ -1,26 +1,37 @@
 package testcases.api;
 
+import com.testframework.api.controllers.RestPostController;
 import com.testframework.api.controllers.RestUserController;
+import com.testframework.api.models.*;
 import com.testframework.databasehelper.UserHelper;
-import com.testframework.api.models.UserRequest;
-import com.testframework.api.models.UsersRequest;
-import com.testframework.api.models.UserResponse;
-import com.testframework.api.models.UsersResponse;
+import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
+import com.testframework.models.Post;
+import com.testframework.models.User;
+import com.testframework.models.enums.Gender;
+import com.testframework.models.enums.Visibility;
 import io.restassured.response.Response;
+import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import testcases.ApiHelper;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 public class RestUserControllerTests extends BaseApiTest {
-    private UserRequest user;
+    private int postId = -1;
+    private User user;
+    private UserRequest userRequest;
     private Response creationResponse;
 
     @BeforeEach
     public void setup() {
-        user = new UserRequest("ROLE_USER", UserFactory.createUser());
-        creationResponse = RestUserController.createUser(user);
+        user = UserFactory.createUserWithProfile();
+        userRequest = new UserRequest("ROLE_USER", user);
+        creationResponse = RestUserController.createUser(userRequest);
     }
 
     @Test
@@ -38,20 +49,58 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @Test
     public void getUserById() {
-        int id = UserHelper.getUserIdByUsername(String.format("'%s'", user.getUsername()));
+        int id = UserHelper.getUserIdByUsername(String.format("'%s'", userRequest.getUsername()));
         UserResponse returnedUser = RestUserController.getUserById(id, "admin");
 
-        Assertions.assertEquals(user.getUsername(), returnedUser.getUsername(), "The username didn't match.");
-        Assertions.assertEquals(user.getEmail(), returnedUser.getEmail(), "The email didn't match.");
+        Assertions.assertEquals(userRequest.getUsername(), returnedUser.getUsername(), "The username didn't match.");
+        Assertions.assertEquals(userRequest.getEmail(), returnedUser.getEmail(), "The email didn't match.");
+    }
+
+    @Test
+    public void showProfilePosts() {
+        Post post = PostFactory.createPost(user, Visibility.PUBLIC);
+        PostRequest postRequest = new PostRequest(post);
+
+        PostResponse postResponse = RestPostController.createPost(postRequest, ApiHelper.getCookieValue(user));
+
+        postId = postResponse.getPostId();
+
+        UsersRequest profilePostsRequest = new UsersRequest(0, true,"", "", 10);
+        var posts = RestUserController.getAllProfilePosts(profilePostsRequest, user.getUserId(), ApiHelper.getCookieValue(user));
+
+        Assertions.assertTrue(Arrays.stream(posts)
+                .anyMatch(x -> x.getPostId()==postResponse.getPostId()
+                        && Objects.equals(x.getContent(), postResponse.getContent())));
+    }
+
+    @Test
+    public void upgradeUserExpertiseProfile() {
+        ExpertiseProfileRequest expertiseProfileRequest = new ExpertiseProfileRequest(user);
+        var response = RestUserController.upgradeUserExpertiseProfile(user.getUserId(), expertiseProfileRequest, ApiHelper.getCookieValue(user));
+
+        Assertions.assertEquals(expertiseProfileRequest.getAvailability(), response.getAvailability(), "Availability doesn't match");
+        Assertions.assertEquals(expertiseProfileRequest.getCategory(), response.getCategory(), "Category doesn't match");
+        Assertions.assertEquals(expertiseProfileRequest.getSkill1(), response.getSkills().get(0).getSkill(), "Skill 1 doesn't match");
+    }
+
+    @Test
+    public void upgradeUserPersonalProfile() {
+        user.getProfile().setGender(Gender.MALE);
+        PersonalProfileRequest personalProfileRequest = new PersonalProfileRequest(user);
+        var response = RestUserController.upgradeUserPersonalProfile(user.getUserId(), personalProfileRequest, ApiHelper.getCookieValue(user));
+
+        Assertions.assertEquals(personalProfileRequest.getFirstName(), response.getFirstName(), "First name doesn't match");
+        Assertions.assertEquals(personalProfileRequest.getLastName(), response.getLastName(), "Last name doesn't match");
     }
 
     @Test
     public void createUser() {
-        Assertions.assertTrue(creationResponse.getBody().asPrettyString().contains(user.getUsername()));
+        Assertions.assertTrue(creationResponse.getBody().asPrettyString().contains(userRequest.getUsername()));
     }
 
     @AfterEach
     public void cleanup() {
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        if (postId!=-1) RestPostController.deletePost(postId, ApiHelper.getCookieValue(user));
+        UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
     }
 }
