@@ -1,4 +1,4 @@
-package testcases.ui;
+package testcases;
 
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.models.User;
