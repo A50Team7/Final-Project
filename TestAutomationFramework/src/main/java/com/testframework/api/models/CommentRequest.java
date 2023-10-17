@@ -2,12 +2,12 @@ package com.testframework.api.models;
 
 import com.testframework.generations.GenerateRandom;
 
-public class RequestComment {
+public class CommentRequest {
     private int userId;
     private int postId;
     private String content;
 
-    public RequestComment(int userId, int postId) {
+    public CommentRequest(int userId, int postId) {
         setUserId(userId);
         setPostId(postId);
         setContent(GenerateRandom.generateRandomBoundedAlphabeticString(15));

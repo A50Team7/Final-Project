@@ -1,5 +1,6 @@
 package com.testframework.models;
 
+import com.testframework.databasehelper.PostHelper;
 import com.testframework.models.enums.Visibility;
 import com.testframework.models.interfaces.Commentable;
 import com.testframework.models.interfaces.Likable;
@@ -21,6 +22,7 @@ public class Post implements Likable, Commentable {
         likes = 0;
     }
 
+    private int postId;
     private User author;
     private LocalDateTime creationDateTime;
     private String content;
@@ -62,5 +64,9 @@ public class Post implements Likable, Commentable {
 
     public ArrayList<Comment> getComments() {
         return new ArrayList<>(comments);
+    }
+
+    public int getPostId() {
+        return PostHelper.getPostId(PostHelper.getPost("content", String.format("'%s'", this.content)));
     }
 }

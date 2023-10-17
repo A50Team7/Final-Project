@@ -2,13 +2,11 @@ package com.testframework;
 
 import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
@@ -40,12 +38,36 @@ public class UserActions {
         driver.manage().addCookie(new Cookie.Builder(name, value).build());
     }
 
-    public void clickElement(By locator) {
-        waitForElementClickable(locator);
+    public void scrollUntilVisible(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });", element);
+    }
 
+    public void scrollUntilVisible(By locator) {
+        WebElement element = driver.findElement(locator);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });", element);
+    }
+
+    public void clickElement(By locator) {
         Utils.LOGGER.info("Clicking on element " + locator);
         WebElement element = driver.findElement(locator);
-        element.click();
+        scrollUntilVisible(element);
+        waitForElementPresent(locator);
+        waitForElementClickable(locator);
+        tryClick(element);
+    }
+
+    public void tryClick(WebElement element) {
+        var wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(15))
+                .pollingEvery(Duration.ofSeconds(1))
+                .ignoring(ElementClickInterceptedException.class);
+
+        wait.until(x -> {
+            element.click();
+            return true;
+        });
     }
 
     public void typeValueInField(By locator, String value) {
@@ -53,6 +75,7 @@ public class UserActions {
 
         Utils.LOGGER.info("Typing value: " + value + " In field " + locator);
         WebElement element = driver.findElement(locator);
+        scrollUntilVisible(element);
         element.sendKeys(value);
     }
 
@@ -61,6 +84,7 @@ public class UserActions {
 
         Utils.LOGGER.info("Clearing text in field" + locator);
         WebElement element = driver.findElement(locator);
+        scrollUntilVisible(element);
         element.clear();
     }
 
@@ -69,6 +93,7 @@ public class UserActions {
 
         Utils.LOGGER.info("Clearing text in field" + locator + "And typing value: " + value);
         WebElement element = driver.findElement(locator);
+        scrollUntilVisible(element);
         element.clear();
         element.sendKeys(value);
     }
@@ -166,6 +191,7 @@ public class UserActions {
     }
 
     public String getText(By locator) {
+        waitForElementClickable(locator);
         WebElement element = driver.findElement(locator);
         return element.getText();
     }

@@ -1,4 +1,4 @@
-package com.testframework.api;
+package com.testframework.api.controllers;
 
 import com.testframework.api.models.FriendRequest;
 import io.restassured.http.ContentType;

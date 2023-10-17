@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class RequestUsers {
+public class UsersRequest {
 
-    public RequestUsers(int index, boolean next, String searchParam1, String searchParam2, int size) {
+    public UsersRequest(int index, boolean next, String searchParam1, String searchParam2, int size) {
         setIndex(index);
         setNext(next);
         setSearchParam1(searchParam1);

@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class RegisterPage extends BasePage{
     public RegisterPage(WebDriver driver, String url) {
@@ -39,10 +40,15 @@ public class RegisterPage extends BasePage{
     }
 
     public boolean existsInTheDatabase(User user) {
-        ResultSet resultSet = UserHelper.getUser("username", String.format("'%s'", user.getUsername()));
-
-        return UserHelper.entityExists(resultSet);
+        try {
+            int id = user.getUserId();
+            return id != -1;
+        } catch (Exception e) {
+            Utils.LOGGER.info(e);
+            return false;
+        }
     }
+
 
     private static By usernameBy = By.xpath(Utils.getUIMappingByKey("register.username"));
     private static By emailBy = By.xpath(Utils.getUIMappingByKey("register.email"));

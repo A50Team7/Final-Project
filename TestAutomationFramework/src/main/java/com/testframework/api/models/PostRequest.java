@@ -7,20 +7,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class RequestPost {
+public class PostRequest {
     private int postId;
     private String content;
     private String picture;
     private boolean isPostPrivate;
 
-    public RequestPost() {
+    public PostRequest() {
         setPostId(0);
         setContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
         setPicture("");
         setPostPrivate(true);
     }
 
-    public RequestPost(Post post) {
+    public PostRequest(Post post) {
         setPostId(0);
         setContent(post.getContent());
         setPicture("");
@@ -31,7 +31,7 @@ public class RequestPost {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RequestPost p = (RequestPost) o;
+        PostRequest p = (PostRequest) o;
 
         return  postId == p.postId
                 && content.equals(p.content)

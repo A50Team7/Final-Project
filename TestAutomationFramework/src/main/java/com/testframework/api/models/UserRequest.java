@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class RequestUser {
+public class UserRequest {
 
-    public RequestUser(String authority, User user) {
+    public UserRequest(String authority, User user) {
         authorities = new ArrayList<String>();
         addAuthority(authority);
         setCategory(new Category(user.getCategory()));
@@ -29,7 +29,7 @@ public class RequestUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RequestUser u = (RequestUser) o;
+        UserRequest u = (UserRequest) o;
 
         return authorities.equals(u.authorities)
                 && category.equals(u.category)
