@@ -50,7 +50,7 @@ public class RestUserController {
                 .and()
                 .body(request)
                 .when()
-                .get("/users/auth/" + userId + "/expertise")
+                .post(String.format("/users/auth/%s/expertise", userId))
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(ExpertiseProfileResponse.class);
@@ -62,7 +62,7 @@ public class RestUserController {
                 .and()
                 .body(request)
                 .when()
-                .get("/users/auth/" + userId + "/personal")
+                .post("/users/auth/" + userId + "/personal")
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(PersonalProfileResponse.class);
