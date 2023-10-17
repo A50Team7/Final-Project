@@ -5,6 +5,7 @@ import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.UserRequest;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
+import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,7 @@ public class NavigationTests extends BaseTest {
     private final static String BASE_URL = Utils.getConfigPropertyByKey("weare.baseUrl");
     private User user;
     private String cookieValue;
-    public void setup() {
-        actions.getDriver().get("weare.baseUrl");
-    }
+
 
     @Test
     public void verify_RegisterButton_navigatesToPage() {
@@ -77,9 +76,9 @@ public class NavigationTests extends BaseTest {
     }
     @Test
     public void verify_AboutUs_navigatesToPage() {
-        var postsButton = By.xpath(Utils.getUIMappingByKey("navigation.aboutUsButton"));
-        actions.waitForElementClickable(postsButton);
-        actions.clickElement(postsButton);
+        var aboutusButton = By.xpath(Utils.getUIMappingByKey("navigation.aboutUsButton"));
+        actions.waitForElementClickable(aboutusButton);
+        actions.clickElement(aboutusButton);
 
         String currentUrl = actions.getDriver().getCurrentUrl();
         String testUrl = Utils.getConfigPropertyByKey("weare.aboutus.url");
@@ -90,16 +89,23 @@ public class NavigationTests extends BaseTest {
     public void verify_PersonalProfile_navigatesToPage() {
 
         user = UserFactory.createUser();
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        var createdUser = RestUserController.createUser(new UserRequest("ROLE_USER", user));
         cookieValue = login(user);
 
+        ResponseBody userBody = createdUser.getBody();
+        var myArray = userBody.asString().split(" ");
+        var responseId = myArray[6];
+        int userId = Integer.valueOf(responseId);
 
         actions.getDriver().get(BASE_URL);
-        //Add Profile Button Path
+
         var profileButton = By.xpath(Utils.getUIMappingByKey("navigation.profileButton"));
         actions.waitForElementClickable(profileButton);
         actions.clickElement(profileButton);
         //Assertions
+        String profileUrl = actions.getDriver().getCurrentUrl();
+        String testUrl = String.format("http://localhost:8081/auth/users/%s/profile", userId);
+        Assertions.assertEquals(testUrl, profileUrl, ERROR_MESSAGE);
     }
 
     @Test
