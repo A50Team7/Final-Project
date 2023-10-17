@@ -81,7 +81,7 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterBirthday(Date date) {
-        actions.typeValueInField(birthdayBy, FormatHelper.formatDate(date));
+        actions.typeValueInField(birthdayBy, FormatHelper.formatBirthdayDate(date));
     }
 
     public void enterGender(Gender gender) {
