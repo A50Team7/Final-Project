@@ -1,0 +1,773 @@
+{
+	"id": "f1e71d4f-e8f4-43b9-980e-559c17cd7736",
+	"name": "WEare",
+	"timestamp": "2023-10-17T07:59:10.397Z",
+	"collection_id": "28853623-b1719b23-9718-4d90-9adf-439da4024d6c",
+	"folder_id": 0,
+	"environment_id": "28774743-e30c1f79-e4f9-44f3-9aa5-2b499a8ee25e",
+	"totalPass": 34,
+	"delay": 0,
+	"persist": true,
+	"status": "error",
+	"startedAt": "2023-10-17T07:59:08.531Z",
+	"totalFail": 4,
+	"results": [
+		{
+			"id": "595b282a-e64b-4d56-b95d-af74bcbd1bbf",
+			"name": "Create User",
+			"url": "http://localhost:8081/api/users/",
+			"time": 77,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				77
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "d5538cc0-0766-4b46-9d72-a66fee69ebdc",
+			"name": "Get Users",
+			"url": "http://localhost:8081/api/users",
+			"time": 67,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				67
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "86baa4b3-913a-480c-8719-e220c9dfe4c5",
+			"name": "Authenticate",
+			"url": "http://localhost:8081/authenticate?username=Elwyn&password=password",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "1b8492b6-9604-4bb5-87ac-01a97297bbec",
+			"name": "Get User By Id",
+			"url": "http://localhost:8081/api/users/auth/259?principal=admin",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body contains 'username'": true,
+				"Body contains the defined id": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains 'username'": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the defined id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body contains 'username'": true,
+					"Body contains the defined id": true
+				}
+			]
+		},
+		{
+			"id": "d0aea6ba-8d72-4e38-aafc-f21d6f7a13ef",
+			"name": "Upgrade Personal Profile",
+			"url": "http://localhost:8081/api/users/auth/259/personal",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body contains approved": false,
+				"Body contains id": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains approved": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Body contains id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body contains approved": false,
+					"Body contains id": true
+				}
+			]
+		},
+		{
+			"id": "4ae09079-5ca6-41c3-a994-4e864de44bac",
+			"name": "Upgrade User Expertise Profile",
+			"url": "http://localhost:8081/api/users/auth/259/expertise",
+			"time": 4,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code is 200": false,
+				"Body matches string": false
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Body matches string": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200": false,
+					"Body matches string": false
+				}
+			]
+		},
+		{
+			"id": "a03ea0ab-99ef-4f6a-8c4a-9e10bfc10d25",
+			"name": "Create a Post Copy",
+			"url": "http://localhost:8081/api/post/auth/creator",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "6dbe497e-348e-43f9-a309-61feeb37fbbf",
+			"name": "Like/Dislike a Post Copy",
+			"url": "http://localhost:8081/api/post/auth/likesUp?postId=165",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "0f7696a6-5fba-4335-b7d8-86faced0eb2d",
+			"name": "Edit Post",
+			"url": "http://localhost:8081/api/post/auth/editor?postId=165",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "d9c5c9de-3d26-419d-9ab3-aaf38a94a144",
+			"name": "Get All Posts Copy",
+			"url": "http://localhost:8081/api/post/",
+			"time": 36,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				36
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "975519e3-8253-40b2-b486-fdec22fa26fa",
+			"name": "Get All Comments on a Post Copy",
+			"url": "http://localhost:8081/api/post/Comments?postId=65",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": false
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": false
+				}
+			]
+		},
+		{
+			"id": "33e06a9f-c184-411f-8e99-86d2e9bae0ca",
+			"name": "Create Comment on Post",
+			"url": "http://localhost:8081/api/comment/auth/creator",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body contains fields comment, content, likes": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields comment, content, likes": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body contains fields comment, content, likes": true
+				}
+			]
+		},
+		{
+			"id": "b21c97b5-87b4-46cd-98a0-66f291ae9bb0",
+			"name": "Get One Comment",
+			"url": "http://localhost:8081/api/comment/single?commentId=137",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "e0d70c2d-f9ca-4ac4-9e22-4585b1fc73f6",
+			"name": "Get All Comments of a Post Copy",
+			"url": "http://localhost:8081/api/comment/byPost?postId=165",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "66193d8f-6cc0-40f7-8c9f-12bca7e86a60",
+			"name": "Like/Dislike Comment Copy",
+			"url": "http://localhost:8081/api/comment/auth/likesUp?commentId=137",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "0e818d93-cd1a-46c0-93f2-208c15ceaede",
+			"name": "Edit Comment",
+			"url": "http://localhost:8081/api/comment/auth/editor?commentId=137&content=Cloned empowering superstructure",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "d4acb260-58c9-462a-ae75-10227d207c34",
+			"name": "Delete Comment",
+			"url": "http://localhost:8081/api/comment/auth/manager?commentId=137",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				10
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "289a36fb-2908-488e-b7ce-3315c24e7770",
+			"name": "Delete Post",
+			"url": "http://localhost:8081/api/post/auth/manager?postId=165",
+			"time": 14,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				14
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "5f25d690-cfdf-4267-b5da-98efbed34a4b",
+			"name": "Find All Copy",
+			"url": "http://localhost:8081/api/skill",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "b4fdd256-a39b-4f33-b84b-adcb7688d51f",
+			"name": "Get One Skill",
+			"url": "http://localhost:8081/api/skill/getOne?skillId=347",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful create request": true,
+				"Status code is 200": true,
+				"response contains the predifined skillName": true,
+				"Successful delete request": true
+			},
+			"testPassFailCounts": {
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"response contains the predifined skillName": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful delete request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Successful create request": true,
+					"Status code is 200": true,
+					"response contains the predifined skillName": true,
+					"Successful delete request": true
+				}
+			]
+		},
+		{
+			"id": "58a5b9ba-f6ea-47c8-8f07-1648d17e7869",
+			"name": "Create Skill Copy",
+			"url": "http://localhost:8081/api/skill/create",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"response contains the predifined skillName": true,
+				"Successful delete request": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"response contains the predifined skillName": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful delete request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"response contains the predifined skillName": true,
+					"Successful delete request": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 349,
+	"collection": {
+		"requests": [
+			{
+				"id": "595b282a-e64b-4d56-b95d-af74bcbd1bbf",
+				"method": "POST"
+			},
+			{
+				"id": "d5538cc0-0766-4b46-9d72-a66fee69ebdc",
+				"method": "POST"
+			},
+			{
+				"id": "86baa4b3-913a-480c-8719-e220c9dfe4c5",
+				"method": "POST"
+			},
+			{
+				"id": "1b8492b6-9604-4bb5-87ac-01a97297bbec",
+				"method": "GET"
+			},
+			{
+				"id": "d0aea6ba-8d72-4e38-aafc-f21d6f7a13ef",
+				"method": "POST"
+			},
+			{
+				"id": "4ae09079-5ca6-41c3-a994-4e864de44bac",
+				"method": "POST"
+			},
+			{
+				"id": "a03ea0ab-99ef-4f6a-8c4a-9e10bfc10d25",
+				"method": "POST"
+			},
+			{
+				"id": "6dbe497e-348e-43f9-a309-61feeb37fbbf",
+				"method": "POST"
+			},
+			{
+				"id": "0f7696a6-5fba-4335-b7d8-86faced0eb2d",
+				"method": "PUT"
+			},
+			{
+				"id": "d9c5c9de-3d26-419d-9ab3-aaf38a94a144",
+				"method": "GET"
+			},
+			{
+				"id": "975519e3-8253-40b2-b486-fdec22fa26fa",
+				"method": "GET"
+			},
+			{
+				"id": "33e06a9f-c184-411f-8e99-86d2e9bae0ca",
+				"method": "POST"
+			},
+			{
+				"id": "b21c97b5-87b4-46cd-98a0-66f291ae9bb0",
+				"method": "GET"
+			},
+			{
+				"id": "e0d70c2d-f9ca-4ac4-9e22-4585b1fc73f6",
+				"method": "GET"
+			},
+			{
+				"id": "66193d8f-6cc0-40f7-8c9f-12bca7e86a60",
+				"method": "POST"
+			},
+			{
+				"id": "0e818d93-cd1a-46c0-93f2-208c15ceaede",
+				"method": "PUT"
+			},
+			{
+				"id": "d4acb260-58c9-462a-ae75-10227d207c34",
+				"method": "DELETE"
+			},
+			{
+				"id": "289a36fb-2908-488e-b7ce-3315c24e7770",
+				"method": "DELETE"
+			},
+			{
+				"id": "5f25d690-cfdf-4267-b5da-98efbed34a4b",
+				"method": "GET"
+			},
+			{
+				"id": "b4fdd256-a39b-4f33-b84b-adcb7688d51f",
+				"method": "GET"
+			},
+			{
+				"id": "58a5b9ba-f6ea-47c8-8f07-1648d17e7869",
+				"method": "POST"
+			},
+			{
+				"id": "4ee331cf-8c09-4431-8565-c9ac3d0e7354",
+				"method": "PUT"
+			}
+		]
+	}
+}
