@@ -19,7 +19,7 @@ public class ConnectionTests extends BaseTest{
     private String cookieValue;
     private static String profileUrl = Utils.getConfigPropertyByKey("weare.profile.url");
     private static final By connectButton = By.xpath(Utils.getUIMappingByKey("connection.connectButton"));
-    private final static String BASE_URL = Utils.getConfigPropertyByKey("weare.baseUrl");
+    private static final By approveButton = By.xpath(Utils.getUIMappingByKey("connection.approveButton"));
     private Response senderResponse;
     private Response receiverResponse;
     private int receiverId;
@@ -44,7 +44,6 @@ public class ConnectionTests extends BaseTest{
         var receiverResponseId = receiverArray[6];
         receiverId = Integer.valueOf(receiverResponseId);
 
-       // actions.getDriver().get(BASE_URL);
     }
     @AfterEach
     public void cleaner() {
@@ -55,9 +54,7 @@ public class ConnectionTests extends BaseTest{
     }
     @Test
     public void sendFriendRequest() {
-        //Navigate to Receiver
-        //Click Connect Button
-
+        
         String receiverProfileUrl = String.format(profileUrl,receiverId);
         actions.getDriver().get(receiverProfileUrl);
 
@@ -65,18 +62,25 @@ public class ConnectionTests extends BaseTest{
         actions.clickElement(connectButton);
         //Assertions
 
-
     }
-    @Test
-    public void showFriendRequests() {
-        //-> Send request to user2
-        //user2 login -> Open friend requests list
 
-    }
     @Test
     public void acceptFriendRequest() {
-        //-> Send request to user2
         //user2 login -> Open friend requests list
         //user2 -> accept friend request
+        String receiverProfileUrl = String.format(profileUrl,receiverId);
+        actions.getDriver().get(receiverProfileUrl);
+
+        actions.waitForElementClickable(connectButton);
+        actions.clickElement(connectButton);
+
+        cookieValue = login(receiver);
+        actions.getDriver().get(receiverProfileUrl);
+        actions.waitForElementClickable(connectButton);
+        actions.clickElement(connectButton);
+
+        actions.waitForElementClickable(approveButton);
+        actions.clickElement(approveButton);
+        //Assertions
     }
 }
