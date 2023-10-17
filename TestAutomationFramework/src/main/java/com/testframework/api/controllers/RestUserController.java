@@ -69,7 +69,7 @@ public class RestUserController {
                 .extract().response().as(PersonalProfileResponse.class);
     }
 
-    public static PostResponse[] getAllProfilePosts(ProfilePostsRequest request, int userId, String cookieValue) {
+    public static PostResponse[] getAllProfilePosts(UsersRequest request, int userId, String cookieValue) {
         return given()
                 .contentType(ContentType.JSON)
                 .and()

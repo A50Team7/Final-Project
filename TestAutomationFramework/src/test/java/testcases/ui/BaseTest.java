@@ -5,6 +5,7 @@ import com.testframework.models.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import testcases.ApiHelper;
 import testcases.api.BaseApiTest;
 
 public class BaseTest extends BaseApiTest {
