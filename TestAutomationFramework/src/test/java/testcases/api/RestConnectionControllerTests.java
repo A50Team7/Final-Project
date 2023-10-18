@@ -23,8 +23,6 @@ public class RestConnectionControllerTests extends BaseApiTest {
     private String receiverAuthCookie;
     private User sender;
     private User receiver;
-    private UserRequest userRequest1;
-    private UserRequest userRequest2;
     private String connectionRequestResponse;
 
     @BeforeEach
@@ -32,9 +30,9 @@ public class RestConnectionControllerTests extends BaseApiTest {
         sender = UserFactory.createUserWithProfile();
         receiver = UserFactory.createUserWithProfile();
 
-        userRequest1 = new UserRequest("ROLE_USER", sender);
+        UserRequest userRequest1 = new UserRequest("ROLE_USER", sender);
         RestUserController.createUser(userRequest1);
-        userRequest2 = new UserRequest("ROLE_USER", receiver);
+        UserRequest userRequest2 = new UserRequest("ROLE_USER", receiver);
         RestUserController.createUser(userRequest2);
 
         senderAuthCookie = ApiHelper.getCookieValue(sender);
