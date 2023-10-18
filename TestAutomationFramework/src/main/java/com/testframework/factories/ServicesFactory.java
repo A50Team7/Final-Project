@@ -16,7 +16,7 @@ public class ServicesFactory {
         services.setServiceThree(generateService());
         services.setServiceFour(generateService());
         services.setServiceFive(generateService());
-        services.setWeeklyAvailability(generateWeeklyAvailability());
+        services.setWeeklyAvailability((int) generateWeeklyAvailability());
 
         return services;
     }
@@ -33,12 +33,17 @@ public class ServicesFactory {
     public static double generateWeeklyAvailability() {
         int min = Integer.parseInt(Utils.getConfigPropertyByKey("availability.lowerbound"));
         int max = Integer.parseInt(Utils.getConfigPropertyByKey("availability.upperbound"));
-        double value = GenerateRandom.generateRandomBoundedDouble(min, max);
+        double value = GenerateRandom.generateRandomBoundedInteger(min, max);
         return Double.parseDouble(new DecimalFormat("#.#").format(value));
     }
 
     public static double generateWeeklyAvailability(int min, int max) {
         double value = GenerateRandom.generateRandomBoundedDouble(min, max);
         return Double.parseDouble(new DecimalFormat("#.#").format(value));
+    }
+
+    public static double generateInvalidWeeklyAvailability() {
+        int upperAvailability = Integer.parseInt(Utils.getConfigPropertyByKey("availability.upperbound"));
+        return GenerateRandom.generateRandomBoundedInteger(upperAvailability, 500);
     }
 }
