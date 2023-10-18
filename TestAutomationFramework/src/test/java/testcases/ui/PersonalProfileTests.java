@@ -2,13 +2,16 @@ package testcases.ui;
 
 import com.testframework.FormatHelper;
 import com.testframework.Utils;
+import com.testframework.WaitHelper;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.UserRequest;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.CommentFactory;
 import com.testframework.factories.ProfileFactory;
+import com.testframework.factories.ServicesFactory;
 import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
+import com.testframework.models.Services;
 import com.testframework.models.User;
 import com.testframework.models.enums.PersonalProfileData;
 import com.testframework.models.enums.ProfessionalCategory;
@@ -16,6 +19,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.support.ui.Wait;
 import pages.PersonalProfileEditorPage;
 import pages.PersonalProfilePage;
 
@@ -25,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.testframework.WaitHelper.waitForUserInteraction;
 
 public class PersonalProfileTests extends BaseTest {
 
@@ -48,173 +54,171 @@ public class PersonalProfileTests extends BaseTest {
 
         personalProfileEditorPage = new PersonalProfileEditorPage(actions.getDriver(), String.format(personalProfileEditorUrl, userId));
         personalProfilePage.assertPageNavigated();
+        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
     }
 
     @Test
-    public void addingValidPersonalInformationToPersonalProfile_Should_Pass() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
+    public void addingValidPersonalInformationToPersonalProfile_Should_BeSuccessful() {
         personalProfilePage.navigateToPage();
         personalProfilePage.assertEqualData(user);
     }
 
     @Test
-    public void addingValidServiceAndWeeklyAvailabilityToPersonalProfile_Should_Pass() {
+    public void addingValidServiceAndWeeklyAvailabilityToPersonalProfile_Should_BeSuccessful() {
         personalProfileEditorPage.enterServiceAndUpdate(user.getProfile(), user.getProfile().getServices().getServiceOne());
         personalProfilePage.navigateToPage();
         personalProfilePage.assertEqualServiceData(user.getProfile().getServices().getServiceOne(), PersonalProfileData.SERVICE_ONE);
-        personalProfilePage.assertEqualWeeklyAvailability(String.valueOf(user.getProfile().getServices().getWeeklyAvailability()), PersonalProfileData.WEEKLY_AVAILABILITY);
+        personalProfilePage.assertEqualWeeklyAvailability(String.valueOf(user.getProfile().getServices().getWeeklyAvailability()));
     }
 
     @Test
-    public void changingProfessionalCategoryInPersonalProfile_Should_Pass() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
+    public void changingProfessionalCategoryInPersonalProfile_Should_BeSuccessful() {
         user.setCategory(ProfessionalCategory.getProfessionalCategoryById(ProfessionalCategory.selectRandomId()));
         personalProfileEditorPage.updateProfile();
-        personalProfileEditorPage.enterProfessionalCategory(user.getCategory());
-        personalProfileEditorPage.updateCategory();
+        personalProfileEditorPage.enterProfessionalCategoryAndUpdate(user);
+
         personalProfilePage.navigateToPage();
-        personalProfilePage.assertEqualProfessionalCategory(String.valueOf(user.getCategory()), PersonalProfileData.PROFESSIONAL_CATEGORY);
+        personalProfilePage.assertEqualProfessionalCategory(user.getCategory().getStringValue());
 
     }
 
     @Test
-    public void changingFirstNameWithInvalidStringInPersonalProfile_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-        int lenght = Integer.parseInt(Utils.getConfigPropertyByKey("firstName.lowerbound"));
-        user.getProfile().setFirstName(GenerateRandom.generateRandomBoundedAlphanumericString(lenght));
+    public void changingFirstNameWithInvalidStringInPersonalProfile_Should_BeUnsuccessful() {
+        user.getProfile().setFirstName(ProfileFactory.generateInvalidName());
+
         personalProfileEditorPage.enterFirstName(user.getProfile().getFirstName());
         personalProfileEditorPage.updateProfile();
+
         personalProfileEditorPage.assertErrorMessagePresent("first name is not valid!");
     }
 
     @Test
-    public void changingLastNameWithInvalidStringInPersonalProfile_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-        int lenght = Integer.parseInt(Utils.getConfigPropertyByKey("lastname.lowerbound"));
-        user.getProfile().setLastName(GenerateRandom.generateRandomBoundedAlphanumericString(lenght));
+    public void changingLastNameWithInvalidStringInPersonalProfile_Should_BeUnsuccessful() {
+        user.getProfile().setLastName(ProfileFactory.generateInvalidName());
+
         personalProfileEditorPage.enterLastName(user.getProfile().getLastName());
         personalProfileEditorPage.updateProfile();
+
         personalProfileEditorPage.assertErrorMessagePresent("last name is not valid!");
     }
 
     @Test
-    public void changingFirstNameInPersonalProfileBVA_lowerbound_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
+    public void changingFirstNameInPersonalProfileBVA_lowerbound_Should_BeUnsuccessful() {
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("firstName.lowerbound"));
         user.getProfile().setFirstName(ProfileFactory.generateFirstName(lowerbound - 1));
+
         personalProfileEditorPage.enterFirstName(user.getProfile().getFirstName());
         personalProfileEditorPage.updateProfile();
-        personalProfileEditorPage.assertErrorMessagePresent("first name must have at least 3 symbols!");
+
+        personalProfileEditorPage.assertErrorMessagePresent(String.format("first name must have at least %d symbols!", lowerbound));
 
     }
 
     @Test
-    public void changingLastNameInPersonalProfileBVA_lowerbound_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-        int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("lastname.lowerbound"));
+    public void changingLastNameInPersonalProfileBVA_lowerbound_Should_BeUnsuccessful() {
+        int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("lastName.lowerbound"));
         user.getProfile().setLastName(ProfileFactory.generateLastName(lowerbound - 1));
+
         personalProfileEditorPage.enterLastName(user.getProfile().getLastName());
         personalProfileEditorPage.updateProfile();
-        personalProfileEditorPage.assertErrorMessagePresent("last name must have at least 3 symbols!");
+
+        personalProfileEditorPage.assertErrorMessagePresent(String.format("last name must have at least %d symbols!", lowerbound));
 
     }
 
     @Test
-    public void removingBioFromPersonalProfile_Should_Pass() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-        user.getProfile().setBio(" ");
-        personalProfileEditorPage.enterBio(user.getProfile().getBio());
+    public void removingBioFromPersonalProfile_Should_BeSuccessful() {
+        personalProfileEditorPage.clearBio();
         personalProfileEditorPage.updateProfile();
-        personalProfilePage.assertEqualProfileData(user.getProfile().getBio(), PersonalProfileData.BIO);
 
-
+        personalProfilePage.navigateToPage();
+        personalProfilePage.assertBioIsCleared();
     }
 
     @Test
-    public void changingBirthdayToNullInPersonalProfile_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-        user.getProfile().setBirthday(null);
+    public void changingBirthdayToNullInPersonalProfile_Should_BeUnsuccessful() {
+        personalProfileEditorPage.clearBirthday();
+        personalProfileEditorPage.updateProfile();
+
+        personalProfilePage.navigateToPage();
+        personalProfilePage.assertEqualData(user);
+    }
+
+    @Test
+    public void changingBirthdayToInvalidDateInPersonalProfile_Should_BeUnsuccessful() {
+        user.getProfile().setBirthday(ProfileFactory.generateInvalidBirthday());
+
         personalProfileEditorPage.enterBirthday(user.getProfile().getBirthday());
         personalProfileEditorPage.updateProfile();
-        Assertions.assertNull(user.getProfile().getBirthday(), "The Birthday field cannot be empty");
 
+        personalProfilePage.navigateToPage();
+        String birthday = personalProfilePage.getFieldText(PersonalProfileData.BIRTHDAY);
+        Assertions.assertNotEquals(FormatHelper.formatBirthdayDate(user.getProfile().getBirthday()), birthday,
+                "The birthday date was changed successfully to an invalid date.");
     }
 
-//    @Test
-//    public void changingBirthdayToInvalidDateInPersonalProfile_Should_Fail() {
-//        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-//        Date lowerbound = (Utils.getConfigPropertyByKey("birthday.lowerbound"));
-//        Date upperbound = Utils.getConfigPropertyByKey("birthday.upperbound");
-//
-//        user.getProfile().setBirthday(GenerateRandom.generateRandomDate(lowerbound, upperbound));
-
-        // set the user.getProfile() birthday using GenerateRandom.generateRandomDate(lowerbound, upperbound)
-        // try to enter this new date and to update profile
-
-        // assert
-  //  }
-
-//    @Test
-//    public void changingBirthdayToDateAfterTheRegistrationDateInPersonalProfile_Should_Fail() {
-//        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(user.getRegistrationDate());
-//        calendar.add(Calendar.YEAR, 1);
-//        Date futureDate = calendar.getTime();
-//
-//
-
-
-
-        // assert
-//    }
-
     @Test
-    public void changingWeeklyAvailabilityToAnImpossibleNumberInPersonalProfile_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-        int upperAvailability = Integer.parseInt(Utils.getConfigPropertyByKey("availability.upperbound"));
-        user.getProfile().getServices().setWeeklyAvailability(upperAvailability + 20);
+    public void changingBirthdayToDateAfterTheRegistrationDateInPersonalProfile_Should_BeUnsuccessful() {
+        user.getProfile().setBirthday(ProfileFactory.generateImpossibleBirthday());
+
+        personalProfileEditorPage.enterBirthday(user.getProfile().getBirthday());
+        personalProfileEditorPage.updateProfile();
+
+        personalProfilePage.navigateToPage();
+        String birthday = personalProfilePage.getFieldText(PersonalProfileData.BIRTHDAY);
+        Assertions.assertNotEquals(FormatHelper.formatBirthdayDate(user.getProfile().getBirthday()), birthday,
+                "The birthday date was changed successfully to a date after the registration date.");
+    }
+
+    //Doesn't work
+    @Test
+    public void changingWeeklyAvailabilityToAnImpossibleNumberInPersonalProfile_Should_BeUnsuccessful() {
+        personalProfileEditorPage.enterServiceAndUpdate(user.getProfile(), user.getProfile().getServices().getServiceOne());
+
+        user.getProfile().getServices().setWeeklyAvailability(ServicesFactory.generateInvalidWeeklyAvailability());
+
         personalProfileEditorPage.enterWeeklyAvailability(user.getProfile().getServices().getWeeklyAvailability());
         personalProfileEditorPage.updateServices();
-        Assertions.assertTrue(user.getProfile().getServices().getWeeklyAvailability()<=upperAvailability, "The weekly availability is bigger than possible!");
-        //if I assert the above the test will pass, but in reality the availability can be set to bigger number, so I should probably assert for non-existing error message?
-        //personalProfileEditorPage.assertErrorMessagePresent("The weekly availability is bigger than possible!");
+
+        personalProfilePage.navigateToPage();
+        String weeklyAvailability = personalProfilePage.getFieldText(PersonalProfileData.WEEKLY_AVAILABILITY);
+        Assertions.assertFalse(weeklyAvailability.contains(String.valueOf(user.getProfile().getServices().getWeeklyAvailability())),
+                "The weekly availability was changed successfully to a number larger than the hours of the week.");
     }
 
+    //Doesn't work
     @Test
-    public void changingWeeklyAvailabilityToANegativeNumberInPersonalProfile_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
+    public void changingWeeklyAvailabilityToANegativeNumberInPersonalProfile_Should_BeUnsuccessful() {
         user.getProfile().getServices().setWeeklyAvailability(-10);
+
         personalProfileEditorPage.enterWeeklyAvailability(user.getProfile().getServices().getWeeklyAvailability());
         personalProfileEditorPage.updateServices();
-        Assertions.assertTrue(user.getProfile().getServices().getWeeklyAvailability()>=0, "The weekly availability cannot be a negative number!");
-        //if I assert the above the test will pass, but in reality the availability can be set to a negative number, so I should probably assert for non-existing error message?
-        //personalProfileEditorPage.assertErrorMessagePresent("The weekly availability cannot be a negative number!");
+
+        personalProfilePage.navigateToPage();
+        String weeklyAvailability = personalProfilePage.getFieldText(PersonalProfileData.WEEKLY_AVAILABILITY);
+        Assertions.assertFalse(weeklyAvailability.contains(String.valueOf(user.getProfile().getServices().getWeeklyAvailability())),
+                "The weekly availability was changed successfully to a negative number.");
     }
 
-//    @Test
-//    public void changingWeeklyAvailabilityToLettersInPersonalProfile_Should_Fail() {
-//        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
-//        personalProfileEditorPage.enterWeeklyAvailability();
-//
-//    }
-
     @Test
-    public void changingEmailToAnotherValidEmailInPersonalProfile_Should_Pass() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
+    public void changingEmailToAnotherValidEmailInPersonalProfile_Should_BeSuccessful() {
         user.setEmail(UserFactory.generateValidEmail());
+
         personalProfileEditorPage.enterEmail(user.getEmail());
         personalProfileEditorPage.updateProfile();
+
         personalProfilePage.navigateToPage();
         personalProfilePage.assertEqualProfileData(user.getEmail(), PersonalProfileData.EMAIL);
     }
 
     @Test
-    public void changingEmailToInvalidEmailInPersonalProfile_Should_Fail() {
-        personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
+    public void changingEmailToInvalidEmailInPersonalProfile_Should_BeUnsuccessful() {
         user.setEmail(UserFactory.generateInvalidEmail());
+
         personalProfileEditorPage.enterEmail(user.getEmail());
         personalProfileEditorPage.updateProfile();
+
+        // doesn't find the error message
         personalProfileEditorPage.assertErrorMessagePresent("this doesn't look like valid email");
     }
 
