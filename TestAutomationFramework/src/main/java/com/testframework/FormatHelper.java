@@ -1,6 +1,5 @@
 package com.testframework;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,8 +24,8 @@ public class FormatHelper {
         return formatter.format(date);
     }
 
-    public static String formatDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    public static String formatDateAmericanFormat(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         return formatter.format(date);
     }
 
