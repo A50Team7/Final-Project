@@ -28,29 +28,25 @@ public class RestCommentControllerTests extends BaseApiTest {
     private int postId;
     private User user;
     private UserRequest userRequest;
-    private Post post;
-    private PostRequest postRequest;
-    private PostResponse postResponse;
     private Comment comment;
     private int commentId;
-    private CommentRequest commentRequest;
     private CommentResponse commentResponse;
 
     @BeforeEach
     public void setup() {
         user = UserFactory.createUser();
-        post = PostFactory.createPost(user, Visibility.PUBLIC);
+        Post post = PostFactory.createPost(user, Visibility.PUBLIC);
         comment = CommentFactory.createComment(post, user);
 
         userRequest = new UserRequest("ROLE_USER", user);
         RestUserController.createUser(userRequest);
         authCookie = ApiHelper.getCookieValue(user);
 
-        postRequest = new PostRequest(post);
-        postResponse = RestPostController.createPost(postRequest, authCookie);
+        PostRequest postRequest = new PostRequest(post);
+        PostResponse postResponse = RestPostController.createPost(postRequest, authCookie);
         postId = postResponse.getPostId();
 
-        commentRequest = new CommentRequest(comment);
+        CommentRequest commentRequest = new CommentRequest(comment);
         commentResponse = RestCommentController.createComment(commentRequest, authCookie);
         commentId = commentResponse.getCommentId();
     }
