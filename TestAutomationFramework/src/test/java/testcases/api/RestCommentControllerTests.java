@@ -4,86 +4,134 @@ import com.testframework.api.controllers.RestCommentController;
 import com.testframework.api.controllers.RestPostController;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.*;
+import com.testframework.databasehelper.UserHelper;
+import com.testframework.factories.CommentFactory;
+import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
-import com.testframework.generations.GenerateRandom;
-import io.restassured.http.Cookie;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
+import com.testframework.models.Comment;
+import com.testframework.models.Post;
+import com.testframework.models.User;
+import com.testframework.models.enums.Visibility;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import testcases.ApiHelper;
+
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class RestCommentControllerTests extends BaseApiTest {
 
-
-    private UserRequest user;
-    private Response createdUser;
-    private Cookie authCookie;
-    private PostRequest post;
-    private PostResponse createdPost;
-    private CommentRequest comment;
-    private CommentResponse createdComment;
+    private String authCookie;
+    private int postId;
+    private User user;
+    private UserRequest userRequest;
+    private Post post;
+    private PostRequest postRequest;
+    private PostResponse postResponse;
+    private Comment comment;
     private int commentId;
+    private CommentRequest commentRequest;
+    private CommentResponse commentResponse;
 
     @BeforeEach
     public void setup() {
-        user = new UserRequest("ROLE_USER", UserFactory.createUser());
-        Response createdUser = RestUserController.createUser(user);
-        String username = user.getUsername();
-        String password = user.getPassword();
-        Response auth = RestUserController.authUser(username, password);
-        authCookie = auth.getDetailedCookie("JSESSIONID");
+        user = UserFactory.createUser();
+        post = PostFactory.createPost(user, Visibility.PUBLIC);
+        comment = CommentFactory.createComment(post, user);
 
-        post = new PostRequest();
-        createdPost = RestPostController.createPost(post, authCookie.getValue());
-        //post.setPostId(createdPost.getPostId());
+        userRequest = new UserRequest("ROLE_USER", user);
+        RestUserController.createUser(userRequest);
+        authCookie = ApiHelper.getCookieValue(user);
 
-        ResponseBody userBody = createdUser.getBody();
-        var myArray = userBody.asString().split(" ");
-        var responseId = myArray[6];
-        int userId = Integer.parseInt(responseId);
+        postRequest = new PostRequest(post);
+        postResponse = RestPostController.createPost(postRequest, authCookie);
+        postId = postResponse.getPostId();
 
-        comment = new CommentRequest(userId, createdPost.getPostId());
-        createdComment = RestCommentController.createComment(comment, authCookie.getValue());
-        commentId = createdComment.getCommentId();
+        commentRequest = new CommentRequest(comment);
+        commentResponse = RestCommentController.createComment(commentRequest, authCookie);
+        commentId = commentResponse.getCommentId();
+    }
+
+    @Test
+    public void getAllComments() {
+        CommentResponse[] comments = RestCommentController.getAllComments(authCookie);
+        for (CommentResponse com : comments) {
+            int comId = com.getCommentId();
+            CommentResponse getCommentResponse = RestCommentController.getSingleComment(comId);
+
+            assertIdAndContent(com, getCommentResponse);
+        }
     }
 
     @Test
     public void getAllCommentsByPost() {
-        var comments = RestCommentController.getAllCommentsOnPost(createdPost.getPostId(), authCookie.getValue());
+        CommentResponse[] commentsUnderPost = RestCommentController.getAllCommentsOnPost(postId, authCookie);
+        for (CommentResponse commentUnderPost : commentsUnderPost) {
+            int commentUnderPostId = commentUnderPost.getCommentId();
+            CommentResponse getCommentResponse = RestCommentController.getSingleComment(commentUnderPostId);
+
+            assertIdAndContent(commentUnderPost, getCommentResponse);
+        }
     }
 
     @Test
     public void createComment() {
-        String testValue = RestCommentController.getSingleComment(commentId).getContent();
-        Assertions.assertEquals(testValue, createdComment.getContent(), "Comment content does not match.");
-
+        Assertions.assertEquals(commentResponse.getContent(), comment.getContent(),
+                "The comment's content doesn't match the intended content.");
     }
 
     @Test
     public void getOneComment() {
-        var singleComment = RestCommentController.getSingleComment(commentId);
-        Assertions.assertEquals(singleComment.getContent(), createdComment.getContent(), "Comment does not match search.");
+        CommentResponse getCommentResponse = RestCommentController.getSingleComment(commentId);
 
+        assertIdAndContent(commentResponse, getCommentResponse);
     }
 
     @Test
     public void editComment() {
-        String content = GenerateRandom.generateRandomBoundedAlphanumericString(20);
-        RestCommentController.editComment(commentId, content, authCookie.getValue());
+        comment.setContent(CommentFactory.generateContent());
+        RestCommentController.editComment(commentId, comment.getContent(), authCookie);
 
+        CommentResponse getCommentResponse = RestCommentController.getSingleComment(commentId);
+
+        Assertions.assertEquals(comment.getContent(), getCommentResponse.getContent(),
+                "The comment's content doesn't match the intended new content.");
     }
 
     @Test
     public void likeComment() {
-        Response like = RestCommentController.likeComment(commentId, authCookie.getValue());
-        int likeSize = like.jsonPath().getList("likes").size();
-        Assertions.assertTrue(likeSize > 0, "There are no likes on this post.");
+        CommentResponse likedComment = RestCommentController.likeComment(commentId, authCookie);
+
+        Assertions.assertTrue(likedComment.isLiked());
+        Assertions.assertTrue(Arrays.stream(likedComment.getLikes())
+                .anyMatch(x -> x.getUsername().equals(user.getUsername())),
+                "The username who liked this comment isn't present in the list with likes.");
     }
 
     @Test
     public void deleteComment() {
-        RestCommentController.deleteComment(commentId, authCookie.getValue());
+        RestCommentController.deleteComment(commentId, authCookie);
+
+        CommentResponse[] commentsUnderPost = RestCommentController.getAllCommentsOnPost(postId, authCookie);
+        Assertions.assertFalse(Arrays.stream(commentsUnderPost)
+                .anyMatch(x -> x.getCommentId()==commentId),
+                "The comment is still present.");
+    }
+
+    @AfterEach
+    public void cleanup() {
+        RestPostController.deletePost(postId, authCookie);
+        UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
+    }
+
+    private static void assertIdAndContent(CommentResponse commentResponse1, CommentResponse commentResponse2) {
+        Assertions.assertEquals(commentResponse1.getCommentId(), commentResponse2.getCommentId(),
+                "Comment's id doesn't match.");
+        Assertions.assertEquals(commentResponse1.getContent(), commentResponse2.getContent(),
+                "Comment's content doesn't match the intended content.");
     }
 
 }
