@@ -16,7 +16,7 @@ public class PersonalProfilePage extends BasePage {
 
     private String baseXpath = Utils.getUIMappingByKey("personalProfile.data");
 
-    private String baseServiceXpath = Utils.getConfigPropertyByKey("personalProfile.service");
+    private String baseServiceXpath = Utils.getUIMappingByKey("personalProfile.service");
 
     private By usernameBy = By.xpath(String.format(baseXpath, "User Id"));
     private By nameBy = By.xpath(String.format(baseXpath, "Name"));
@@ -41,38 +41,56 @@ public class PersonalProfilePage extends BasePage {
     private By professionalCategoryBy = By.xpath(Utils.getUIMappingByKey("personalProfile.professionalCategory"));
 
 
-
     private String getFieldText(By locator) {
-
         return actions.getText(locator);
-
     }
-    public void assertEqualProfileData(String expectedData, PersonalProfileData data) {
 
-        switch(data){
+    public String getFieldText(PersonalProfileData data) {
+        switch (data) {
             case USER_ID:
-                Assertions.assertEquals(expectedData, getFieldText(usernameBy),"Username doesn't match the expected username");
+                return getFieldText(usernameBy);
+            case FULL_NAME:
+                return getFieldText(nameBy);
+            case EMAIL:
+                return getFieldText(emailBy);
+            case BIRTHDAY:
+                return getFieldText(birthdayBy);
+            case LOCATION:
+                return getFieldText(locationBy);
+            case FRIEND_LIST:
+                return getFieldText(friendListBy);
+            case BIO:
+                return getFieldText(yourBioBy);
+            case WEEKLY_AVAILABILITY:
+                return getFieldText(weeklyAvailabilityBy);
+            default: throw new IllegalArgumentException("Invalid PersonalProfileData.");
+        }
+    }
+
+    public void assertEqualProfileData(String expectedData, PersonalProfileData data) {
+        switch (data) {
+            case USER_ID:
+                Assertions.assertEquals(expectedData, getFieldText(usernameBy), "Username doesn't match the expected username");
                 break;
             case FULL_NAME:
-                Assertions.assertEquals(expectedData, getFieldText(nameBy),"Name doesn't match the expected name");
+                Assertions.assertEquals(expectedData, getFieldText(nameBy), "Name doesn't match the expected name");
                 break;
             case EMAIL:
-                Assertions.assertEquals(expectedData, getFieldText(emailBy),"Email doesn't match the expected email");
+                Assertions.assertEquals(expectedData, getFieldText(emailBy), "Email doesn't match the expected email");
                 break;
             case BIRTHDAY:
-                Assertions.assertEquals(expectedData, getFieldText(birthdayBy),"Birthday doesn't match the expected birthday");
+                Assertions.assertEquals(expectedData, getFieldText(birthdayBy), "Birthday doesn't match the expected birthday");
                 break;
             case LOCATION:
-                Assertions.assertEquals(expectedData, getFieldText(locationBy),"Location doesn't match the expected location");
+                Assertions.assertEquals(expectedData, getFieldText(locationBy), "Location doesn't match the expected location");
                 break;
             case FRIEND_LIST:
-                Assertions.assertEquals(expectedData, getFieldText(friendListBy),"Friend list doesn't match the expected friend list");
+                Assertions.assertEquals(expectedData, getFieldText(friendListBy), "Friend list doesn't match the expected friend list");
                 break;
             case BIO:
-                Assertions.assertEquals(expectedData, getFieldText(yourBioBy),"Bio doesn't match the expected bio");
+                Assertions.assertEquals(expectedData, getFieldText(yourBioBy), "Bio doesn't match the expected bio");
                 break;
         }
-
     }
 
     public void assertEqualServiceData(String expectedData, PersonalProfileData data) {
@@ -97,7 +115,6 @@ public class PersonalProfilePage extends BasePage {
     }
 
     public void assertEqualData(User user) {
-
         Profile profile = user.getProfile();
 
         assertEqualProfileData(user.getUsername(), PersonalProfileData.USER_ID);
@@ -110,22 +127,23 @@ public class PersonalProfilePage extends BasePage {
 
     }
 
-    public void assertEqualProfessionalCategory (String expectedData, PersonalProfileData data) {
-
+    public void assertEqualProfessionalCategory(String expectedData) {
         Assertions.assertEquals(expectedData, getFieldText(professionalCategoryBy), "Professional category doesn't match the expected professional category");
-
     }
 
-    public void assertEqualWeeklyAvailability (String expectedData, PersonalProfileData data) {
+    public void assertEqualWeeklyAvailability(String expectedData) {
+        Assertions.assertTrue(getFieldText(weeklyAvailabilityBy).contains(expectedData),
+                "Weekly availability doesn't match the expected weekly availability");
+    }
 
-        Assertions.assertEquals(expectedData, getFieldText(weeklyAvailabilityBy), "Weekly availability doesn't match the expected weekly availability");
-
+    public void assertBioIsCleared() {
+        Assertions.assertEquals(null, getFieldText(yourBioBy));
     }
 
     public void editProfile() {
         actions.clickElement(editProfileBy);
     }
 
-    }
+}
 
 
