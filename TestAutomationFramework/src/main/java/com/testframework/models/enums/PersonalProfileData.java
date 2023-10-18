@@ -16,5 +16,6 @@ public enum PersonalProfileData {
     SERVICE_TWO,
     SERVICE_THREE,
     SERVICE_FOUR,
-    SERVICE_FIVE;
+    SERVICE_FIVE,
+    WEEKLY_AVAILABILITY;
 }
