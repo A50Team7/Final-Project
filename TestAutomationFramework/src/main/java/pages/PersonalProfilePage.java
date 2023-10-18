@@ -38,6 +38,8 @@ public class PersonalProfilePage extends BasePage {
 
     private By weeklyAvailabilityBy = By.xpath(Utils.getUIMappingByKey("personaProfile.weeklyAvailability"));
 
+    private By professionalCategoryBy = By.xpath(Utils.getUIMappingByKey("personalProfile.professionalCategory"));
+
 
 
     private String getFieldText(By locator) {
@@ -73,7 +75,7 @@ public class PersonalProfilePage extends BasePage {
 
     }
 
-    public void assertEqualServicesData(String expectedData, PersonalProfileData data) {
+    public void assertEqualServiceData(String expectedData, PersonalProfileData data) {
 
         switch (data) {
             case SERVICE_ONE:
@@ -105,6 +107,18 @@ public class PersonalProfilePage extends BasePage {
         assertEqualProfileData(profile.getLocation().getStringValue(), PersonalProfileData.LOCATION);
         assertEqualProfileData(String.format("%d friends", profile.getFriendList().size()), PersonalProfileData.FRIEND_LIST);
         assertEqualProfileData(profile.getBio(), PersonalProfileData.BIO);
+
+    }
+
+    public void assertEqualProfessionalCategory (String expectedData, PersonalProfileData data) {
+
+        Assertions.assertEquals(expectedData, getFieldText(professionalCategoryBy), "Professional category doesn't match the expected professional category");
+
+    }
+
+    public void assertEqualWeeklyAvailability (String expectedData, PersonalProfileData data) {
+
+        Assertions.assertEquals(expectedData, getFieldText(weeklyAvailabilityBy), "Weekly availability doesn't match the expected weekly availability");
 
     }
 
