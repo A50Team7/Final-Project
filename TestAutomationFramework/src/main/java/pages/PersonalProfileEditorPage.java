@@ -21,9 +21,9 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     private static String baseXpath = Utils.getUIMappingByKey("profileEditor.personalData");
-    private static String baseXpathSelect = Utils.getConfigPropertyByKey("profileEditor.personalData.select");
+    private static String baseXpathSelect = Utils.getUIMappingByKey("profileEditor.personalData.select");
 
-    private static String baseSkillXpath = Utils.getConfigPropertyByKey("profileEditor.skillsField");
+    private static String baseSkillXpath = Utils.getUIMappingByKey("profileEditor.skillsField");
 
     private static By firstNameBy = By.xpath(String.format(baseXpath, "nameE"));
     private static By lastNameBy = By.xpath(String.format(baseXpath, "lastnameE"));
@@ -63,13 +63,14 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterProfessionalCategoryAndUpdate(User user) {
-        actions.clearAndTypeValueInField(professionalCategoryBy, user.getCategory().getStringValue());
+        enterProfessionalCategory(user.getCategory());
         updateCategory();
     }
 
     public void enterServiceAndUpdate(Profile profile, String skill) {
         actions.clearAndTypeValueInField(serviceOneBy, skill);
-        actions.clearAndTypeValueInField(weeklyAvailabilityBy, String.valueOf(profile.getServices().getWeeklyAvailability()));
+        int weeklyAv = (int) profile.getServices().getWeeklyAvailability();
+        actions.clearAndTypeValueInField(weeklyAvailabilityBy, String.valueOf(weeklyAv));
         updateServices();
     }
 
@@ -83,7 +84,11 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterBirthday(Date date) {
-        actions.clearAndTypeValueInField(birthdayBy, FormatHelper.formatBirthdayDate(date));
+        actions.typeValueInField(birthdayBy, FormatHelper.formatDateAmericanFormat(date).replace("/", ""));
+    }
+
+    public void clearBirthday() {
+        actions.clearField(birthdayBy);
     }
 
     public void enterGender(Gender gender) {
@@ -98,8 +103,12 @@ public class PersonalProfileEditorPage extends BasePage {
         actions.clearAndTypeValueInField(bioBy, bio);
     }
 
+    public void clearBio() {
+        actions.clearField(bioBy);
+    }
+
     public void enterCity(Location location) {
-        actions.clearAndTypeValueInField(cityBy, location.getStringValue());
+        actions.typeValueInField(cityBy, location.getStringValue());
     }
 
     public void updateProfile() {
@@ -107,7 +116,7 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterProfessionalCategory(ProfessionalCategory category) {
-        actions.clearAndTypeValueInField(professionalCategoryBy, category.name());
+        actions.typeValueInField(professionalCategoryBy, category.name());
     }
 
     public void updateCategory() {
