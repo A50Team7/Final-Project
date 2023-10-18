@@ -47,7 +47,8 @@ public class PersonalProfileEditorPage extends BasePage {
     private static By weeklyAvailabilityBy = By.xpath(Utils.getUIMappingByKey("profileEditor.skills.availability"));
     private static By updateSurvicesBy = By.xpath(Utils.getUIMappingByKey("profileEditor.skills.submit"));
 
-    private static String emailErrorMessage = Utils.getUIMappingByKey("profileEditor.invalidEmailMessage");
+    private static String errorMessage = Utils.getUIMappingByKey("profileEditor.errorMessage");
+
 
     public void enterAllPersonalInfoAndUpdate(User user) {
         Profile profile = user.getProfile();
@@ -66,11 +67,12 @@ public class PersonalProfileEditorPage extends BasePage {
         updateCategory();
     }
 
-    public void enterServicesAndUpdate(Profile profile, String skill) {
+    public void enterServiceAndUpdate(Profile profile, String skill) {
         actions.clearAndTypeValueInField(serviceOneBy, skill);
         actions.clearAndTypeValueInField(weeklyAvailabilityBy, String.valueOf(profile.getServices().getWeeklyAvailability()));
         updateServices();
     }
+
 
     public void enterFirstName(String name) {
         actions.clearAndTypeValueInField(firstNameBy, name);
@@ -81,7 +83,7 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterBirthday(Date date) {
-        actions.typeValueInField(birthdayBy, FormatHelper.formatBirthdayDate(date));
+        actions.clearAndTypeValueInField(birthdayBy, FormatHelper.formatBirthdayDate(date));
     }
 
     public void enterGender(Gender gender) {
@@ -171,11 +173,12 @@ actions.clickElement(updateSurvicesBy);
         }
     }
 
-    public void assertEmailErrorMessagePresent(String message) {
-        By emailErrorMessageBy = By.xpath(String.format(emailErrorMessage, message));
-        actions.waitForElementPresent(emailErrorMessageBy);
-        actions.assertElementPresent(emailErrorMessageBy);
+    public void assertErrorMessagePresent(String message) {
+        By errorMessageBy = By.xpath(String.format(errorMessage, message));
+        actions.waitForElementPresent(errorMessageBy);
+        actions.assertElementPresent(errorMessageBy);
     }
+
 
 }
 
