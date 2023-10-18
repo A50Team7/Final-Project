@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import testcases.ApiHelper;
 
 public class RestConnectionControllerTests extends BaseApiTest {
+    private boolean connected = false;
     private String senderAuthCookie;
     private String receiverAuthCookie;
     private User sender;
@@ -44,13 +45,14 @@ public class RestConnectionControllerTests extends BaseApiTest {
 
     @Test
     public void sendFriendRequest() {
-        assertMessageContainsBothUsernames(connectionRequestResponse, sender, receiver);
+        assertMessageContainsBothUsernames(connectionRequestResponse);
     }
 
-    // Get Friend Requests returns 500 - WIP
     @Test
     public void getFriendRequests() {
-        ConnectionResponse[] friendRequests = RestConnectionController.getFriendRequests(receiver.getUserId(), receiverAuthCookie);
+        receiverAuthCookie = ApiHelper.getCookieValue(receiver);
+        ConnectionResponse[] friendRequests =
+                RestConnectionController.getFriendRequests(receiver.getUserId(), receiverAuthCookie);
 
         Assertions.assertTrue(friendRequests.length > 0,
                 "No friend requests present from the receiver's account.");
@@ -58,21 +60,38 @@ public class RestConnectionControllerTests extends BaseApiTest {
 
     @Test
     public void acceptFriendRequest() {
+        receiverAuthCookie = ApiHelper.getCookieValue(receiver);
+        ConnectionResponse[] friendRequests =
+                RestConnectionController.getFriendRequests(receiver.getUserId(), receiverAuthCookie);
 
+        int requestId = friendRequests[0].getId();
+
+        String acceptResponse = RestConnectionController.acceptFriendRequest(requestId, receiver.getUserId(), receiverAuthCookie);
+        connected = true;
+
+        assertMessageContainsBothUsernames(acceptResponse);
+        Assertions.assertTrue(acceptResponse.contains("approved"),
+                "Response doesn't contain 'approved'.");
     }
 
     @AfterEach
     public void cleanup() {
+        if (connected) disconnect();
         RequestsHelper.truncateRequestsTable();
         ConnectionHelper.truncateConnectionsTable();
         UserHelper.deleteUser("username", String.format("'%s'", sender.getUsername()));
         UserHelper.deleteUser("username", String.format("'%s'", receiver.getUsername()));
     }
 
-    private static void assertMessageContainsBothUsernames(String requestResponse, User sender, User receiver) {
-        Assertions.assertTrue(requestResponse.contains(sender.getUsername()),
+    private void assertMessageContainsBothUsernames(String text) {
+        Assertions.assertTrue(text.contains(sender.getUsername()),
                 "Response message doesn't contain the username of the sender.");
-        Assertions.assertTrue(requestResponse.contains(receiver.getUsername()),
+        Assertions.assertTrue(text.contains(receiver.getUsername()),
                 "Response message doesn't contain the username of the receiver.");
+    }
+
+    private void disconnect() {
+        ConnectionRequest connectionRequest = new ConnectionRequest(receiver.getUserId(), receiver.getUsername());
+        RestConnectionController.sendFriendRequest(connectionRequest, senderAuthCookie);
     }
 }
