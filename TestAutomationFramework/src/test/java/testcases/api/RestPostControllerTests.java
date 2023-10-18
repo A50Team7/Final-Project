@@ -2,85 +2,107 @@ package testcases.api;
 
 import com.testframework.api.controllers.RestPostController;
 import com.testframework.api.models.PostRequest;
-import com.testframework.api.models.PostEditor;
+import com.testframework.api.models.EditPostRequest;
 import com.testframework.api.models.PostResponse;
+import com.testframework.databasehelper.PostHelper;
+import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
-import com.testframework.generations.GenerateRandom;
-import io.restassured.http.Cookie;
-import io.restassured.response.Response;
+import com.testframework.models.Post;
+import com.testframework.models.User;
+import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.*;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.api.models.UserRequest;
+import testcases.ApiHelper;
+
+import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
 
 public class RestPostControllerTests extends BaseApiTest {
-    private UserRequest user;
-    private Cookie authCookie;
-    private PostRequest post;
-    private PostResponse createdPost;
+    private String authCookie;
+    private int postId = -1;
+    private boolean deleted = false;
+    private User user;
+    private UserRequest userRequest;
+    private Post post;
+    private PostRequest postRequest;
+    private PostResponse postResponse;
 
     @BeforeEach
     public void setup() {
-        user = new UserRequest("ROLE_USER", UserFactory.createUser());
-        Response createdUser = RestUserController.createUser(user);
-        String username = user.getUsername();
-        String password = user.getPassword();
-        Response auth = RestUserController.authUser(username, password);
-        authCookie = auth.getDetailedCookie("JSESSIONID");
+        user = UserFactory.createUser();
+        post = PostFactory.createPost(user, Visibility.PUBLIC);
+        userRequest = new UserRequest("ROLE_USER", user);
+        RestUserController.createUser(userRequest);
+        authCookie = ApiHelper.getCookieValue(user);
 
-        post = new PostRequest();
-        createdPost = new RestPostController().createPost(post, authCookie.getValue());
-        post.setPostId(createdPost.getPostId());
-
-
+        postRequest = new PostRequest(post);
+        postResponse = RestPostController.createPost(postRequest, authCookie);
+        postId = postResponse.getPostId();
     }
 
-    @AfterEach
-    public void cleanup() {
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
-    }
-
+    // DOESN'T FIND THE CREATED POST - WIP
+    // When I do a direct query to the database, the created post is there
+    // When I try to view the post from the browser or postman, it doesn't show
+    // When debugging, the postId and the content of the created post are intact
+    // The other tests are passing with no problem too
+    // Only the 'get all' request fails
+    // It is verified that the post is public, and it exists in the database.
     @Test
-    public void findAllPublicPosts() {
-        PostResponse[] posts = RestPostController.getAllPosts();
-       // Assertions.assertTrue(posts.length > 0, "There are no posts.");
-
+    public void findAllPublicPosts_BodyContainsAtLeastTheCreatedPost() {
+        PostResponse[] posts = RestPostController.getAllPosts(authCookie);
+        Assertions.assertTrue(Arrays.stream(posts)
+                .anyMatch(x -> x.getPostId()==postId && x.getContent().equals(postResponse.getContent())),
+                "Get All Request's body doesn't contain the created post.");
     }
 
     @Test
     public void createPost() {
-
-        Assertions.assertEquals(post.getContent(), createdPost.getContent(), "The content doesn't match the created post.");
-
+        Assertions.assertEquals(post.getContent(), postResponse.getContent(),
+                "The post's content doesn't match the intended content.");
+        Assertions.assertTrue(PostHelper.entityExists(PostHelper.getPost("post_id", String.format("%s", postId))),
+                "The created post is not found in the database.");
     }
 
+    // FIND ALL REQUEST FAILS
     @Test
     public void editPost() {
-        String test = GenerateRandom.generateRandomBoundedAlphanumericString(30);
+        EditPostRequest postEditRequest = new EditPostRequest(PostFactory.generateContent());
 
-        PostEditor editor = new PostEditor(test);
-      //  String newContent = editor.getContent();
+        RestPostController.editPost(postId, postEditRequest, authCookie);
 
-        Response editPost = RestPostController.editPost(createdPost.getPostId(),editor, authCookie.getValue());
-
-//        String oldContent = createdPost.getContent();
-//        Assertions.assertEquals(test, oldContent, "The json body doesn't match the edited post.");
-
+        PostResponse[] posts = RestPostController.getAllPosts(authCookie);
+        Assertions.assertTrue(Arrays.stream(posts)
+                .anyMatch(x -> x.getPostId()==postId && x.getContent().equals(postEditRequest.getContent())),
+                "Get All Request's body doesn't contain the new content of the post.");
     }
 
     @Test
     public void likePost() {
-        Response like = RestPostController.likePost(createdPost.getPostId(), authCookie.getValue());
-        int likeSize = like.jsonPath().getList("likes").size();
-        Assertions.assertTrue(likeSize > 0, "There are no likes on this post.");
+        var likedPost = RestPostController.likePost(postResponse.getPostId(), authCookie);
+
+        Assertions.assertTrue(Arrays.stream(likedPost.getLikes())
+                .anyMatch(x -> x.getUsername().equals(user.getUsername())),
+        "The response body doesn't contain the user with whom the post was liked.");
     }
 
     @Test
     public void deletePost() {
-        Response delete = RestPostController.deletePost(createdPost.getPostId(), authCookie.getValue());
+        RestPostController.deletePost(postResponse.getPostId(), authCookie);
+        deleted = true;
 
+        PostResponse[] posts = RestPostController.getAllPosts(authCookie);
+        Assertions.assertFalse(Arrays.stream(posts)
+                .anyMatch(x -> x.getPostId()==postId && x.getContent().equals(postResponse.getContent())),
+                "The deletion was unsuccessful, Get All Request's body still contains the post.");
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (postId!=-1 && !deleted) RestPostController.deletePost(postId, authCookie);
+        UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
     }
 
 }

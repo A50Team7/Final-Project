@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class RestUserControllerTests extends BaseApiTest {
+    private String cookieValue;
     private int postId = -1;
     private User user;
     private UserRequest userRequest;
@@ -32,6 +33,7 @@ public class RestUserControllerTests extends BaseApiTest {
         user = UserFactory.createUserWithProfile();
         userRequest = new UserRequest("ROLE_USER", user);
         creationResponse = RestUserController.createUser(userRequest);
+        cookieValue = ApiHelper.getCookieValue(user);
     }
 
     @Test
@@ -61,12 +63,12 @@ public class RestUserControllerTests extends BaseApiTest {
         Post post = PostFactory.createPost(user, Visibility.PUBLIC);
         PostRequest postRequest = new PostRequest(post);
 
-        PostResponse postResponse = RestPostController.createPost(postRequest, ApiHelper.getCookieValue(user));
+        PostResponse postResponse = RestPostController.createPost(postRequest, cookieValue);
 
         postId = postResponse.getPostId();
 
         UsersRequest profilePostsRequest = new UsersRequest(0, true,"", "", 10);
-        var posts = RestUserController.getAllProfilePosts(profilePostsRequest, user.getUserId(), ApiHelper.getCookieValue(user));
+        var posts = RestUserController.getAllProfilePosts(profilePostsRequest, user.getUserId(), cookieValue);
 
         Assertions.assertTrue(Arrays.stream(posts)
                 .anyMatch(x -> x.getPostId()==postResponse.getPostId()
@@ -76,7 +78,8 @@ public class RestUserControllerTests extends BaseApiTest {
     @Test
     public void upgradeUserExpertiseProfile() {
         ExpertiseProfileRequest expertiseProfileRequest = new ExpertiseProfileRequest(user);
-        var response = RestUserController.upgradeUserExpertiseProfile(user.getUserId(), expertiseProfileRequest, ApiHelper.getCookieValue(user));
+
+        var response = RestUserController.upgradeUserExpertiseProfile(user.getUserId(), expertiseProfileRequest, cookieValue);
 
         Assertions.assertEquals(expertiseProfileRequest.getAvailability(), response.getAvailability(), "Availability doesn't match");
         Assertions.assertEquals(expertiseProfileRequest.getCategory(), response.getCategory(), "Category doesn't match");
@@ -87,7 +90,8 @@ public class RestUserControllerTests extends BaseApiTest {
     public void upgradeUserPersonalProfile() {
         user.getProfile().setGender(Gender.MALE);
         PersonalProfileRequest personalProfileRequest = new PersonalProfileRequest(user);
-        var response = RestUserController.upgradeUserPersonalProfile(user.getUserId(), personalProfileRequest, ApiHelper.getCookieValue(user));
+
+        var response = RestUserController.upgradeUserPersonalProfile(user.getUserId(), personalProfileRequest, cookieValue);
 
         Assertions.assertEquals(personalProfileRequest.getFirstName(), response.getFirstName(), "First name doesn't match");
         Assertions.assertEquals(personalProfileRequest.getLastName(), response.getLastName(), "Last name doesn't match");
@@ -100,7 +104,7 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @AfterEach
     public void cleanup() {
-        if (postId!=-1) RestPostController.deletePost(postId, ApiHelper.getCookieValue(user));
+        if (postId!=-1) RestPostController.deletePost(postId, cookieValue);
         UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
     }
 }
