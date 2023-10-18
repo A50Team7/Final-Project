@@ -38,14 +38,16 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @Test
     public void getUsers() {
-        UsersRequest usersRequest = new UsersRequest(0, true,"", "", 100);
+        UsersRequest usersRequest = new UsersRequest(0, true, "", "", 100);
         UsersResponse[] users = RestUserController.getUsers(usersRequest);
 
         for (UsersResponse responseUser : users) {
             UserResponse returnedUser = RestUserController.getUserById(responseUser.getUserId(), "admin");
 
-            Assertions.assertEquals(responseUser.getUsername(), returnedUser.getUsername(), "The username didn't match.");
-            Assertions.assertEquals(responseUser.getUserId(), returnedUser.getId(), "The id didn't match.");
+            Assertions.assertEquals(responseUser.getUsername(), returnedUser.getUsername(),
+                    "The username didn't match.");
+            Assertions.assertEquals(responseUser.getUserId(), returnedUser.getId(),
+                    "The id didn't match.");
         }
     }
 
@@ -54,8 +56,10 @@ public class RestUserControllerTests extends BaseApiTest {
         int id = UserHelper.getUserIdByUsername(String.format("'%s'", userRequest.getUsername()));
         UserResponse returnedUser = RestUserController.getUserById(id, "admin");
 
-        Assertions.assertEquals(userRequest.getUsername(), returnedUser.getUsername(), "The username didn't match.");
-        Assertions.assertEquals(userRequest.getEmail(), returnedUser.getEmail(), "The email didn't match.");
+        Assertions.assertEquals(userRequest.getUsername(), returnedUser.getUsername(),
+                "The username didn't match.");
+        Assertions.assertEquals(userRequest.getEmail(), returnedUser.getEmail(),
+                "The email didn't match.");
     }
 
     @Test
@@ -67,11 +71,11 @@ public class RestUserControllerTests extends BaseApiTest {
 
         postId = postResponse.getPostId();
 
-        UsersRequest profilePostsRequest = new UsersRequest(0, true,"", "", 10);
+        UsersRequest profilePostsRequest = new UsersRequest(0, true, "", "", 10);
         var posts = RestUserController.getAllProfilePosts(profilePostsRequest, user.getUserId(), cookieValue);
 
         Assertions.assertTrue(Arrays.stream(posts)
-                .anyMatch(x -> x.getPostId()==postResponse.getPostId()
+                .anyMatch(x -> x.getPostId() == postResponse.getPostId()
                         && Objects.equals(x.getContent(), postResponse.getContent())));
     }
 
@@ -81,9 +85,12 @@ public class RestUserControllerTests extends BaseApiTest {
 
         var response = RestUserController.upgradeUserExpertiseProfile(user.getUserId(), expertiseProfileRequest, cookieValue);
 
-        Assertions.assertEquals(expertiseProfileRequest.getAvailability(), response.getAvailability(), "Availability doesn't match");
-        Assertions.assertEquals(expertiseProfileRequest.getCategory(), response.getCategory(), "Category doesn't match");
-        Assertions.assertEquals(expertiseProfileRequest.getSkill1(), response.getSkills().get(0).getSkill(), "Skill 1 doesn't match");
+        Assertions.assertEquals(expertiseProfileRequest.getAvailability(), response.getAvailability(),
+                "Availability doesn't match");
+        Assertions.assertEquals(expertiseProfileRequest.getCategory(), response.getCategory(),
+                "Category doesn't match");
+        Assertions.assertEquals(expertiseProfileRequest.getSkill1(), response.getSkills().get(0).getSkill(),
+                "Skill 1 doesn't match");
     }
 
     @Test
@@ -93,8 +100,10 @@ public class RestUserControllerTests extends BaseApiTest {
 
         var response = RestUserController.upgradeUserPersonalProfile(user.getUserId(), personalProfileRequest, cookieValue);
 
-        Assertions.assertEquals(personalProfileRequest.getFirstName(), response.getFirstName(), "First name doesn't match");
-        Assertions.assertEquals(personalProfileRequest.getLastName(), response.getLastName(), "Last name doesn't match");
+        Assertions.assertEquals(personalProfileRequest.getFirstName(), response.getFirstName(),
+                "First name doesn't match");
+        Assertions.assertEquals(personalProfileRequest.getLastName(), response.getLastName(),
+                "Last name doesn't match");
     }
 
     @Test
@@ -104,7 +113,7 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @AfterEach
     public void cleanup() {
-        if (postId!=-1) RestPostController.deletePost(postId, cookieValue);
+        if (postId != -1) RestPostController.deletePost(postId, cookieValue);
         UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
     }
 }

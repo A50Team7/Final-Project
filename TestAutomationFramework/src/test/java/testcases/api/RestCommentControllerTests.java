@@ -107,7 +107,7 @@ public class RestCommentControllerTests extends BaseApiTest {
 
         Assertions.assertTrue(likedComment.isLiked());
         Assertions.assertTrue(Arrays.stream(likedComment.getLikes())
-                .anyMatch(x -> x.getUsername().equals(user.getUsername())),
+                        .anyMatch(x -> x.getUsername().equals(user.getUsername())),
                 "The username who liked this comment isn't present in the list with likes.");
     }
 
@@ -117,7 +117,7 @@ public class RestCommentControllerTests extends BaseApiTest {
 
         CommentResponse[] commentsUnderPost = RestCommentController.getAllCommentsOnPost(postId, authCookie);
         Assertions.assertFalse(Arrays.stream(commentsUnderPost)
-                .anyMatch(x -> x.getCommentId()==commentId),
+                        .anyMatch(x -> x.getCommentId() == commentId),
                 "The comment is still present.");
     }
 

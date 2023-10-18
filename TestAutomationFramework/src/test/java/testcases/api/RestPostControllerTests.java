@@ -22,7 +22,7 @@ import static io.restassured.RestAssured.given;
 
 public class RestPostControllerTests extends BaseApiTest {
     private String authCookie;
-    private int postId = -1;
+    private int postId;
     private boolean deleted = false;
     private User user;
     private UserRequest userRequest;
@@ -54,7 +54,7 @@ public class RestPostControllerTests extends BaseApiTest {
     public void findAllPublicPosts_BodyContainsAtLeastTheCreatedPost() {
         PostResponse[] posts = RestPostController.getAllPosts(authCookie);
         Assertions.assertTrue(Arrays.stream(posts)
-                .anyMatch(x -> x.getPostId()==postId && x.getContent().equals(postResponse.getContent())),
+                        .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postResponse.getContent())),
                 "Get All Request's body doesn't contain the created post.");
     }
 
@@ -75,7 +75,7 @@ public class RestPostControllerTests extends BaseApiTest {
 
         PostResponse[] posts = RestPostController.getAllPosts(authCookie);
         Assertions.assertTrue(Arrays.stream(posts)
-                .anyMatch(x -> x.getPostId()==postId && x.getContent().equals(postEditRequest.getContent())),
+                        .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postEditRequest.getContent())),
                 "Get All Request's body doesn't contain the new content of the post.");
     }
 
@@ -84,8 +84,8 @@ public class RestPostControllerTests extends BaseApiTest {
         var likedPost = RestPostController.likePost(postResponse.getPostId(), authCookie);
 
         Assertions.assertTrue(Arrays.stream(likedPost.getLikes())
-                .anyMatch(x -> x.getUsername().equals(user.getUsername())),
-        "The response body doesn't contain the user with whom the post was liked.");
+                        .anyMatch(x -> x.getUsername().equals(user.getUsername())),
+                "The response body doesn't contain the user with whom the post was liked.");
     }
 
     @Test
@@ -95,13 +95,13 @@ public class RestPostControllerTests extends BaseApiTest {
 
         PostResponse[] posts = RestPostController.getAllPosts(authCookie);
         Assertions.assertFalse(Arrays.stream(posts)
-                .anyMatch(x -> x.getPostId()==postId && x.getContent().equals(postResponse.getContent())),
+                        .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postResponse.getContent())),
                 "The deletion was unsuccessful, Get All Request's body still contains the post.");
     }
 
     @AfterEach
     public void cleanup() {
-        if (postId!=-1 && !deleted) RestPostController.deletePost(postId, authCookie);
+        if (!deleted) RestPostController.deletePost(postId, authCookie);
         UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
     }
 
