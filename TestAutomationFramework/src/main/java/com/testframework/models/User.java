@@ -24,7 +24,6 @@ public class User {
         setProfile(profile);
     }
 
-    private int userId;
     private Profile profile;
     private String username;
     private String email;
