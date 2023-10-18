@@ -35,13 +35,13 @@ public class RestCommentControllerTests extends BaseApiTest {
         authCookie = auth.getDetailedCookie("JSESSIONID");
 
         post = new PostRequest();
-        createdPost = new RestPostController().createPost(post, authCookie.getValue());
-        post.setPostId(createdPost.getPostId());
+        createdPost = RestPostController.createPost(post, authCookie.getValue());
+        //post.setPostId(createdPost.getPostId());
 
         ResponseBody userBody = createdUser.getBody();
         var myArray = userBody.asString().split(" ");
         var responseId = myArray[6];
-        int userId = Integer.valueOf(responseId);
+        int userId = Integer.parseInt(responseId);
 
         comment = new CommentRequest(userId, createdPost.getPostId());
         createdComment = RestCommentController.createComment(comment, authCookie.getValue());
