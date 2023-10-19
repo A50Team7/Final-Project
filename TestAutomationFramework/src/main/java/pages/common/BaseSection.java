@@ -1,4 +1,4 @@
-package pages;
+package pages.common;
 
 import com.testframework.UserActions;
 import org.openqa.selenium.WebDriver;

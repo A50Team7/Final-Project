@@ -4,7 +4,7 @@ import com.testframework.Utils;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pages.BaseSection;
+import pages.common.BaseSection;
 
 @Getter
 public class CreateCommentSection extends BaseSection {

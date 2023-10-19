@@ -4,7 +4,6 @@ import com.testframework.Utils;
 import com.testframework.models.enums.ConfirmDelete;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pages.BasePage;
 
 public class DeletePage extends BasePage {
     public DeletePage(WebDriver driver, String url) {

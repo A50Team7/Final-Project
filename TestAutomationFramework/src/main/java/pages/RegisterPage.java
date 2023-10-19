@@ -5,8 +5,9 @@ import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pages.common.BasePage;
 
-public class RegisterPage extends BasePage{
+public class RegisterPage extends BasePage {
     public RegisterPage(WebDriver driver, String url) {
         super(driver, url);
     }
@@ -53,7 +54,7 @@ public class RegisterPage extends BasePage{
     private static By categoryDropdownBy = By.xpath(Utils.getUIMappingByKey("register.categoryDropdown"));
     private static By registerButtonBy = By.xpath(Utils.getUIMappingByKey("register.registerButton"));
     private static By welcomeMessageBy = By.xpath(Utils.getUIMappingByKey("register.welcomeMessage"));
-    private static String errorMessage = Utils.getUIMappingByKey("register.errorMessage");
+    private static String errorMessage = Utils.getUIMappingByKey("registerAndLogin.errorMessage");
 
     public void enterUsername(String username) {
         actions.typeValueInField(usernameBy, username);

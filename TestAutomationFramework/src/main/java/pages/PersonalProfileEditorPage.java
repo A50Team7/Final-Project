@@ -11,6 +11,7 @@ import com.testframework.models.enums.ProfessionalCategory;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pages.common.BasePage;
 
 import java.util.Date;
 

@@ -8,6 +8,7 @@ import com.testframework.models.User;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pages.common.BasePage;
 
 public class PersonalProfilePage extends BasePage {
     public PersonalProfilePage(WebDriver driver, String url) {

@@ -1,4 +1,4 @@
-package pages;
+package pages.common;
 
 import lombok.Getter;
 import org.junit.jupiter.api.Assertions;

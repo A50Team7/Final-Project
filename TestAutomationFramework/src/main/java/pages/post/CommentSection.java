@@ -6,7 +6,7 @@ import com.testframework.models.Comment;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pages.BaseSection;
+import pages.common.BaseSection;
 
 public class CommentSection extends BaseSection {
     public CommentSection(WebDriver driver) {

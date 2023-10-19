@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pages.BasePage;
+import pages.common.BasePage;
 
 @Getter
 public class PostPage extends BasePage {

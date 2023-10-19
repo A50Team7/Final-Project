@@ -3,7 +3,6 @@ package pages.common;
 import com.testframework.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pages.BasePage;
 
 public class EditPage extends BasePage {
     public EditPage(WebDriver driver, String url) {

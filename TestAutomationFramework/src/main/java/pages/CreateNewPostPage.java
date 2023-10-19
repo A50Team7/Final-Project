@@ -5,6 +5,7 @@ import com.testframework.models.Post;
 import com.testframework.models.enums.Visibility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pages.common.BasePage;
 
 public class CreateNewPostPage extends BasePage {
     public CreateNewPostPage(WebDriver driver, String url) {
