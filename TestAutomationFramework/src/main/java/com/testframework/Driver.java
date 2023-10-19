@@ -1,5 +1,6 @@
 package com.testframework;
 
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 public class Driver implements WebDriver {
 
+    @Getter
     private final WebDriver webDriver;
     private final WebDriverWait webDriverWait;
 
@@ -18,10 +20,6 @@ public class Driver implements WebDriver {
         webDriver = driver;
         Duration timeout = Duration.ofSeconds(Integer.parseInt(Utils.getConfigPropertyByKey("config.defaultTimeoutSeconds")));
         webDriverWait = new WebDriverWait(driver, timeout);
-    }
-
-    public WebDriver getWebDriver() {
-        return this.webDriver;
     }
 
     @Override
