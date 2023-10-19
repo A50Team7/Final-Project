@@ -11,22 +11,20 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.post;
 
-public class RestPostController {
+public class RestPostController extends BaseController {
 
 
     public static PostResponse[] getAllPosts(String cookieValue) {
-        return given()
-                .cookie("JSESSIONID", cookieValue)
+        return base(cookieValue)
                 .queryParam("sorted", true)
                 .get("/post/")
                 .then()
                 .assertThat().statusCode(200)
                 .extract().response().as(PostResponse[].class);
     }
-    
+
     public static CommentResponse[] getAllCommentsUnderPost(int postId, String cookieValue) {
-        return given()
-                .cookie("JSESSIONID", cookieValue)
+        return base(cookieValue)
                 .queryParam("postId", postId)
                 .get("/post/Comments")
                 .then()
@@ -35,10 +33,7 @@ public class RestPostController {
     }
 
     public static PostResponse createPost(PostRequest post, String cookieValue) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
-                .cookie("JSESSIONID", cookieValue)
+        return base(cookieValue)
                 .body(post)
                 .when()
                 .post("/post/auth/creator")
@@ -48,10 +43,7 @@ public class RestPostController {
     }
 
     public static Response editPost(int postId, EditPostRequest postEditor, String cookieValue) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
-                .cookie("JSESSIONID", cookieValue)
+        return base(cookieValue)
                 .queryParam("postId", postId)
                 .body(postEditor)
                 .when()
@@ -63,10 +55,7 @@ public class RestPostController {
     }
 
     public static PostResponse likePost(int postId, String cookieValue) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
-                .cookie("JSESSIONID", cookieValue)
+        return base(cookieValue)
                 .queryParam("postId", postId)
                 .when()
                 .post("/post/auth/likesUp")
@@ -76,10 +65,7 @@ public class RestPostController {
     }
 
     public static Response deletePost(int postId, String cookieValue) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
-                .cookie("JSESSIONID", cookieValue)
+        return base(cookieValue)
                 .queryParam("postId", postId)
                 .when()
                 .delete("/post/auth/manager")

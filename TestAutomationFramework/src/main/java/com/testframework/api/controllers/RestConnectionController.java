@@ -7,12 +7,10 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class RestConnectionController {
+public class RestConnectionController extends BaseController {
 
     public static String sendFriendRequest(ConnectionRequest connectionRequest, String cookie) {
-        return given()
-                .contentType(ContentType.JSON)
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .body(connectionRequest)
                 .post("/auth/request")
                 .then()
@@ -21,8 +19,7 @@ public class RestConnectionController {
     }
 
     public static ConnectionResponse[] getFriendRequests(int receiverId, String cookie) {
-        return given()
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .when()
                 .get("auth/users/" + receiverId + "/request/")
                 .then()
@@ -31,10 +28,8 @@ public class RestConnectionController {
     }
 
     public static String acceptFriendRequest(int friendRequestId, int receiverId, String cookie) {
-        return given()
-                .contentType(ContentType.JSON)
+        return base(cookie)
                 .queryParam("requestId", friendRequestId)
-                .cookie("JSESSIONID", cookie)
                 .post("/auth/users/" + receiverId + "/request/approve")
                 .then()
                 .assertThat().statusCode(200)

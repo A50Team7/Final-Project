@@ -7,12 +7,10 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class RestUserController {
+public class RestUserController extends BaseController {
 
     public static Response createUser(UserRequest user) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
+        return base()
                 .body(user)
                 .when()
                 .post("/users/")
@@ -22,9 +20,7 @@ public class RestUserController {
     }
 
     public static UsersResponse[] getUsers(UsersRequest usersRequest) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
+        return base()
                 .body(usersRequest)
                 .when()
                 .post("/users")
@@ -34,7 +30,7 @@ public class RestUserController {
     }
 
     public static UserResponse getUserById(int id, String principal) {
-        return given()
+        return base()
                 .queryParam("principal", principal)
                 .when()
                 .get("/users/auth/" + id)
@@ -44,11 +40,8 @@ public class RestUserController {
     }
 
     public static ExpertiseProfileResponse upgradeUserExpertiseProfile(int userId, ExpertiseProfileRequest request, String cookieValue) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
+        return base(cookieValue)
                 .body(request)
-                .cookie("JSESSIONID", cookieValue)
                 .when()
                 .post(String.format("/users/auth/%s/expertise", userId))
                 .then()
@@ -57,11 +50,8 @@ public class RestUserController {
     }
 
     public static PersonalProfileResponse upgradeUserPersonalProfile(int userId, PersonalProfileRequest request, String cookieValue) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
+        return base(cookieValue)
                 .body(request)
-                .cookie("JSESSIONID", cookieValue)
                 .when()
                 .post("/users/auth/" + userId + "/personal")
                 .then()
@@ -70,11 +60,8 @@ public class RestUserController {
     }
 
     public static PostResponse[] getAllProfilePosts(UsersRequest request, int userId, String cookieValue) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
+        return base(cookieValue)
                 .body(request)
-                .cookie("JSESSIONID", cookieValue)
                 .when()
                 .get(String.format("/users/%s/posts", userId))
                 .then()

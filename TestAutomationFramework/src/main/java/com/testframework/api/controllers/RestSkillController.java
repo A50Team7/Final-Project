@@ -6,10 +6,10 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class RestSkillController {
+public class RestSkillController extends BaseController {
 
     public static Skill[] getAll() {
-        return given()
+        return base()
                 .get("/skill")
                 .then()
                 .assertThat().statusCode(200)
@@ -17,7 +17,7 @@ public class RestSkillController {
     }
 
     public static Skill getOne(int skillId, int statusCode) {
-        return given()
+        return base()
                 .queryParam("skillId", skillId)
                 .when()
                 .get("/skill/getOne")
@@ -27,7 +27,7 @@ public class RestSkillController {
     }
 
     public static Skill getOne(int skillId) {
-        return given()
+        return base()
                 .queryParam("skillId", skillId)
                 .when()
                 .get("/skill/getOne")
@@ -37,9 +37,7 @@ public class RestSkillController {
     }
 
     public static Skill createSkill(Skill skill) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
+        return base()
                 .body(skill)
                 .when()
                 .post("/skill/create")
@@ -49,7 +47,7 @@ public class RestSkillController {
     }
 
     public static Response deleteSkill(int skillId) {
-        return given()
+        return base()
                 .queryParam("skillId", skillId)
                 .when()
                 .put("/skill/delete")
@@ -59,7 +57,7 @@ public class RestSkillController {
     }
 
     public static Response editSkill(String name, int skillId) {
-        return given()
+        return base()
                 .queryParam("skill", name)
                 .queryParam("skillId", skillId)
                 .when()

@@ -8,11 +8,10 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class RestCommentController {
+public class RestCommentController extends BaseController{
 
     public static CommentResponse[] getAllComments(String cookie) {
-        return given()
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .when()
                 .get("/comment")
                 .then()
@@ -21,8 +20,7 @@ public class RestCommentController {
     }
 
     public static CommentResponse[] getAllCommentsOnPost(int postId, String cookie) {
-        return given()
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .and()
                 .queryParam("postId", postId)
                 .when()
@@ -33,10 +31,7 @@ public class RestCommentController {
     }
 
     public static CommentResponse createComment(CommentRequest comment, String cookie) {
-        return given()
-                .contentType(ContentType.JSON)
-                .and()
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .and()
                 .body(comment)
                 .when()
@@ -47,8 +42,7 @@ public class RestCommentController {
     }
 
     public static Response editComment(int commentId, String content, String cookie) {
-        return given()
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .and()
                 .queryParam("commentId", commentId)
                 .and()
@@ -61,7 +55,8 @@ public class RestCommentController {
     }
 
     public static CommentResponse getSingleComment(int commentId) {
-        return given()
+        return base()
+                .and()
                 .queryParam("commentId", commentId)
                 .when()
                 .get("/comment/single")
@@ -71,8 +66,7 @@ public class RestCommentController {
     }
 
     public static CommentResponse likeComment(int commentId, String cookie) {
-        return given()
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .and()
                 .queryParam("commentId", commentId)
                 .when()
@@ -83,8 +77,7 @@ public class RestCommentController {
     }
 
     public static Response deleteComment(int commentId, String cookie) {
-        return given()
-                .cookie("JSESSIONID", cookie)
+        return base(cookie)
                 .and()
                 .queryParam("commentId", commentId)
                 .when()
