@@ -5,11 +5,9 @@ import com.testframework.api.controllers.RestPostController;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.PostRequest;
 import com.testframework.api.models.UserRequest;
-import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.Post;
-import com.testframework.models.User;
 import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.AfterEach;
@@ -28,7 +26,6 @@ public class PostTests extends BaseTest {
     private static PersonalPostPage personalPostPage;
     private static EditPostPage editPostPage;
     private static DeletePage deletePage;
-    private User user;
     private Post post;
     private String cookieValue;
 
@@ -100,6 +97,5 @@ public class PostTests extends BaseTest {
     @AfterEach
     public void cleanup() {
         if (!deleted) RestPostController.deletePost(post.getPostId(), cookieValue);
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 }

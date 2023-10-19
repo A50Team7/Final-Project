@@ -21,8 +21,6 @@ public class CreatePostTests extends BaseTest {
     private static String personalPostPageUrl = Utils.getConfigPropertyByKey("weare.post.url");
     private static CreateNewPostPage createNewPostPage = new CreateNewPostPage(actions.getDriver(), createPostUrl);
     private static PersonalPostPage personalPostPage;
-
-    private User user;
     private Post post;
     private String cookieValue;
 
@@ -65,7 +63,6 @@ public class CreatePostTests extends BaseTest {
     @AfterEach
     public void cleanup() {
         RestPostController.deletePost(post.getPostId(), cookieValue);
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
     private void assertPostPage() {

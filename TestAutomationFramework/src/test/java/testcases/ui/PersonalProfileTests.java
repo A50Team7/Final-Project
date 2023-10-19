@@ -2,18 +2,14 @@ package testcases.ui;
 
 import com.testframework.FormatHelper;
 import com.testframework.Utils;
-import com.testframework.WaitHelper;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.UserRequest;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.ProfileFactory;
 import com.testframework.factories.ServicesFactory;
 import com.testframework.factories.UserFactory;
-import com.testframework.models.User;
 import com.testframework.models.enums.PersonalProfileData;
 import com.testframework.models.enums.ProfessionalCategory;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +20,6 @@ public class PersonalProfileTests extends BaseTest {
 
     private static String personalProfileUrl = Utils.getConfigPropertyByKey("weare.profile.url");
     private static String personalProfileEditorUrl = Utils.getConfigPropertyByKey("weare.profile.editor.url");
-    private User user;
     private PersonalProfilePage personalProfilePage;
     private PersonalProfileEditorPage personalProfileEditorPage;
 
@@ -67,7 +62,6 @@ public class PersonalProfileTests extends BaseTest {
 
         personalProfilePage.navigateToPage();
         personalProfilePage.assertEqualProfessionalCategory(user.getCategory().getStringValue());
-
     }
 
     @Test
@@ -211,8 +205,4 @@ public class PersonalProfileTests extends BaseTest {
         personalProfileEditorPage.assertErrorMessagePresent("this doesn't look like valid email");
     }
 
-    @AfterEach
-    public void userCleanup() {
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
-    }
 }

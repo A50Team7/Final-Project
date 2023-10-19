@@ -5,7 +5,6 @@ import com.testframework.api.controllers.RestPostController;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.PostRequest;
 import com.testframework.api.models.UserRequest;
-import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.CommentFactory;
 import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
@@ -29,14 +28,12 @@ public class CommentsTests extends BaseTest {
     private static PersonalPostPage personalPostPage;
     private static DeletePage deletePage;
     private static EditPage editCommentPage;
-
-    private User user;
     private Post post;
     private Comment comment;
     private String cookieValue;
 
     @BeforeEach
-    public void setup() {
+    public void registerAndLoginAndCreatePost() {
         user = UserFactory.createUser();
         post = PostFactory.createPost(user, Visibility.PUBLIC);
         RestUserController.createUser(new UserRequest("ROLE_USER", user));
@@ -161,8 +158,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @AfterEach
-    public void cleanup() {
+    public void deletePost() {
         RestPostController.deletePost(post.getPostId(), cookieValue);
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 }

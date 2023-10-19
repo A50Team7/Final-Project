@@ -14,7 +14,6 @@ import pages.RegisterPage;
 public class RegisterTests extends BaseTest {
     private static String registerPageUrl = Utils.getConfigPropertyByKey("weare.register.url");
     private static RegisterPage registerPage = new RegisterPage(actions.getDriver(), registerPageUrl);
-    private User user;
     private static final String EXISTS_ERROR = "The user is created in the database, when it shouldn't.";
     private static final String DOESNT_EXIST_ERROR = "The user is not found in the database.";
 
@@ -176,11 +175,6 @@ public class RegisterTests extends BaseTest {
         registerPage.enterAllDataAndRegister(newUser);
 
         assertFails("exist", newUser);
-    }
-
-    @AfterEach
-    public void userCleanup() {
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
     private void assertFails(String expectedErrorMessage, User user) {
