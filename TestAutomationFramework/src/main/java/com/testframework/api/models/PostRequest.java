@@ -1,5 +1,6 @@
 package com.testframework.api.models;
 
+import com.google.gson.annotations.SerializedName;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.Post;
 import com.testframework.models.enums.Visibility;
@@ -10,18 +11,18 @@ import lombok.Setter;
 public class PostRequest {
     private String content;
     private String picture;
-    private boolean isPostPrivate;
+    @SerializedName("public") private boolean isPublic;
 
     public PostRequest() {
         setContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
         setPicture("");
-        setPostPrivate(true);
+        setPublic(true);
     }
 
     public PostRequest(Post post) {
         setContent(post.getContent());
         setPicture("");
-        setPostPrivate(post.getVisibility().equals(Visibility.PRIVATE));
+        setPublic(post.getVisibility().equals(Visibility.PUBLIC));
     }
 
 }
