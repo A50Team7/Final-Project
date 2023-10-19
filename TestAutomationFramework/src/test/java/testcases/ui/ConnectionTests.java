@@ -54,7 +54,7 @@ public class ConnectionTests extends BaseTest{
     }
     @Test
     public void sendFriendRequest() {
-        
+
         String receiverProfileUrl = String.format(profileUrl,receiverId);
         actions.getDriver().get(receiverProfileUrl);
 
@@ -66,8 +66,7 @@ public class ConnectionTests extends BaseTest{
 
     @Test
     public void acceptFriendRequest() {
-        //user2 login -> Open friend requests list
-        //user2 -> accept friend request
+
         String receiverProfileUrl = String.format(profileUrl,receiverId);
         actions.getDriver().get(receiverProfileUrl);
 

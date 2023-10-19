@@ -15,16 +15,16 @@ public class PostRequest {
 
     public PostRequest() {
         setPostId(0);
-        setContent(GenerateRandom.generateRandomBoundedAlphabeticString(20));
+        setContent(GenerateRandom.generateRandomBoundedAlphabeticString(30));
         setPicture("");
-        setPostPrivate(true);
+        setPostPrivate(false);
     }
 
     public PostRequest(Post post) {
         setPostId(0);
         setContent(post.getContent());
         setPicture("");
-        setPostPrivate(post.getVisibility().equals(Visibility.PRIVATE));
+        setPostPrivate(post.getVisibility().equals(Visibility.PUBLIC));
     }
 
     @Override
