@@ -1,66 +1,95 @@
 package testcases.api;
 
+import com.testframework.Utils;
 import com.testframework.api.controllers.RestConnectionController;
 import com.testframework.api.controllers.RestUserController;
-import com.testframework.api.models.FriendRequest;
+import com.testframework.api.models.ConnectionRequest;
+import com.testframework.api.models.ConnectionResponse;
 import com.testframework.api.models.UserRequest;
+import com.testframework.databasehelper.ConnectionHelper;
+import com.testframework.databasehelper.RequestsHelper;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.UserFactory;
-import io.restassured.http.Cookie;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
+import com.testframework.models.User;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import testcases.ApiHelper;
 
-public class RestConnectionControllerTests extends BaseApiTest{
-    private UserRequest sender;
-    private Response createdSender;
+public class RestConnectionControllerTests extends BaseApiTest {
+    private boolean connected = false;
+    private String senderAuthCookie;
+    private String receiverAuthCookie;
+    private User sender;
+    private User receiver;
+    private String connectionRequestResponse;
 
-    private UserRequest receiver;
-    private Response createdReceiver;
-    private Cookie authCookie;
-    @Test
+    @BeforeEach
     public void setup() {
-        sender = new UserRequest("ROLE_USER", UserFactory.createUser());
-        createdSender = RestUserController.createUser(sender);
+        sender = UserFactory.createUserWithProfile();
+        receiver = UserFactory.createUserWithProfile();
 
-        receiver = new UserRequest("ROLE_USER", UserFactory.createUser());
-        createdReceiver = RestUserController.createUser(receiver);
+        UserRequest userRequest1 = new UserRequest("ROLE_USER", sender);
+        RestUserController.createUser(userRequest1);
+        UserRequest userRequest2 = new UserRequest("ROLE_USER", receiver);
+        RestUserController.createUser(userRequest2);
 
-        String username1 = sender.getUsername();
-        String password1 = sender.getPassword();
-        Response auth = RestUserController.authUser(username1, password1);
-        authCookie = auth.getDetailedCookie("JSESSIONID");
-
-        String username2 = receiver.getUsername();
-        String password2 = receiver.getPassword();
-        Response auth2 = RestUserController.authUser(username2, password2);
-        Cookie authCookie2 = auth2.getDetailedCookie("JSESSIONID");
-
-        ResponseBody receiverBody = createdReceiver.getBody();
-        var receiverArray = receiverBody.asString().split(" ");
-        var responseReceiverId = receiverArray[6];
-        int receiverId = Integer.valueOf(responseReceiverId);
-
-        ResponseBody senderBody = createdSender.getBody();
-        var senderArray = senderBody.asString().split(" ");
-        var responseSenderId = senderArray[6];
-        int senderId = Integer.valueOf(responseSenderId);
-
-        var friendRequest = new FriendRequest(receiverId,receiver.getUsername());
-        RestConnectionController.sendFriendRequest(friendRequest, authCookie.getValue());
-
-        var friendRequests = RestConnectionController.showFriendRequests(receiverId, authCookie2.getValue());
-
-        ResponseBody frReqBody = friendRequests.getBody();
-        var frReqArray = frReqBody.asString().split(" ");
-        var frReqText = frReqArray[0];
-        JsonPath jsonPath = new JsonPath(frReqBody.asString());
-        String req_id = jsonPath.getString("id").substring(1,3);
-        int friendReqId = Integer.parseInt(req_id);
-
-        RestConnectionController.acceptFriendRequest(friendReqId, receiverId, authCookie2.getValue());
+        senderAuthCookie = ApiHelper.getCookieValue(sender);
+        ConnectionRequest connectionRequest = new ConnectionRequest(receiver.getUserId(), receiver.getUsername());
+        connectionRequestResponse = RestConnectionController.sendFriendRequest(connectionRequest, senderAuthCookie);
 
     }
 
+    @Test
+    public void sendFriendRequest() {
+        assertMessageContainsBothUsernames(connectionRequestResponse);
+    }
 
+    @Test
+    public void getFriendRequests() {
+        receiverAuthCookie = ApiHelper.getCookieValue(receiver);
+        ConnectionResponse[] friendRequests =
+                RestConnectionController.getFriendRequests(receiver.getUserId(), receiverAuthCookie);
+
+        Assertions.assertTrue(friendRequests.length > 0,
+                "No friend requests present from the receiver's account.");
+    }
+
+    @Test
+    public void acceptFriendRequest() {
+        receiverAuthCookie = ApiHelper.getCookieValue(receiver);
+        ConnectionResponse[] friendRequests =
+                RestConnectionController.getFriendRequests(receiver.getUserId(), receiverAuthCookie);
+
+        int requestId = friendRequests[0].getId();
+
+        String acceptResponse = RestConnectionController.acceptFriendRequest(requestId, receiver.getUserId(), receiverAuthCookie);
+        connected = true;
+
+        assertMessageContainsBothUsernames(acceptResponse);
+        Assertions.assertTrue(acceptResponse.contains("approved"),
+                "Response doesn't contain 'approved'.");
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (connected) disconnect();
+        RequestsHelper.truncateRequestsTable();
+        ConnectionHelper.truncateConnectionsTable();
+        UserHelper.deleteUser("username", String.format("'%s'", sender.getUsername()));
+        UserHelper.deleteUser("username", String.format("'%s'", receiver.getUsername()));
+    }
+
+    private void assertMessageContainsBothUsernames(String text) {
+        Assertions.assertTrue(text.contains(sender.getUsername()),
+                "Response message doesn't contain the username of the sender.");
+        Assertions.assertTrue(text.contains(receiver.getUsername()),
+                "Response message doesn't contain the username of the receiver.");
+    }
+
+    private void disconnect() {
+        ConnectionRequest connectionRequest = new ConnectionRequest(receiver.getUserId(), receiver.getUsername());
+        RestConnectionController.sendFriendRequest(connectionRequest, senderAuthCookie);
+    }
 }

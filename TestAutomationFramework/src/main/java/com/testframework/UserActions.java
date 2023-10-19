@@ -195,4 +195,12 @@ public class UserActions {
         WebElement element = driver.findElement(locator);
         return element.getText();
     }
+
+    public String getTheFirstWordOfField(By locator) {
+        waitForElementClickable(locator);
+        WebElement element = driver.findElement(locator);
+        String[] words = element.getText().split(" ");
+        return words[0];
+    }
+
 }

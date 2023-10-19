@@ -19,9 +19,10 @@ public class DatabaseHelper {
         }
 
         try(Connection con = DriverManager.getConnection(dbUrl, username, password)) {
-            try (Statement stmt = con.createStatement()) {
-                return stmt.executeQuery(query);
-            }
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet resultSet = stmt.executeQuery();
+            resultSet.first();
+            return resultSet;
         } catch (SQLException e) {
             Utils.LOGGER.info(e);
         }
@@ -34,11 +35,9 @@ public class DatabaseHelper {
 
     public static boolean entityExists(ResultSet resultSet) {
         try {
-            if (resultSet!=null) return resultSet.next();
-            else {
-                Utils.LOGGER.info("Unsuccessful query.");
-            }
+            return resultSet.getRow()==1;
         } catch (SQLException e) {
+            Utils.LOGGER.info("Unsuccessful query.");
             Utils.LOGGER.info(e);
         }
         return false;
@@ -46,12 +45,10 @@ public class DatabaseHelper {
 
     public static int getEntityId(ResultSet resultSet, String columnLabel) {
         try {
-            resultSet.next();
             return resultSet.getInt(columnLabel);
         } catch (SQLException e) {
-            Utils.LOGGER.info(e);
+            throw new RuntimeException(e);
         }
-        return -1;
     }
 
     public static void deleteEntity(String table, String key, String value) {

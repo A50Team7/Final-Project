@@ -6,6 +6,7 @@ import com.testframework.models.Profile;
 import com.testframework.models.enums.Location;
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.time.Instant;
 
 public class ProfileFactory {
 
@@ -17,11 +18,16 @@ public class ProfileFactory {
         );
         profile.setLocation(selectLocation());
         profile.setBio(generateBio());
-        profile.setWeeklyAvailability(generateWeeklyAvailability());
+        profile.setServices(ServicesFactory.createServices());
         return profile;
     }
 
     //############# GENERATORS #########
+
+    public static String generateInvalidName() {
+        int length = GenerateRandom.generateLength("firstName.lowerbound", "firstName.upperbound");
+        return GenerateRandom.generateRandomBoundedAlphanumericString(length - 3) + "%@#";
+    }
 
     public static String generateFirstName() {
         int length = GenerateRandom.generateLength("firstName.lowerbound", "firstName.upperbound");
@@ -49,6 +55,20 @@ public class ProfileFactory {
         return GenerateRandom.generateRandomDate(firstDate, lastDate);
     }
 
+    public static Date generateInvalidBirthday() {
+        Date upperbound = Date.valueOf(Utils.getConfigPropertyByKey("birthday.lowerbound"));
+        Date lowerbound = Date.valueOf("0001-01-01");
+
+        return generateBirthday(lowerbound, upperbound);
+    }
+
+    public static Date generateImpossibleBirthday() {
+        Date lowerbound = Date.valueOf("3000-01-01");
+        Date upperbound = Date.valueOf("9999-01-01");
+
+        return generateBirthday(lowerbound, upperbound);
+    }
+
     public static String generateBio() {
         int length = GenerateRandom.generateLength("bio.lowerbound", "bio.upperbound");
         return GenerateRandom.generateRandomBoundedAlphanumericString(length);
@@ -67,15 +87,5 @@ public class ProfileFactory {
         return Location.getLocationById(id);
     }
 
-    public static double generateWeeklyAvailability() {
-        int min = Integer.parseInt(Utils.getConfigPropertyByKey("availability.lowerbound"));
-        int max = Integer.parseInt(Utils.getConfigPropertyByKey("availability.upperbound"));
-        double value = GenerateRandom.generateRandomBoundedDouble(min, max);
-        return Double.parseDouble(new DecimalFormat("#.#").format(value));
-    }
 
-    public static double generateWeeklyAvailability(int min, int max) {
-        double value = GenerateRandom.generateRandomBoundedDouble(min, max);
-        return Double.parseDouble(new DecimalFormat("#.#").format(value));
-    }
 }

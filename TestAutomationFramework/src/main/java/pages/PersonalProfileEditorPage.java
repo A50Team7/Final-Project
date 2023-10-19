@@ -6,7 +6,9 @@ import com.testframework.models.Profile;
 import com.testframework.models.User;
 import com.testframework.models.enums.Gender;
 import com.testframework.models.enums.Location;
+import com.testframework.models.enums.PersonalProfileData;
 import com.testframework.models.enums.ProfessionalCategory;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -19,21 +21,20 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     private static String baseXpath = Utils.getUIMappingByKey("profileEditor.personalData");
-    private static String baseXpathSelect = Utils.getConfigPropertyByKey("profileEditor.personalData.select");
+    private static String baseXpathSelect = Utils.getUIMappingByKey("profileEditor.personalData.select");
 
-    private static String baseSkillXpath = Utils.getConfigPropertyByKey("profileEditor.skillsField");
-    // write the locators in the ui_map.properties
-// and then finish these fields:
+    private static String baseSkillXpath = Utils.getUIMappingByKey("profileEditor.skillsField");
+
     private static By firstNameBy = By.xpath(String.format(baseXpath, "nameE"));
     private static By lastNameBy = By.xpath(String.format(baseXpath, "lastnameE"));
     private static By birthdayBy = By.xpath(String.format(baseXpath, "birthDayE"));
     private static By genderBy = By.xpath(String.format(baseXpathSelect, "selectE"));
     private static By emailBy = By.xpath(String.format(baseXpath, "emailE"));
-    private static By bioBy = By.xpath("profileEditor.personalData.bio");
+    private static By bioBy = By.xpath(Utils.getUIMappingByKey("profileEditor.personalData.bio"));
     private static By cityBy = By.xpath(String.format(baseXpathSelect, "selectC"));
-    private static By updateProfileBy = By.xpath("profileEditor.personalData.submit");
-    private static By professionalCategoryBy = By.xpath("profileEditor.professionalCategory.select");
-    private static By updateCategoryBy = By.xpath("profileEditor.professionalCategory.submit");
+    private static By updateProfileBy = By.xpath(Utils.getUIMappingByKey("profileEditor.personalData.submit"));
+    private static By professionalCategoryBy = By.xpath(Utils.getUIMappingByKey("profileEditor.professionalCategory.select"));
+    private static By updateCategoryBy = By.xpath(Utils.getUIMappingByKey("profileEditor.professionalCategory.submit"));
 
     private static By serviceOneBy = By.xpath(String.format(baseSkillXpath, "skill1"));
 
@@ -43,8 +44,11 @@ public class PersonalProfileEditorPage extends BasePage {
     private static By serviceFourBy = By.xpath(String.format(baseSkillXpath, "skill4"));
     private static By serviceFiveBy = By.xpath(String.format(baseSkillXpath, "skill5"));
 
-    private static By weeklyAvailabilityBy = By.xpath("profileEditor.skills.availability");
-    private static By updateSurvicesBy = By.xpath("profileEditor.skills.submit");
+    private static By weeklyAvailabilityBy = By.xpath(Utils.getUIMappingByKey("profileEditor.skills.availability"));
+    private static By updateSurvicesBy = By.xpath(Utils.getUIMappingByKey("profileEditor.skills.submit"));
+
+    private static String errorMessage = Utils.getUIMappingByKey("profileEditor.errorMessage");
+
 
     public void enterAllPersonalInfoAndUpdate(User user) {
         Profile profile = user.getProfile();
@@ -59,13 +63,17 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterProfessionalCategoryAndUpdate(User user) {
-        actions.clearAndTypeValueInField(professionalCategoryBy, user.getCategory().getStringValue());
+        enterProfessionalCategory(user.getCategory());
         updateCategory();
     }
 
-    public void enterServicesAndUpdate(Profile profile, String skill) {
+    public void enterServiceAndUpdate(Profile profile, String skill) {
         actions.clearAndTypeValueInField(serviceOneBy, skill);
+        int weeklyAv = (int) profile.getServices().getWeeklyAvailability();
+        actions.clearAndTypeValueInField(weeklyAvailabilityBy, String.valueOf(weeklyAv));
+        updateServices();
     }
+
 
     public void enterFirstName(String name) {
         actions.clearAndTypeValueInField(firstNameBy, name);
@@ -76,11 +84,15 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterBirthday(Date date) {
-        FormatHelper.formatBirthdayDate(date);
+        actions.typeValueInField(birthdayBy, FormatHelper.formatDateAmericanFormat(date).replace("/", ""));
+    }
+
+    public void clearBirthday() {
+        actions.clearField(birthdayBy);
     }
 
     public void enterGender(Gender gender) {
-    actions.clearAndTypeValueInField(genderBy, String.valueOf(gender));
+    actions.typeValueInField(genderBy, String.valueOf(gender));
     }
 
     public void enterEmail(String email) {
@@ -91,8 +103,12 @@ public class PersonalProfileEditorPage extends BasePage {
         actions.clearAndTypeValueInField(bioBy, bio);
     }
 
+    public void clearBio() {
+        actions.clearField(bioBy);
+    }
+
     public void enterCity(Location location) {
-        actions.clearAndTypeValueInField(cityBy, location.getStringValue());
+        actions.typeValueInField(cityBy, location.getStringValue());
     }
 
     public void updateProfile() {
@@ -100,7 +116,7 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterProfessionalCategory(ProfessionalCategory category) {
-        actions.clearAndTypeValueInField(professionalCategoryBy, category.name());
+        actions.typeValueInField(professionalCategoryBy, category.name());
     }
 
     public void updateCategory() {
@@ -114,5 +130,64 @@ public class PersonalProfileEditorPage extends BasePage {
     public void updateServices() {
 actions.clickElement(updateSurvicesBy);
     }
+
+    private String getFieldText(By locator) {
+
+        return actions.getText(locator);
+
+    }
+
+    public void assertEqualProfileData(String expectedData, PersonalProfileData data) {
+
+        switch (data) {
+            case FIRST_NAME:
+                Assertions.assertEquals(expectedData, getFieldText(firstNameBy), "First name doesn't match the expected first name");
+                break;
+            case LAST_NAME:
+                Assertions.assertEquals(expectedData, getFieldText(lastNameBy), "Last name doesn't match the expected last name");
+                break;
+            case EMAIL:
+                Assertions.assertEquals(expectedData, getFieldText(emailBy), "Email doesn't match the expected email");
+                break;
+            case BIRTHDAY:
+                Assertions.assertEquals(expectedData, getFieldText(birthdayBy), "Birthday doesn't match the expected birthday");
+                break;
+            case LOCATION:
+                Assertions.assertEquals(expectedData, getFieldText(cityBy), "City doesn't match the expected city");
+                break;
+            case BIO:
+                Assertions.assertEquals(expectedData, getFieldText(bioBy), "Bio doesn't match the expected bio");
+                break;
+        }
+    }
+
+    public void assertEqualServicesData(String expectedData, PersonalProfileData data) {
+
+        switch (data) {
+            case SERVICE_ONE:
+                Assertions.assertEquals(expectedData, getFieldText(serviceOneBy), "First service doesn't match the expected first service");
+                break;
+            case SERVICE_TWO:
+                Assertions.assertEquals(expectedData, getFieldText(serviceTwoBy), "Second service doesn't match the expected second service");
+                break;
+            case SERVICE_THREE:
+                Assertions.assertEquals(expectedData, getFieldText(serviceThreeBy), "Third service doesn't match the expected third service");
+                break;
+            case SERVICE_FOUR:
+                Assertions.assertEquals(expectedData, getFieldText(serviceFourBy), "Fourth service doesn't match the expected fourth service");
+                break;
+            case SERVICE_FIVE:
+                Assertions.assertEquals(expectedData, getFieldText(serviceFiveBy), "Fifth service doesn't match the expected fifth service");
+                break;
+        }
+    }
+
+    public void assertErrorMessagePresent(String message) {
+        By errorMessageBy = By.xpath(String.format(errorMessage, message));
+        actions.waitForElementPresent(errorMessageBy);
+        actions.assertElementPresent(errorMessageBy);
+    }
+
+
 }
 

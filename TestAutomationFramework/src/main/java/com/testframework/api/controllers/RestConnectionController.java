@@ -1,6 +1,7 @@
 package com.testframework.api.controllers;
 
-import com.testframework.api.models.FriendRequest;
+import com.testframework.api.models.ConnectionRequest;
+import com.testframework.api.models.ConnectionResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -8,43 +9,37 @@ import static io.restassured.RestAssured.given;
 
 public class RestConnectionController {
 
-    public static Response sendFriendRequest(FriendRequest friendRequest, String cookie) {
+    public static String sendFriendRequest(ConnectionRequest connectionRequest, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .cookie("JSESSIONID", cookie)
-                .body(friendRequest)
+                .body(connectionRequest)
                 .post("/auth/request")
                 .then()
-                .log().body()
                 .assertThat().statusCode(200)
-                .extract().response();
+                .extract().response().body().asPrettyString();
     }
 
-    public static Response showFriendRequests(int userId, String cookie) {
+    public static ConnectionResponse[] getFriendRequests(int receiverId, String cookie) {
         return given()
-                .contentType(ContentType.JSON)
                 .cookie("JSESSIONID", cookie)
                 .when()
-                .get("auth/users/"+ userId +"/request/")
+                .get("auth/users/" + receiverId + "/request/")
                 .then()
-                .log().body()
                 .assertThat().statusCode(200)
-                .extract().response();
+                .extract().response().as(ConnectionResponse[].class);
     }
 
-    public static Response acceptFriendRequest(int friendRequestId, int receiverId, String cookie) {
+    public static String acceptFriendRequest(int friendRequestId, int receiverId, String cookie) {
         return given()
                 .contentType(ContentType.JSON)
                 .queryParam("requestId", friendRequestId)
                 .cookie("JSESSIONID", cookie)
-                .post("/auth/users/"+ receiverId +"/request/approve")
+                .post("/auth/users/" + receiverId + "/request/approve")
                 .then()
-                .log().body()
                 .assertThat().statusCode(200)
-                .extract().response();
+                .extract().response().body().asPrettyString();
     }
-
-
 
 
 }

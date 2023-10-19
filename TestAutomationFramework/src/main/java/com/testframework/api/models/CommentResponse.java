@@ -8,7 +8,7 @@ public class CommentResponse {
 
     private int commentId;
     private String content;
-    private ArrayList<Object> likes;
+    private UserResponse[] likes;
     private String date;
     private boolean liked;
 

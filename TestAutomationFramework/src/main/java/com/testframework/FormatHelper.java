@@ -1,6 +1,5 @@
 package com.testframework;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -22,6 +21,11 @@ public class FormatHelper {
 
     public static String formatBirthdayDate(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
+    }
+
+    public static String formatDateAmericanFormat(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         return formatter.format(date);
     }
 
