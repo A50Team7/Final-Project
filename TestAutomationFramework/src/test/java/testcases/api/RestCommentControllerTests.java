@@ -20,8 +20,6 @@ import testcases.ApiHelper;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 public class RestCommentControllerTests extends BaseApiTest {
 
     private String authCookie;

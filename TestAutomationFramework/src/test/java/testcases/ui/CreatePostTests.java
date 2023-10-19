@@ -14,10 +14,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.CreateNewPostPage;
+import pages.post.PersonalPostPage;
 
 public class CreatePostTests extends BaseTest {
     private static String createPostUrl = Utils.getConfigPropertyByKey("weare.createpost.url");
+    private static String personalPostPageUrl = Utils.getConfigPropertyByKey("weare.post.url");
     private static CreateNewPostPage createNewPostPage = new CreateNewPostPage(actions.getDriver(), createPostUrl);
+    private static PersonalPostPage personalPostPage;
 
     private User user;
     private Post post;
@@ -36,23 +39,24 @@ public class CreatePostTests extends BaseTest {
     }
 
     @Test
-    public void createValidPublicPost_Should_Pass() {
+    public void createValidPublicPost_Should_BeSuccessful() {
         createNewPostPage.createPostAndSubmit(post);
 
-        // assertion
+        assertPostPage();
     }
 
     @Test
-    public void createValidPrivatePost_Should_Pass() {
+    public void createValidPrivatePost_Should_BeSuccessful() {
         post.setVisibility(Visibility.PRIVATE);
         createNewPostPage.createPostAndSubmit(post);
 
-        // assertion
+        assertPostPage();
     }
 
-    @Test
-    public void createEmptyPost_Should_Fail() {
-        post.setContent("");
+    // WIP
+    //@Test
+    public void createEmptyPost_Should_BeUnsuccessful() {
+        post.setContent(" ");
         createNewPostPage.createPostAndSubmit(post);
 
         // assertion
@@ -62,6 +66,12 @@ public class CreatePostTests extends BaseTest {
     public void cleanup() {
         RestPostController.deletePost(post.getPostId(), cookieValue);
         UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+    }
+
+    private void assertPostPage() {
+        personalPostPage = new PersonalPostPage(actions.getDriver(), String.format(personalPostPageUrl, post.getPostId()));
+        personalPostPage.navigateToPage();
+        personalPostPage.assertPost(post);
     }
 
 }

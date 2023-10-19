@@ -1,9 +1,10 @@
 package pages;
 
-import com.testframework.UserActions;
+import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 
+@Getter
 public abstract class BasePage extends BaseSection{
 
     protected String url;
@@ -11,10 +12,6 @@ public abstract class BasePage extends BaseSection{
     public BasePage(WebDriver driver, String url) {
         super(driver);
         this.url = url;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     public void navigateToPage() {

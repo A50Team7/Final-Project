@@ -48,7 +48,7 @@ public class PostTests extends BaseTest {
     }
 
     @Test
-    public void editingContentOfCreatedPost_Should_Pass() {
+    public void editingContentOfCreatedPost_Should_BeSuccessful() {
         personalPostPage.editPost();
         editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
         editPostPage.assertPageNavigated();
@@ -60,7 +60,20 @@ public class PostTests extends BaseTest {
     }
 
     @Test
-    public void deletingCreatedPostBySelectingDeleteAndSubmitting_Should_Pass() {
+    public void editingVisibilityOfCreatedPostToPrivate_Should_BeSuccessful() {
+        personalPostPage.editPost();
+        editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
+        editPostPage.assertPageNavigated();
+
+        post.setVisibility(Visibility.PRIVATE);
+        editPostPage.editVisibility(post.getVisibility());
+        editPostPage.submit();
+
+        personalPostPage.assertPost(post);
+    }
+
+    @Test
+    public void deletingCreatedPostBySelectingDeleteAndSubmitting_Should_BeSuccessful() {
         personalPostPage.deletePost();
         deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
         deletePage.assertPageNavigated();
@@ -73,7 +86,7 @@ public class PostTests extends BaseTest {
     }
 
     @Test
-    public void deletingCreatedPostBySelectingCancelAndSubmitting_Should_Fail() {
+    public void deletingCreatedPostBySelectingCancelAndSubmitting_Should_BeUnsuccessful() {
         personalPostPage.deletePost();
         deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
         deletePage.assertPageNavigated();

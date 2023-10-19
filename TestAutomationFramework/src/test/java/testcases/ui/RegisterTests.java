@@ -25,7 +25,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithValidData_Should_Pass() {
+    public void registerWithValidData_Should_BeSuccessful() {
         registerPage.enterAllDataAndRegister(user);
 
         registerPage.assertWelcomeMessagePresent();
@@ -34,7 +34,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithWhiteSpaceInUsernameField_Should_Fail() {
+    public void registerWithWhiteSpaceInUsernameField_Should_BeUnsuccessful() {
         user.setUsername(" ");
         registerPage.enterAllDataAndRegister(user);
 
@@ -42,7 +42,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithEmptyConfirmPasswordField_Should_Fail() {
+    public void registerWithEmptyConfirmPasswordField_Should_BeUnsuccessful() {
         registerPage.enterAllData(user);
         registerPage.clearConfirmationPassword();
         registerPage.submit();
@@ -51,7 +51,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithEmptyPasswordField_Should_Fail() {
+    public void registerWithEmptyPasswordField_Should_BeUnsuccessful() {
         registerPage.enterAllData(user);
         registerPage.clearPassword();
         registerPage.submit();
@@ -60,7 +60,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithEmptyEmailField_Should_Fail() {
+    public void registerWithEmptyEmailField_Should_BeUnsuccessful() {
         registerPage.enterAllData(user);
         registerPage.clearEmail();
         registerPage.submit();
@@ -69,7 +69,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithEmptyUsernameField_Should_Fail() {
+    public void registerWithEmptyUsernameField_Should_BeUnsuccessful() {
         registerPage.enterAllData(user);
         user.setUsername(null);
         registerPage.clearUsername();
@@ -79,7 +79,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithAlreadyUsedUsername_Should_Fail() {
+    public void registerWithAlreadyUsedUsername_Should_BeUnsuccessful() {
         registerPage.enterAllDataAndRegister(user);
         actions.getDriver().get(registerPageUrl);
 
@@ -91,7 +91,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithDifferentConfirmationPassword_Should_Fail() {
+    public void registerWithDifferentConfirmationPassword_Should_BeUnsuccessful() {
         registerPage.enterAllData(user);
         registerPage.confirmPassword(GenerateRandom.generateRandomBoundedAlphanumericString(8));
         registerPage.submit();
@@ -100,16 +100,16 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithPasswordNotContainingUppercaseLetter_Should_Fail() {
+    public void registerWithPasswordNotContainingUppercaseLetter_Should_BeUnsuccessful() {
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("password.lowerbound"));
-        user.setPassword(GenerateRandom.generateRandomBoundedAlphabeticString(lowerbound)+"!"+"3");
+        user.setPassword(GenerateRandom.generateRandomBoundedAlphabeticString(lowerbound) + "!" + "3");
         registerPage.enterAllDataAndRegister(user);
 
         assertFails("uppercase letter", user);
     }
 
     @Test
-    public void registerWithPasswordNotContainingDigits_Should_Fail() {
+    public void registerWithPasswordNotContainingDigits_Should_BeUnsuccessful() {
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("password.lowerbound"));
         user.setPassword(GenerateRandom.generateRandomBoundedAlphabeticString(lowerbound) + "A!");
         registerPage.enterAllDataAndRegister(user);
@@ -118,7 +118,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithPasswordNotContainingSpecialSymbol_Should_Fail() {
+    public void registerWithPasswordNotContainingSpecialSymbol_Should_BeUnsuccessful() {
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("password.lowerbound"));
         user.setPassword(GenerateRandom.generateRandomBoundedAlphanumericString(lowerbound));
         registerPage.enterAllDataAndRegister(user);
@@ -127,7 +127,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithPasswordShorterThanTheDefinedLength_Should_Fail() {
+    public void registerWithPasswordShorterThanTheDefinedLength_Should_BeUnsuccessful() {
         int validLength = Integer.parseInt(Utils.getConfigPropertyByKey("password.lowerbound"));
         int invalidLength = validLength - 1;
 
@@ -138,7 +138,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithInvalidEmail_Should_Fail() {
+    public void registerWithInvalidEmail_Should_BeUnsuccessful() {
         user.setEmail(user.getUsername());
 
         registerPage.enterAllDataAndRegister(user);
@@ -147,7 +147,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithUsernameLongerThanTheUpperBound_Should_Fail() {
+    public void registerWithUsernameLongerThanTheUpperBound_Should_BeUnsuccessful() {
         int upperbound = Integer.parseInt(Utils.getConfigPropertyByKey("username.upperbound"));
         user.setUsername(UserFactory.generateUsername(upperbound + 1));
 
@@ -157,7 +157,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithUsernameShorterThanTheLowerBound_Should_Fail() {
+    public void registerWithUsernameShorterThanTheLowerBound_Should_BeUnsuccessful() {
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("username.lowerbound"));
         user.setUsername(UserFactory.generateUsername(lowerbound - 1));
 
@@ -167,7 +167,7 @@ public class RegisterTests extends BaseTest {
     }
 
     @Test
-    public void registerWithEmailAlreadyInUse_Should_Fail() {
+    public void registerWithEmailAlreadyInUse_Should_BeUnsuccessful() {
         registerPage.enterAllDataAndRegister(user);
         actions.getDriver().get(registerPageUrl);
 

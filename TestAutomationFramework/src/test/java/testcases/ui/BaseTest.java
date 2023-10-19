@@ -13,17 +13,17 @@ public class BaseTest extends BaseApiTest {
     static UserActions actions = new UserActions();
 
     @BeforeAll
-    public static void setUp() {
+    public static void setupDriver() {
         UserActions.loadBrowser("weare.baseUrl");
     }
 
     @BeforeEach
-    public void clean() {
+    public void cleanDriver() {
         actions.cleanDriver("weare.baseUrl");
     }
 
     @AfterAll
-    public static void tearDown() {
+    public static void tearDownDriver() {
         UserActions.quitDriver();
     }
 

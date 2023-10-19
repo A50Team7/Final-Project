@@ -1,6 +1,5 @@
 package testcases.api;
 
-import com.testframework.Utils;
 import com.testframework.api.controllers.RestConnectionController;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.ConnectionRequest;

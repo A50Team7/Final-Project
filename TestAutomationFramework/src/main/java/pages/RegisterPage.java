@@ -1,14 +1,10 @@
 package pages;
 
 import com.testframework.Utils;
-import com.testframework.databasehelper.UserHelper;
 import com.testframework.models.enums.ProfessionalCategory;
 import com.testframework.models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class RegisterPage extends BasePage{
     public RegisterPage(WebDriver driver, String url) {
