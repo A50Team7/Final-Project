@@ -3,6 +3,7 @@ package com.testframework.factories;
 import com.testframework.Utils;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.Profile;
+import com.testframework.models.enums.Gender;
 import com.testframework.models.enums.Location;
 import java.sql.Date;
 import java.text.DecimalFormat;
@@ -16,6 +17,7 @@ public class ProfileFactory {
                 generateLastName(),
                 generateBirthday()
         );
+        profile.setGender(Gender.MALE);
         profile.setLocation(selectLocation());
         profile.setBio(generateBio());
         profile.setServices(ServicesFactory.createServices());
