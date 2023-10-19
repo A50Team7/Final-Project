@@ -61,7 +61,8 @@ public class ConnectionTests extends BaseTest{
         actions.waitForElementClickable(connectButton);
         actions.clickElement(connectButton);
         //Assertions
-
+        var requestSentMessage = By.xpath("//div[@class='col-2']");
+        actions.waitForElementPresent(requestSentMessage);
     }
 
     @Test
@@ -81,5 +82,7 @@ public class ConnectionTests extends BaseTest{
         actions.waitForElementClickable(approveButton);
         actions.clickElement(approveButton);
         //Assertions
+        var noRequests = By.xpath("//h3[text()='There are no requests']");
+        actions.waitForElementPresent(noRequests);
     }
 }

@@ -2,13 +2,16 @@ package testcases.ui;
 
 import com.testframework.Utils;
 import com.testframework.api.controllers.RestUserController;
+import com.testframework.api.models.ExpertiseProfileRequest;
 import com.testframework.api.models.UserRequest;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
 import com.testframework.models.enums.ProfessionalCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import testcases.ApiHelper;
 
 
 public class SearchTests extends BaseTest {
@@ -62,7 +65,10 @@ public class SearchTests extends BaseTest {
     @Test
     public void searchByFirstName() {
         //Create API Request to Update Profile
+
         //Login -> Update User Profile -> Search By First Name
+
+
     }
     @Test
     public void searchByEmptyCriteria() {
@@ -87,6 +93,8 @@ public class SearchTests extends BaseTest {
 
         actions.clickElement(searchButton);
         //Assert
+        actions.waitForElementPresent(errorMessage);
+
     }
 
 

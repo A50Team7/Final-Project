@@ -13,6 +13,13 @@ public class CommentRequest {
         setPostId(comment.getPost().getPostId());
         setContent(comment.getContent());
     }
+    public CommentRequest(int userId, int postId){
+        setUserId(userId);
+        setPostId(postId);
+        setContent(GenerateRandom.generateRandomBoundedAlphanumericString(30));
+    }
+
+
 
     private int userId;
     private int postId;

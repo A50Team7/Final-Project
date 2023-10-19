@@ -15,6 +15,7 @@ import com.testframework.generations.GenerateRandom;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
+import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import pages.CreateNewPostPage;
+import pages.common.DeletePage;
 import pages.post.PersonalPostPage;
 
 public class AdminTests extends BaseTest {
@@ -36,6 +38,8 @@ public class AdminTests extends BaseTest {
     private static PersonalPostPage personalPostPage;
     private String cookieValue;
     private int userId;
+    private static DeletePage deletePage;
+    private static String deletePostPageUrl = Utils.getConfigPropertyByKey("weare.post.delete.url");
     private static final String ADMIN_URL = Utils.getConfigPropertyByKey("weare.admin.url");
     private static final String CREATEPOST_URL = Utils.getConfigPropertyByKey("weare.createpost.url");
     private static final By disableButton = By.xpath(Utils.getUIMappingByKey("admin.disableUserButton"));
@@ -44,8 +48,18 @@ public class AdminTests extends BaseTest {
     private static final By editPostButton = By.xpath(Utils.getUIMappingByKey("admin.editPostButton"));
     private static final By deletePostButton = By.xpath(Utils.getUIMappingByKey("admin.deletePostButton"));
     private static final By savePostButton = By.xpath(Utils.getUIMappingByKey("admin.savePostButton"));
+    private static final By submitProfileButton = By.xpath(Utils.getUIMappingByKey("profileEditor.personalData.submit"));
+
+
+    private static By firstNameBy = By.xpath("//input[@id='nameE']");
+    private static By lastNameBy = By.xpath("//input[@id='lastnameE']");
+    private static By birthdayBy = By.xpath("//input[@id='birthDayE']");
     private static String createPostUrl = Utils.getConfigPropertyByKey("weare.createpost.url");
     private static CreateNewPostPage createNewPostPage = new CreateNewPostPage(actions.getDriver(), createPostUrl);
+    private static final By commentText = By.xpath(Utils.getUIMappingByKey("admin.editCommentField"));
+    private static final By saveCommentButton = By.xpath(Utils.getUIMappingByKey("admin.saveCommentButton"));
+
+
     @BeforeEach
     public void setup() {
 
@@ -83,6 +97,7 @@ public class AdminTests extends BaseTest {
         actions.waitForElementClickable(disableButton);
         actions.clickElement(disableButton);
         //Assertions
+        actions.waitForElementClickable(enableButton);
     }
     @Test
     public void enableUser() {
@@ -98,6 +113,7 @@ public class AdminTests extends BaseTest {
         actions.waitForElementClickable(enableButton);
         actions.clickElement(enableButton);
         //Assertions
+        actions.waitForElementClickable(disableButton);
     }
     @Test
     public void showAllUsers() {
@@ -114,7 +130,18 @@ public class AdminTests extends BaseTest {
         actions.waitForElementClickable(editProfileButton);
         actions.clickElement(editProfileButton);
         //Change some data
+        actions.waitForElementPresent(firstNameBy);
+        String firstName = GenerateRandom.generateRandomBoundedAlphabeticString(10);
+        String lastName = GenerateRandom.generateRandomBoundedAlphabeticString(10);
+        actions.typeValueInField(firstNameBy, firstName);
+        actions.typeValueInField(lastNameBy, lastName);
+        actions.typeValueInField(birthdayBy, "10101910");
+        actions.clickElement(submitProfileButton);
         //Assert
+        actions.getDriver().get(userUrl);
+        String testXpath = String.format("//h1[@class='mr-3 text-black'][text()='%s %s']", firstName, lastName);
+        By test = By.xpath(testXpath);
+        actions.waitForElementPresent(test);
     }
     @Test
     public void editPost() {
@@ -136,9 +163,13 @@ public class AdminTests extends BaseTest {
         //Change content
         actions.waitForElementClickable(savePostButton);
         post = PostFactory.createPost(user, Visibility.PUBLIC);
+        String oldContent = post.getContent();
+        post = PostFactory.createPost(user, Visibility.PUBLIC);
         createNewPostPage.createPostAndSubmit(post);
         //Assertions
-
+        actions.getDriver().get(postUrl);
+        String newContent = post.getContent();
+        Assertions.assertTrue(oldContent != newContent);
 
     }
     @Test
@@ -157,6 +188,10 @@ public class AdminTests extends BaseTest {
         By deleteButton = By.xpath(String.format("//a[@href='/posts/auth/manager/%s']", resp.getPostId()));
         actions.waitForElementClickable(deleteButton);
         actions.clickElement(deleteButton);
+        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, resp.getPostId()));
+        deletePage.assertPageNavigated();
+        deletePage.selectAndConfirm(ConfirmDelete.DELETE);
+        deletePage.assertDeletedSuccessfullyMessagePresent();
     }
     @Test
     public void editComment() {
@@ -165,9 +200,9 @@ public class AdminTests extends BaseTest {
         //Create a Post
         post = PostFactory.createPost(user, Visibility.PUBLIC);
         var postResp = RestPostController.createPost(new PostRequest(post), cookieValue);
+        String postUrl = String.format("http://localhost:8081/posts/%s", postResp.getPostId());
         //Create a Comment
-        comment = CommentFactory.createComment(post, user);
-        CommentRequest commentRequest = new CommentRequest(comment);
+        CommentRequest commentRequest = new CommentRequest(userId, postResp.getPostId());
         var commentResponse = RestCommentController.createComment(commentRequest, cookieValue);
         int commentId = commentResponse.getCommentId();
         //Login as Admin
@@ -175,8 +210,14 @@ public class AdminTests extends BaseTest {
         //Navigate to Comment
         String commentUrl = String.format("http://localhost:8081/comments/editor/%s", commentId);
         actions.getDriver().get(commentUrl);
+        String testValue = commentResponse.getContent();
         //Edit Comment
-
+        String newValue = "Edited with Selenium";
+        actions.typeValueInField(commentText, newValue);
+        actions.clickElement(saveCommentButton);
+        //Assertions
+        actions.getDriver().get(commentUrl);
+        Assertions.assertTrue(testValue != newValue);
     }
     @Test
     public void deleteComment() {

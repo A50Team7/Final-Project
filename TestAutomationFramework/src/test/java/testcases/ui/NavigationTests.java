@@ -139,7 +139,7 @@ public class NavigationTests extends BaseTest {
         actions.waitForElementClickable(logoutButton);
         actions.clickElement(logoutButton);
 
-        var testElement = By.xpath(Utils.getUIMappingByKey("navigation.signInButton"));
-        actions.assertElementPresent(testElement);
+        var signinButton = By.xpath(Utils.getUIMappingByKey("navigation.signInButton"));
+        actions.assertElementPresent(signinButton);
     }
 }
