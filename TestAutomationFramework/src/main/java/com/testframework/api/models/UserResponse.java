@@ -19,6 +19,6 @@ public class UserResponse {
     private String birthYear;
     private String personalReview;
     private String expertise;
-    private List<Skill> skills;
+    private String[] skills;
 
 }
