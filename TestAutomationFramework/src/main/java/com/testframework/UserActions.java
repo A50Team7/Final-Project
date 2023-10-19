@@ -14,10 +14,8 @@ import static java.lang.String.format;
 
 public class UserActions {
 
-    @Getter final WebDriver driver;
-
-    public UserActions() {
-        this.driver = Utils.getWebDriver();
+    public WebDriver getDriver() {
+        return Utils.getWebDriver();
     }
 
     public static void loadBrowser(String baseUrlKey) {
@@ -29,29 +27,29 @@ public class UserActions {
     }
 
     public void cleanDriver(String baseUrlKey) {
-        driver.manage().deleteAllCookies();
-        driver.get(Utils.getConfigPropertyByKey(baseUrlKey));
+        Utils.getWebDriver().manage().deleteAllCookies();
+        Utils.getWebDriver().get(Utils.getConfigPropertyByKey(baseUrlKey));
         Utils.LOGGER.info("cleaned driver and navigated to: " + baseUrlKey);
     }
 
     public void addCookie(String name, String value) {
-        driver.manage().addCookie(new Cookie.Builder(name, value).build());
+        Utils.getWebDriver().manage().addCookie(new Cookie.Builder(name, value).build());
     }
 
     public void scrollUntilVisible(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) Utils.getWebDriver();
         js.executeScript("arguments[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });", element);
     }
 
     public void scrollUntilVisible(By locator) {
-        WebElement element = driver.findElement(locator);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement element = Utils.getWebDriver().findElement(locator);
+        JavascriptExecutor js = (JavascriptExecutor) Utils.getWebDriver();
         js.executeScript("arguments[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });", element);
     }
 
     public void clickElement(By locator) {
         Utils.LOGGER.info("Clicking on element " + locator);
-        WebElement element = driver.findElement(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
         scrollUntilVisible(element);
         waitForElementPresent(locator);
         waitForElementClickable(locator);
@@ -59,7 +57,7 @@ public class UserActions {
     }
 
     public void tryClick(WebElement element) {
-        var wait = new FluentWait<>(driver)
+        var wait = new FluentWait<>(Utils.getWebDriver())
                 .withTimeout(Duration.ofSeconds(15))
                 .pollingEvery(Duration.ofSeconds(1))
                 .ignoring(ElementClickInterceptedException.class);
@@ -74,7 +72,7 @@ public class UserActions {
         waitForElementClickable(locator);
 
         Utils.LOGGER.info("Typing value: " + value + " In field " + locator);
-        WebElement element = driver.findElement(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
         scrollUntilVisible(element);
         element.sendKeys(value);
     }
@@ -83,7 +81,7 @@ public class UserActions {
         waitForElementClickable(locator);
 
         Utils.LOGGER.info("Clearing text in field" + locator);
-        WebElement element = driver.findElement(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
         scrollUntilVisible(element);
         element.clear();
     }
@@ -92,7 +90,7 @@ public class UserActions {
         waitForElementClickable(locator);
 
         Utils.LOGGER.info("Clearing text in field" + locator + "And typing value: " + value);
-        WebElement element = driver.findElement(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
         scrollUntilVisible(element);
         element.clear();
         element.sendKeys(value);
@@ -103,11 +101,11 @@ public class UserActions {
         waitForElementPresent(toElementBy);
 
         Utils.LOGGER.info("Dragging element " + fromElementBy + " and dropping it on element " + toElementBy);
-        WebElement fromElement = driver.findElement(fromElementBy);
+        WebElement fromElement = Utils.getWebDriver().findElement(fromElementBy);
 
-        WebElement toElement = driver.findElement(toElementBy);
+        WebElement toElement = Utils.getWebDriver().findElement(toElementBy);
 
-        Actions actions = new Actions(driver);
+        Actions actions = new Actions(Utils.getWebDriver());
 
         Action dragAndDrop = actions.clickAndHold(fromElement)
                 .moveToElement(toElement)
@@ -138,12 +136,12 @@ public class UserActions {
     //############# WAITS #########
 
     public void assertElementPresent(By locator) {
-        Assertions.assertNotNull(driver.findElement(locator),
+        Assertions.assertNotNull(Utils.getWebDriver().findElement(locator),
                 format("Element with %s isn't present.", locator));
     }
 
     public void assertElementAttribute(By locator, String attributeName, String attributeValue) {
-        WebElement element = driver.findElement(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
 
         String value = element.getAttribute(attributeName);
         //WIP:
@@ -162,7 +160,7 @@ public class UserActions {
 
     private void waitForElementVisibleUntilTimeout(By locator, int seconds) {
         Duration timeout = Duration.ofSeconds(seconds);
-        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        WebDriverWait wait = new WebDriverWait(Utils.getWebDriver(), timeout);
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (Exception exception) {
@@ -172,7 +170,7 @@ public class UserActions {
 
     private void waitForElementToBeClickableUntilTimeout(By locator, int seconds) {
         Duration timeout = Duration.ofSeconds(seconds);
-        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        WebDriverWait wait = new WebDriverWait(Utils.getWebDriver(), timeout);
         try {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
         } catch (Exception exception) {
@@ -182,7 +180,7 @@ public class UserActions {
 
     private void waitForElementPresenceUntilTimeout(By locator, int seconds) {
         Duration timeout = Duration.ofSeconds(seconds);
-        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        WebDriverWait wait = new WebDriverWait(Utils.getWebDriver(), timeout);
         try {
             wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         } catch (Exception exception) {
@@ -192,13 +190,13 @@ public class UserActions {
 
     public String getText(By locator) {
         waitForElementClickable(locator);
-        WebElement element = driver.findElement(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
         return element.getText();
     }
 
     public String getTheFirstWordOfField(By locator) {
         waitForElementClickable(locator);
-        WebElement element = driver.findElement(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
         String[] words = element.getText().split(" ");
         return words[0];
     }
