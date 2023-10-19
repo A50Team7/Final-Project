@@ -2,10 +2,7 @@ package pages.post;
 
 import com.testframework.FormatHelper;
 import com.testframework.Utils;
-import com.testframework.databasehelper.CommentHelper;
-import com.testframework.databasehelper.PostHelper;
 import com.testframework.models.Comment;
-import com.testframework.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

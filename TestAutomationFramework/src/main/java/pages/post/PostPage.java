@@ -2,19 +2,12 @@ package pages.post;
 
 import com.testframework.FormatHelper;
 import com.testframework.Utils;
-import com.testframework.databasehelper.PostHelper;
-import com.testframework.databasehelper.UserHelper;
 import com.testframework.models.Post;
-import com.testframework.models.User;
 import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
-
-import java.sql.ResultSet;
-import java.sql.SQLDataException;
-import java.sql.SQLException;
 
 @Getter
 public class PostPage extends BasePage {

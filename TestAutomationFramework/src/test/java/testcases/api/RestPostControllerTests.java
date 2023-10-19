@@ -18,8 +18,6 @@ import testcases.ApiHelper;
 
 import java.util.Arrays;
 
-import static io.restassured.RestAssured.given;
-
 public class RestPostControllerTests extends BaseApiTest {
     private String authCookie;
     private int postId;

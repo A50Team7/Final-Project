@@ -11,7 +11,6 @@ import com.testframework.models.User;
 import com.testframework.models.enums.Gender;
 import com.testframework.models.enums.Visibility;
 import io.restassured.response.Response;
-import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
