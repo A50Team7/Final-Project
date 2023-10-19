@@ -12,7 +12,6 @@ public class Utils {
     public static final Logger LOGGER = LogManager.getRootLogger();
 
     public static WebDriver getWebDriver() {
-        LOGGER.info("Initializing WebDriver");
         return CustomWebDriverManager.CustomWebDriverManagerEnum.INSTANCE.getDriver();
     }
 
