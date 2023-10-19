@@ -1,19 +1,19 @@
 package testcases.api;
 
+import com.testframework.api.controllers.RestCommentController;
 import com.testframework.api.controllers.RestPostController;
-import com.testframework.api.models.PostRequest;
-import com.testframework.api.models.EditPostRequest;
-import com.testframework.api.models.PostResponse;
+import com.testframework.api.models.*;
 import com.testframework.databasehelper.PostHelper;
+import com.testframework.factories.CommentFactory;
 import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
+import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.*;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.databasehelper.UserHelper;
-import com.testframework.api.models.UserRequest;
 import testcases.ApiHelper;
 
 import java.util.Arrays;
@@ -88,6 +88,18 @@ public class RestPostControllerTests extends BaseApiTest {
         Assertions.assertFalse(Arrays.stream(posts)
                         .anyMatch(x -> x.getPostId() == postId && x.getContent().equals(postResponse.getContent())),
                 "The deletion was unsuccessful, Get All Request's body still contains the post.");
+    }
+
+    @Test
+    public void getCommentsUnderPost() {
+        Comment comment = CommentFactory.createComment(post, user);
+        CommentRequest commentRequest = new CommentRequest(comment);
+        CommentResponse commentResponse = RestCommentController.createComment(commentRequest, authCookie);
+
+        CommentResponse[] comments = RestPostController.getAllCommentsUnderPost(postId, authCookie);
+        Assertions.assertTrue(Arrays.stream(comments)
+                        .anyMatch(x -> x.getCommentId() == commentResponse.getCommentId() && x.getContent().equals(commentResponse.getContent())),
+                "Get All Comments Under Post doesn't contain the created comment.");
     }
 
     @AfterEach
