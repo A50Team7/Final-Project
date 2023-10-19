@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.Arrays;
 
 import static java.lang.String.format;
 
@@ -34,6 +35,15 @@ public class UserActions {
 
     public void addCookie(String name, String value) {
         Utils.getWebDriver().manage().addCookie(new Cookie.Builder(name, value).build());
+    }
+
+    public boolean cookieExists(String name) {
+        return getDriver().manage().getCookies().stream()
+                .anyMatch(cookie -> cookie.getName().equals(name));
+    }
+
+    public String getCookieValue(String name) {
+        return getDriver().manage().getCookieNamed(name).getValue();
     }
 
     public void scrollUntilVisible(WebElement element) {
