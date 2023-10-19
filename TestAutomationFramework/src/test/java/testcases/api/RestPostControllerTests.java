@@ -41,13 +41,6 @@ public class RestPostControllerTests extends BaseApiTest {
         postId = postResponse.getPostId();
     }
 
-    // DOESN'T FIND THE CREATED POST - WIP
-    // When I do a direct query to the database, the created post is there
-    // When I try to view the post from the browser or postman, it doesn't show
-    // When debugging, the postId and the content of the created post are intact
-    // The other tests are passing with no problem too
-    // Only the 'get all' request fails
-    // It is verified that the post is public, and it exists in the database.
     @Test
     public void findAllPublicPosts_BodyContainsAtLeastTheCreatedPost() {
         PostResponse[] posts = RestPostController.getAllPosts(authCookie);
@@ -62,9 +55,9 @@ public class RestPostControllerTests extends BaseApiTest {
                 "The post's content doesn't match the intended content.");
         Assertions.assertTrue(PostHelper.entityExists(PostHelper.getPost("post_id", String.format("%s", postId))),
                 "The created post is not found in the database.");
+        assertVisibility();
     }
 
-    // FIND ALL REQUEST FAILS
     @Test
     public void editPost() {
         EditPostRequest postEditRequest = new EditPostRequest(PostFactory.generateContent());
@@ -101,6 +94,11 @@ public class RestPostControllerTests extends BaseApiTest {
     public void cleanup() {
         if (!deleted) RestPostController.deletePost(postId, authCookie);
         UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
+    }
+
+    private void assertVisibility() {
+        Assertions.assertEquals(postRequest.isPublic(), postResponse.isPublic(),
+                "The desired visibility of the created post doesn't match.");
     }
 
 }
