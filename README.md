@@ -3,7 +3,7 @@
   \  
   \  
   \  
-  \  
+  
   
 ### JIRA REPORTS
 * ##### [Test Plan Metrics Report](https://team7a50.atlassian.net/plugins/servlet/ac/com.xpandit.plugins.xray/testplans-metrics-report-page?project.key=FP&project.id=10002&ac.reportId=6532357b70b9f096d048215e)
