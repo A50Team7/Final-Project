@@ -24,6 +24,11 @@ public class FormatHelper {
         return formatter.format(date);
     }
 
+    public static String formatRegistrationDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
+
     public static String formatDateAmericanFormat(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         return formatter.format(date);

@@ -2,94 +2,115 @@ package testcases.ui;
 
 import com.testframework.Utils;
 import com.testframework.api.controllers.RestUserController;
+import com.testframework.api.models.PersonalProfileRequest;
 import com.testframework.api.models.UserRequest;
 import com.testframework.factories.UserFactory;
-import com.testframework.models.User;
-import com.testframework.models.enums.ProfessionalCategory;
+import com.testframework.generations.GenerateRandom;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import pages.ViewUsersPage;
+import pages.homepage.HomePage;
+import testcases.ApiHelper;
 
 
 public class SearchTests extends BaseTest {
-    private User user;
-    private String cookieValue;
-    private static final By searchByProf = By.xpath(Utils.getUIMappingByKey("search.searchByProf"));
-    private static final By searchByName = By.xpath(Utils.getUIMappingByKey("search.searchByName"));
-    private static final By searchButton = By.xpath(Utils.getUIMappingByKey("search.searchButton"));
-    private static final By errorMessage = By.xpath(Utils.getUIMappingByKey("search.errorMessage"));
+    private static String homepageUrl = Utils.getConfigPropertyByKey("weare.baseUrl");
+    private static String searchUrl = Utils.getConfigPropertyByKey("weare.search.url");
+    private static HomePage homePage = new HomePage(actions.getDriver(), homepageUrl);
+    private static ViewUsersPage viewUsersPage;
+    private static String searchParam1 = "";
+    private static String searchParam2 = "";
+
     @BeforeEach
-    public void setup() {
-
-        user = UserFactory.createUser();
+    public void setupUser() {
+        user = UserFactory.createUserWithProfile();
         RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        RestUserController.upgradeUserPersonalProfile(user.getUserId(), new PersonalProfileRequest(user), ApiHelper.getCookieValue(user));
 
+        homePage.navigateToPage();
     }
 
     @Test
-    public void searchByProfession() {
-        var profession = ProfessionalCategory.getProfessionalCategoryById(ProfessionalCategory.selectRandomId());
-        String profName = profession.getStringValue();
-        actions.waitForElementClickable(searchByProf);
-        actions.typeValueInField(searchByProf, profName);
+    public void searchByProfession_Should_BeSuccessful() {
+        searchParam1 = user.getCategory().getStringValue();
+        homePage.searchByProfession(searchParam1);
 
-        actions.waitForElementClickable(searchButton);
-        actions.clickElement(searchButton);
-
-        //Assertions
-        var test = Utils.getUIMappingByKey("search.searchByProfession");
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertUserExists(user);
     }
 
     @Test
-    public void searchInvalidCriteria(){
-        actions.waitForElementPresent(searchByName);
-        actions.typeValueInField(searchByName, "test");
+    public void searchWithNonExistingProfessionalCategory_Should_BeUnsuccessful() {
+        searchParam1 = GenerateRandom.generateRandomBoundedAlphanumericString(10);
+        homePage.searchByProfession(searchParam1);
 
-        actions.clickElement(searchButton);
-
-        actions.waitForElementPresent(errorMessage);
-    }
-    @Test
-    public void searchByUsername(){
-        String username = user.getUsername();
-        actions.waitForElementPresent(searchByName);
-        actions.typeValueInField(searchByName, username);
-
-        actions.clickElement(searchButton);
-
-        actions.waitForElementPresent(errorMessage);
-    }
-    @Test
-    public void searchByFirstName() {
-        //Create API Request to Update Profile
-        //Login -> Update User Profile -> Search By First Name
-    }
-    @Test
-    public void searchByEmptyCriteria() {
-        actions.waitForElementClickable(searchButton);
-        actions.clickElement(searchButton);
-        //Assert
-    }
-    @Test
-    public void searchPercentageSign() {
-        actions.waitForElementPresent(searchByName);
-        actions.typeValueInField(searchByName, "%");
-
-        actions.clickElement(searchButton);
-        //Assert
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertErrorMessagePresent();
     }
 
     @Test
-    public void searchByEmail() {
-        String email = user.getEmail();
-        actions.waitForElementPresent(searchByName);
-        actions.typeValueInField(searchByName, email);
+    public void searchByUsernameInNameField_Should_Successful() {
+        searchParam2 = user.getUsername();
+        homePage.searchByName(searchParam2);
 
-        actions.clickElement(searchButton);
-        //Assert
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertUserExists(user);
     }
 
+    @Test
+    public void searchByFirstNameInNameField_Should_BeSuccessful() {
+        searchParam2 = user.getProfile().getFirstName();
+        homePage.searchByName(searchParam2);
 
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertUserExists(user);
+    }
+
+    @Test
+    public void searchByLastNameInNameField_Should_BeSuccessful() {
+        searchParam2 = user.getProfile().getLastName();
+        homePage.searchByName(searchParam2);
+
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertUserExists(user);
+    }
+
+    @Test
+    public void searchByFullNameInNameField_Should_BeSuccessful() {
+        searchParam2 = user.getProfile().getFullName();
+        homePage.searchByName(searchParam2);
+
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertUserExists(user);
+    }
+
+    @Test
+    public void searchByEmptyCriteria_Should_BeUnsuccessful() {
+        homePage.clickSearch();
+
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertErrorMessagePresent();
+    }
+
+    @Test
+    public void searchByEnteringPercentageSignInNameField_Should_BeUnsuccessful() {
+        searchParam2 = "%";
+        homePage.searchByName(searchParam2);
+
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertErrorMessagePresent();
+    }
+
+    @Test
+    public void searchByEnteringEmailInNameField_Should_BeSuccessful() {
+        searchParam2 = user.getEmail();
+        homePage.searchByName(searchParam2);
+
+        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage.assertUserExists(user);
+    }
 
 
 }
