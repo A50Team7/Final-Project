@@ -21,6 +21,16 @@ public class PersonalComment extends CommentSection{
         actions.clickElement(deleteCommentBy(id));
     }
 
+    public void assertEditCommentButtonPresent(int id) {
+        actions.waitForElementPresent(editCommentBy(id));
+        actions.assertElementPresent(editCommentBy(id));
+    }
+
+    public void assertDeleteCommentButtonPresent(int id) {
+        actions.waitForElementPresent(deleteCommentBy(id));
+        actions.assertElementPresent(deleteCommentBy(id));
+    }
+
     private By editCommentBy(int id) {
         return By.xpath(String.format(editComment, id));
     }
