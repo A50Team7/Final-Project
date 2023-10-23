@@ -1,0 +1,1593 @@
+{
+	"id": "3388e6e0-6fa6-49b5-8720-d1ae6c896391",
+	"name": "WEare",
+	"timestamp": "2023-10-23T14:42:42.168Z",
+	"collection_id": "28853623-b1719b23-9718-4d90-9adf-439da4024d6c",
+	"folder_id": 0,
+	"environment_id": "28774743-e30c1f79-e4f9-44f3-9aa5-2b499a8ee25e",
+	"totalPass": 137,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-10-23T14:42:23.717Z",
+	"totalFail": 6,
+	"results": [
+		{
+			"id": "595b282a-e64b-4d56-b95d-af74bcbd1bbf",
+			"name": "Create User",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users/",
+			"time": 5615,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": false,
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5615
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": false,
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "d5538cc0-0766-4b46-9d72-a66fee69ebdc",
+			"name": "Get Users",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users",
+			"time": 48,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				48
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "1b8492b6-9604-4bb5-87ac-01a97297bbec",
+			"name": "Get User By Id",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users/auth/324?principal=admin",
+			"time": 14,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body contains 'username'": true,
+				"Body contains the defined id": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains 'username'": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the defined id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body contains 'username'": true,
+					"Body contains the defined id": true
+				}
+			]
+		},
+		{
+			"id": "7a9bcc86-2834-4e1c-b404-3d2b7777860b",
+			"name": "Show Profile Posts",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users/324/posts",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create request": true,
+				"Status code is 200": true,
+				"Body contains fields for postId, content, likes, date, and liked": true,
+				"Body contains the created post's id and content": true,
+				"The creation was Successful, when get all request is sent, the body contains the new post content and id": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields for postId, content, likes, date, and liked": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the created post's id and content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"The creation was Successful, when get all request is sent, the body contains the new post content and id": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create request": true,
+					"Status code is 200": true,
+					"Body contains fields for postId, content, likes, date, and liked": true,
+					"Body contains the created post's id and content": true,
+					"The creation was Successful, when get all request is sent, the body contains the new post content and id": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "d0aea6ba-8d72-4e38-aafc-f21d6f7a13ef",
+			"name": "Upgrade Personal Profile",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users/auth/324/personal",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body contains approved": false,
+				"Body contains id": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains approved": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Body contains id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body contains approved": false,
+					"Body contains id": true
+				}
+			]
+		},
+		{
+			"id": "4ae09079-5ca6-41c3-a994-4e864de44bac",
+			"name": "Upgrade User Expertise Profile",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users/auth/324/expertise",
+			"time": 18,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "a03ea0ab-99ef-4f6a-8c4a-9e10bfc10d25",
+			"name": "Create a Post",
+			"url": "http://weare-socialnetwork.duckdns.org/api/post/auth/creator",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code of the POST request is 200": true,
+				"The creation was Successful, when get all request is sent, the body contains the new post content and id": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code of the POST request is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"The creation was Successful, when get all request is sent, the body contains the new post content and id": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code of the POST request is 200": true,
+					"The creation was Successful, when get all request is sent, the body contains the new post content and id": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "6dbe497e-348e-43f9-a309-61feeb37fbbf",
+			"name": "Like/Dislike a Post",
+			"url": "http://weare-socialnetwork.duckdns.org/api/post/auth/likesUp?postId=205",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create post request": true,
+				"Status code is 200": true,
+				"Body contains liked: true": true,
+				"Body contains fields for commentId, content, likes, date, and liked": true,
+				"Body contains the id and username of the user who liked the comment": true,
+				"The creation was Successful, when get all request is sent, the body contains the new post content and id": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create post request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains liked: true": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields for commentId, content, likes, date, and liked": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the id and username of the user who liked the comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"The creation was Successful, when get all request is sent, the body contains the new post content and id": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create post request": true,
+					"Status code is 200": true,
+					"Body contains liked: true": true,
+					"Body contains fields for commentId, content, likes, date, and liked": true,
+					"Body contains the id and username of the user who liked the comment": true,
+					"The creation was Successful, when get all request is sent, the body contains the new post content and id": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "0f7696a6-5fba-4335-b7d8-86faced0eb2d",
+			"name": "Edit Post",
+			"url": "http://weare-socialnetwork.duckdns.org/api/post/auth/editor?postId=206",
+			"time": 18,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create post request": true,
+				"Status code is 200": true,
+				"The editing was Successful, when get all request is sent, the body contains the new post content": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create post request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"The editing was Successful, when get all request is sent, the body contains the new post content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create post request": true,
+					"Status code is 200": true,
+					"The editing was Successful, when get all request is sent, the body contains the new post content": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "d9c5c9de-3d26-419d-9ab3-aaf38a94a144",
+			"name": "Get All Posts",
+			"url": "http://weare-socialnetwork.duckdns.org/api/post/?sorted=true",
+			"time": 19,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create request": true,
+				"Status code is 200": true,
+				"Body contains at least the created post's id and content": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains at least the created post's id and content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				19
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create request": true,
+					"Status code is 200": true,
+					"Body contains at least the created post's id and content": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "975519e3-8253-40b2-b486-fdec22fa26fa",
+			"name": "Get All Comments on a Post",
+			"url": "http://weare-socialnetwork.duckdns.org/api/post/Comments?postId=208",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful creation of post": true,
+				"Successful creation of comment": true,
+				"Status code is 200": true,
+				"Body contains fields for commentId, content, likes, date, and liked": true,
+				"Body contains the created comment's id and content": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields for commentId, content, likes, date, and liked": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the created comment's id and content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful creation of post": true,
+					"Successful creation of comment": true,
+					"Status code is 200": true,
+					"Body contains fields for commentId, content, likes, date, and liked": true,
+					"Body contains the created comment's id and content": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "3de51f1f-40d1-432f-b4e6-90ab0449ab7a",
+			"name": "Delete Post",
+			"url": "http://weare-socialnetwork.duckdns.org/api/post/auth/manager?postId=209",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create request": true,
+				"Status code is 200": true,
+				"The deletion is successful, get all request's body doesn't contain the id of the deleted post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"The deletion is successful, get all request's body doesn't contain the id of the deleted post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create request": true,
+					"Status code is 200": true,
+					"The deletion is successful, get all request's body doesn't contain the id of the deleted post": true
+				}
+			]
+		},
+		{
+			"id": "33e06a9f-c184-411f-8e99-86d2e9bae0ca",
+			"name": "Create Comment on Post",
+			"url": "http://weare-socialnetwork.duckdns.org/api/comment/auth/creator",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful creation of post": true,
+				"Status code is 200": true,
+				"Body contains fields comment, content, likes": true,
+				"Body contains the expected comment's id and content": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields comment, content, likes": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the expected comment's id and content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful creation of post": true,
+					"Status code is 200": true,
+					"Body contains fields comment, content, likes": true,
+					"Body contains the expected comment's id and content": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "b21c97b5-87b4-46cd-98a0-66f291ae9bb0",
+			"name": "Get One Comment",
+			"url": "http://weare-socialnetwork.duckdns.org/api/comment/single?commentId=165",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful creation of post": true,
+				"Successful creation of comment": true,
+				"Status code is 200": true,
+				"Body contains fields for commentId, content, likes, date, and liked": true,
+				"Body contains the created comment's id and content": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields for commentId, content, likes, date, and liked": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the created comment's id and content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful creation of post": true,
+					"Successful creation of comment": true,
+					"Status code is 200": true,
+					"Body contains fields for commentId, content, likes, date, and liked": true,
+					"Body contains the created comment's id and content": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "6de9904e-a2a0-4d93-941e-e27ab9a0f313",
+			"name": "Find All",
+			"url": "http://weare-socialnetwork.duckdns.org/api/comment",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful creation of post": true,
+				"Successful creation of comment": true,
+				"Status code is 200": true,
+				"Body contains fields for commentId, content, likes, date, and liked": true,
+				"Body contains the created comment's id and content": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields for commentId, content, likes, date, and liked": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the created comment's id and content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful creation of post": true,
+					"Successful creation of comment": true,
+					"Status code is 200": true,
+					"Body contains fields for commentId, content, likes, date, and liked": true,
+					"Body contains the created comment's id and content": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "5ac83677-c01e-4c7c-9ee8-074ebedd68bd",
+			"name": "Find All Comments Of Post",
+			"url": "http://weare-socialnetwork.duckdns.org/api/comment/byPost?postId=213",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful creation of post": true,
+				"Successful creation of comment": true,
+				"Status code is 200": true,
+				"Body contains fields for commentId, content, likes, date, and liked": true,
+				"Body contains the created comment's id and content": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields for commentId, content, likes, date, and liked": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the created comment's id and content": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful creation of post": true,
+					"Successful creation of comment": true,
+					"Status code is 200": true,
+					"Body contains fields for commentId, content, likes, date, and liked": true,
+					"Body contains the created comment's id and content": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "66193d8f-6cc0-40f7-8c9f-12bca7e86a60",
+			"name": "Like/Dislike Comment",
+			"url": "http://weare-socialnetwork.duckdns.org/api/comment/auth/likesUp?commentId=168",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful creation of post": true,
+				"Successful creation of comment": true,
+				"Status code is 200": true,
+				"Body contains liked: true": true,
+				"Body contains fields for commentId, content, likes, date, and liked": true,
+				"Body contains the id and username of the user who liked the comment": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains liked: true": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains fields for commentId, content, likes, date, and liked": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains the id and username of the user who liked the comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful creation of post": true,
+					"Successful creation of comment": true,
+					"Status code is 200": true,
+					"Body contains liked: true": true,
+					"Body contains fields for commentId, content, likes, date, and liked": true,
+					"Body contains the id and username of the user who liked the comment": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "0e818d93-cd1a-46c0-93f2-208c15ceaede",
+			"name": "Edit Comment",
+			"url": "http://weare-socialnetwork.duckdns.org/api/comment/auth/editor?commentId=169&content=Front-line motivating monitoring",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful creation of post": true,
+				"Successful creation of comment": true,
+				"Status code is 200": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful creation of post": true,
+					"Successful creation of comment": true,
+					"Status code is 200": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "d4acb260-58c9-462a-ae75-10227d207c34",
+			"name": "Delete Comment",
+			"url": "http://weare-socialnetwork.duckdns.org/api/comment/auth/manager?commentId=170",
+			"time": 20,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful authorization request before request": true,
+				"Successful creation of post": true,
+				"Successful creation of comment": true,
+				"Successful deletion of the created post": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful authorization request before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of post": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful creation of comment": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful deletion of the created post": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				20
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful authorization request before request": true,
+					"Successful creation of post": true,
+					"Successful creation of comment": true,
+					"Successful deletion of the created post": true
+				}
+			]
+		},
+		{
+			"id": "5f25d690-cfdf-4267-b5da-98efbed34a4b",
+			"name": "Find All",
+			"url": "http://weare-socialnetwork.duckdns.org/api/skill",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create request": true,
+				"Status code is 200": true,
+				"response contains the predifined skillName": false,
+				"Successful delete request": false
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"response contains the predifined skillName": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Successful delete request": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create request": true,
+					"Status code is 200": true,
+					"response contains the predifined skillName": false,
+					"Successful delete request": false
+				}
+			]
+		},
+		{
+			"id": "b4fdd256-a39b-4f33-b84b-adcb7688d51f",
+			"name": "Get One Skill",
+			"url": "http://weare-socialnetwork.duckdns.org/api/skill/getOne?skillId=122",
+			"time": 14,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create request": true,
+				"Status code is 200": true,
+				"response contains the predifined skillName": true,
+				"Successful delete request": false
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"response contains the predifined skillName": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful delete request": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create request": true,
+					"Status code is 200": true,
+					"response contains the predifined skillName": true,
+					"Successful delete request": false
+				}
+			]
+		},
+		{
+			"id": "58a5b9ba-f6ea-47c8-8f07-1648d17e7869",
+			"name": "Create Skill",
+			"url": "http://weare-socialnetwork.duckdns.org/api/skill/create",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"response contains the predifined skillName": true,
+				"Successful delete request": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"response contains the predifined skillName": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful delete request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"response contains the predifined skillName": true,
+					"Successful delete request": true
+				}
+			]
+		},
+		{
+			"id": "4ee331cf-8c09-4431-8565-c9ac3d0e7354",
+			"name": "Delete Skill",
+			"url": "http://weare-socialnetwork.duckdns.org/api/skill/delete?skillId=124",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": false,
+				"Successful create request": true,
+				"Status code is 200": true,
+				"GetOne request returns 404": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"GetOne request returns 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": false,
+					"Successful create request": true,
+					"Status code is 200": true,
+					"GetOne request returns 404": true
+				}
+			]
+		},
+		{
+			"id": "70494104-63ba-41a0-a20d-8a5543a355f2",
+			"name": "Edit Skill",
+			"url": "http://weare-socialnetwork.duckdns.org/api/skill/edit?skill=Up-sized&skillId=125",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Successful create request": true,
+				"Status code is 200": true,
+				"GetOne request returns 200 and the body contains the new name": true,
+				"Successful delete request": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful create request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"GetOne request returns 200 and the body contains the new name": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Successful delete request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Successful create request": true,
+					"Status code is 200": true,
+					"GetOne request returns 200 and the body contains the new name": true,
+					"Successful delete request": true
+				}
+			]
+		},
+		{
+			"id": "dd3ac18d-81a3-489a-aa92-a2a7aa5da74c",
+			"name": "Send Friend Request",
+			"url": "http://weare-socialnetwork.duckdns.org/api/auth/request",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "9afaec3a-433c-4f78-b513-d0dadea857f7",
+			"name": "Get User Requests",
+			"url": "http://weare-socialnetwork.duckdns.org/api/auth/users/323/request/",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body contains approved": true,
+				"Body contains id": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains approved": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body contains approved": true,
+					"Body contains id": true
+				}
+			]
+		},
+		{
+			"id": "342c5ff9-d550-408d-8933-770dd66b6b26",
+			"name": "Accept Friend Request",
+			"url": "http://weare-socialnetwork.duckdns.org/api/auth/users/323/request/approve?requestId=4",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "9334ee08-9131-4eb1-b057-32a7089fa95d",
+			"name": "Create User - Needed for All Requests That Need Authorization",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users/",
+			"time": 82,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				82
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		},
+		{
+			"id": "6297785c-6d3a-4ded-ae50-d5c33c7c18d1",
+			"name": "Create Second User - Needed for Connection Tests",
+			"url": "http://weare-socialnetwork.duckdns.org/api/users/",
+			"time": 86,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Successful authorization before request": true,
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Successful authorization before request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				86
+			],
+			"allTests": [
+				{
+					"Successful authorization before request": true,
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 6225,
+	"collection": {
+		"requests": [
+			{
+				"id": "595b282a-e64b-4d56-b95d-af74bcbd1bbf",
+				"method": "POST"
+			},
+			{
+				"id": "d5538cc0-0766-4b46-9d72-a66fee69ebdc",
+				"method": "POST"
+			},
+			{
+				"id": "1b8492b6-9604-4bb5-87ac-01a97297bbec",
+				"method": "GET"
+			},
+			{
+				"id": "7a9bcc86-2834-4e1c-b404-3d2b7777860b",
+				"method": "GET"
+			},
+			{
+				"id": "d0aea6ba-8d72-4e38-aafc-f21d6f7a13ef",
+				"method": "POST"
+			},
+			{
+				"id": "4ae09079-5ca6-41c3-a994-4e864de44bac",
+				"method": "POST"
+			},
+			{
+				"id": "a03ea0ab-99ef-4f6a-8c4a-9e10bfc10d25",
+				"method": "POST"
+			},
+			{
+				"id": "6dbe497e-348e-43f9-a309-61feeb37fbbf",
+				"method": "POST"
+			},
+			{
+				"id": "0f7696a6-5fba-4335-b7d8-86faced0eb2d",
+				"method": "PUT"
+			},
+			{
+				"id": "d9c5c9de-3d26-419d-9ab3-aaf38a94a144",
+				"method": "GET"
+			},
+			{
+				"id": "975519e3-8253-40b2-b486-fdec22fa26fa",
+				"method": "GET"
+			},
+			{
+				"id": "3de51f1f-40d1-432f-b4e6-90ab0449ab7a",
+				"method": "DELETE"
+			},
+			{
+				"id": "33e06a9f-c184-411f-8e99-86d2e9bae0ca",
+				"method": "POST"
+			},
+			{
+				"id": "b21c97b5-87b4-46cd-98a0-66f291ae9bb0",
+				"method": "GET"
+			},
+			{
+				"id": "6de9904e-a2a0-4d93-941e-e27ab9a0f313",
+				"method": "GET"
+			},
+			{
+				"id": "5ac83677-c01e-4c7c-9ee8-074ebedd68bd",
+				"method": "GET"
+			},
+			{
+				"id": "66193d8f-6cc0-40f7-8c9f-12bca7e86a60",
+				"method": "POST"
+			},
+			{
+				"id": "0e818d93-cd1a-46c0-93f2-208c15ceaede",
+				"method": "PUT"
+			},
+			{
+				"id": "d4acb260-58c9-462a-ae75-10227d207c34",
+				"method": "DELETE"
+			},
+			{
+				"id": "5f25d690-cfdf-4267-b5da-98efbed34a4b",
+				"method": "GET"
+			},
+			{
+				"id": "b4fdd256-a39b-4f33-b84b-adcb7688d51f",
+				"method": "GET"
+			},
+			{
+				"id": "58a5b9ba-f6ea-47c8-8f07-1648d17e7869",
+				"method": "POST"
+			},
+			{
+				"id": "4ee331cf-8c09-4431-8565-c9ac3d0e7354",
+				"method": "PUT"
+			},
+			{
+				"id": "70494104-63ba-41a0-a20d-8a5543a355f2",
+				"method": "PUT"
+			},
+			{
+				"id": "dd3ac18d-81a3-489a-aa92-a2a7aa5da74c",
+				"method": "POST"
+			},
+			{
+				"id": "9afaec3a-433c-4f78-b513-d0dadea857f7",
+				"method": "GET"
+			},
+			{
+				"id": "342c5ff9-d550-408d-8933-770dd66b6b26",
+				"method": "POST"
+			},
+			{
+				"id": "9334ee08-9131-4eb1-b057-32a7089fa95d",
+				"method": "POST"
+			},
+			{
+				"id": "6297785c-6d3a-4ded-ae50-d5c33c7c18d1",
+				"method": "POST"
+			}
+		]
+	}
+}

@@ -1,0 +1,3609 @@
+{
+	"info": {
+		"_postman_id": "b1719b23-9718-4d90-9adf-439da4024d6c",
+		"name": "WEare",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28774743",
+		"_collection_link": "https://martian-flare-701498.postman.co/workspace/WEare~000249d9-0ea2-4fba-9706-fa46ce66af1f/collection/28853623-b1719b23-9718-4d90-9adf-439da4024d6c?action=share&source=collection_link&creator=28774743"
+	},
+	"item": [
+		{
+			"name": "Rest User Controller",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"username\", pm.variables.replaceIn('{{$randomFirstName}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseText= pm.response.text();\r",
+									"const myArray = responseText.split(\" \");\r",
+									"let responseId = myArray[6];\r",
+									"pm.collectionVariables.set(\"userId\", responseId);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"username\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"authorities\": [\r\n    \"ROLE_USER\"\r\n  ],\r\n  \"category\": {\r\n    \"id\": 100,\r\n    \"name\": \"All\"\r\n  },\r\n  \"email\": \"string1@test.bg\",\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{username}}\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"index\": 0,\r\n    \"next\": true,\r\n    \"searchParam1\": \"\",\r\n    \"searchParam2\": \"\",\r\n    \"size\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains 'username'\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the defined id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"userId\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"index\": 0,\r\n    \"next\": true,\r\n    \"searchParam1\": \"\",\r\n    \"searchParam2\": \"\",\r\n    \"size\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/auth/{{userId}}?principal=admin",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								"auth",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "principal",
+									"value": "admin"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Profile Posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields for postId, content, likes, date, and liked\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"postId\", \"content\", \"likes\", \"date\", \"liked\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the created post's id and content\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"postId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"postContent\"));\r",
+									"});\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\";\r",
+									"const getAllRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Get',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(getAllRequest, (err, getAllResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"The creation was Successful, when get all request is sent, the body contains the new post content and id\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(getAllResponse).to.have.property('code', 200);\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postId\"));\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postContent\"));\r",
+									"    });\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"    const deleteRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Delete',\r",
+									"        header: {\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"Successful deletion of the created post\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, createResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(createResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"index\": 0,\r\n    \"next\": true,\r\n    \"searchParam1\": \"\",\r\n    \"searchParam2\": \"\",\r\n    \"size\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/{{userId}}/posts",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								"{{userId}}",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upgrade Personal Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseText= pm.response.json;\r",
+									"var responseId =parseInt(responseText.valueOf(\"id\"));\r",
+									"pm.collectionVariables.set(\"friendRequestId\", responseId);\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains approved\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"approved\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>Approved</th>\r",
+									"        <th>Seen</th>\r",
+									"        <th>Timestamp</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response}}\r",
+									"        <tr>\r",
+									"            <td>{{id}}</td>\r",
+									"            <td>{{approved}}</td>\r",
+									"            <td>{{seen}}</td>\r",
+									"            <td>{{timeStamp}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return {response: pm.response.json()}\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+									"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));\r",
+									"let pass = pm.collectionVariables.get(\"password\");\r",
+									"let user =  pm.collectionVariables.get(\"username\");\r",
+									"\r",
+									"\r",
+									"    // pm.sendRequest({\r",
+									"    // url: 'http://localhost:8081/authenticate',\r",
+									"    // method: 'POST',\r",
+									"    // header: {\r",
+									"    //     'Content-Type': 'multipart/form-data',\r",
+									"    //       },\r",
+									"    //     'body': {\r",
+									"    //         'mode': 'formdata',\r",
+									"    //         'formdata': [\r",
+									"    //             {'key':'password', 'value': pass},\r",
+									"    //             {'key':'username', 'value': user}\r",
+									"    //         ]\r",
+									"    //      }\r",
+									"    // });\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"birthYear\": \"{{birthYear}}\",\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\",\r\n  \"location\": {\r\n    \"city\": {\r\n      \"city\": \"\",\r\n      \"country\": {},\r\n      \"id\": \"{{cityId}}\"\r\n    },\r\n    \"id\": 1\r\n  },\r\n  \"picturePrivacy\": \"{{picturePrivacy}}\",\r\n  \"sex\": \"{{sex}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/auth/{{userId}}/personal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								"auth",
+								"{{userId}}",
+								"personal"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "45",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upgrade User Expertise Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"skills\", \"skillId\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"availability\": 10.0,\r\n    \"category\": {\r\n        \"id\": 100,\r\n        \"name\": \"All\"\r\n    },\r\n    \"skill1\": \"{{$randomAdjective}}\",\r\n    \"skill2\": \"{{$randomAdjective}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/auth/{{userId}}/expertise",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								"auth",
+								"{{userId}}",
+								"expertise"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rest Post Controller",
+			"item": [
+				{
+					"name": "Create a Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseJsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"postId\", responseJsonData.postId)\r",
+									"\r",
+									"pm.test(\"Status code of the POST request is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\";\r",
+									"const getAllRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Get',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(getAllRequest, (err, getAllResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"The creation was Successful, when get all request is sent, the body contains the new post content and id\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(getAllResponse).to.have.property('code', 200);\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postId\"));\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postContent\"));\r",
+									"    });\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"    const deleteRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Delete',\r",
+									"        header: {\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"Successful deletion of the created post\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"content\": \"{{postContent}}\",\r\n        \"picture\": \"\",\r\n        \"public\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{postEndpoint}}/auth/creator",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{postEndpoint}}",
+								"auth",
+								"creator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like/Dislike a Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains liked: true\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields for commentId, content, likes, date, and liked\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"postId\", \"content\", \"likes\", \"date\", \"liked\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the id and username of the user who liked the comment\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"userId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"username\"));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"let url;\r",
+									"\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\";\r",
+									"const getAllRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Get',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(getAllRequest, (err, getAllResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"The creation was Successful, when get all request is sent, the body contains the new post content and id\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(getAllResponse).to.have.property('code', 200);\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postId\"));\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postContent\"));\r",
+									"    });\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"    const deleteRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Delete',\r",
+									"        header: {\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"Successful deletion of the created post\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create post request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{postEndpoint}}/auth/likesUp?postId={{postId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{postEndpoint}}",
+								"auth",
+								"likesUp"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "{{postId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let url;\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\";\r",
+									"const getAllRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Get',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(getAllRequest, (err, getAllResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"The editing was Successful, when get all request is sent, the body contains the new post content\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(getAllResponse).to.have.property('code', 200);\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postId\"));\r",
+									"        pm.expect(getAllResponse.text()).to.include(pm.collectionVariables.get(\"postContent\"));\r",
+									"    });\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"    const deleteRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Delete',\r",
+									"        header: {\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        pm.test(\"Successful deletion of the created post\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create post request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"content\": \"{{postContent}}\",\r\n  \"picture\": \"\",\r\n  \"public\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{postEndpoint}}/auth/editor?postId={{postId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{postEndpoint}}",
+								"auth",
+								"editor"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "{{postId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Posts",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': ''\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, createResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(createResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    console.log(jsonBody);\r",
+									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains at least the created post's id and content\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"postId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"postContent\"));\r",
+									"});\r",
+									"\r",
+									"let url;\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{postEndpoint}}/?sorted=true",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{postEndpoint}}",
+								""
+							],
+							"query": [
+								{
+									"key": "sorted",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Comments on a Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields for commentId, content, likes, date, and liked\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"commentId\", \"content\", \"likes\", \"date\", \"liked\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the created comment's id and content\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentContent\"));\r",
+									"});\r",
+									"\r",
+									"let url;\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let postJsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful creation of post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", postJsonBody.postId);\r",
+									"\r",
+									"    pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"commentEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"    const createCommentRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Post',\r",
+									"        header: {\r",
+									"            'Content-Type': 'application/json',\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        },\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                \"userId\": pm.collectionVariables.get(\"userId\"),\r",
+									"                \"postId\": pm.collectionVariables.get(\"postId\"),\r",
+									"                \"content\": pm.collectionVariables.get(\"commentContent\")\r",
+									"            })\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(createCommentRequest, (err, createCommentResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        let commentJsonBody = JSON.parse(createCommentResponse.stream);\r",
+									"\r",
+									"        pm.test(\"Successful creation of comment\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(createCommentResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"        pm.collectionVariables.set(\"commentId\", commentJsonBody.commentId);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{postEndpoint}}/Comments?postId={{postId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{postEndpoint}}",
+								"Comments"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "{{postId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, createResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(createResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\";\r",
+									"const getAllRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Get',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(getAllRequest, (err, getAllResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"The deletion is successful, get all request's body doesn't contain the id of the deleted post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(getAllResponse).to.have.property('code', 200);\r",
+									"        pm.expect(getAllResponse.text()).to.not.include(pm.collectionVariables.get(\"postId\"));\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{postEndpoint}}/auth/manager?postId={{postId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{postEndpoint}}",
+								"auth",
+								"manager"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "{{postId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rest Comment Controller",
+			"item": [
+				{
+					"name": "Create Comment on Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"commentId\", jsonData.commentId)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields comment, content, likes\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"commentId\", \"content\", \"likes\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the expected comment's id and content\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentContent\"));\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, createResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(createResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful creation of post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{       \r\n        \"userId\": {{userId}},\r\n        \"postId\": {{postId}},\r\n        \"content\": \"{{commentContent}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{commentEndpoint}}/auth/creator",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{commentEndpoint}}",
+								"auth",
+								"creator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields for commentId, content, likes, date, and liked\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"commentId\", \"content\", \"likes\", \"date\", \"liked\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the created comment's id and content\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentContent\"));\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let postJsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful creation of post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", postJsonBody.postId);\r",
+									"\r",
+									"    pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"commentEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"    const createCommentRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Post',\r",
+									"        header: {\r",
+									"            'Content-Type': 'application/json',\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        },\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                \"userId\": pm.collectionVariables.get(\"userId\"),\r",
+									"                \"postId\": pm.collectionVariables.get(\"postId\"),\r",
+									"                \"content\": pm.collectionVariables.get(\"commentContent\")\r",
+									"            })\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(createCommentRequest, (err, createCommentResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        let commentJsonBody = JSON.parse(createCommentResponse.stream);\r",
+									"\r",
+									"        pm.test(\"Successful creation of comment\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(createCommentResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"        pm.collectionVariables.set(\"commentId\", commentJsonBody.commentId);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{commentEndpoint}}/single?commentId={{commentId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{commentEndpoint}}",
+								"single"
+							],
+							"query": [
+								{
+									"key": "commentId",
+									"value": "{{commentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields for commentId, content, likes, date, and liked\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"commentId\", \"content\", \"likes\", \"date\", \"liked\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the created comment's id and content\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentContent\"));\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let postJsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful creation of post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", postJsonBody.postId);\r",
+									"\r",
+									"    pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"commentEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"    const createCommentRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Post',\r",
+									"        header: {\r",
+									"            'Content-Type': 'application/json',\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        },\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                \"userId\": pm.collectionVariables.get(\"userId\"),\r",
+									"                \"postId\": pm.collectionVariables.get(\"postId\"),\r",
+									"                \"content\": pm.collectionVariables.get(\"commentContent\")\r",
+									"            })\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(createCommentRequest, (err, createCommentResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        let commentJsonBody = JSON.parse(createCommentResponse.stream);\r",
+									"\r",
+									"        pm.test(\"Successful creation of comment\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(createCommentResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"        pm.collectionVariables.set(\"commentId\", commentJsonBody.commentId);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{commentEndpoint}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{commentEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find All Comments Of Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields for commentId, content, likes, date, and liked\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"commentId\", \"content\", \"likes\", \"date\", \"liked\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the created comment's id and content\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"commentContent\"));\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let postJsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful creation of post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", postJsonBody.postId);\r",
+									"\r",
+									"    pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"commentEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"    const createCommentRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Post',\r",
+									"        header: {\r",
+									"            'Content-Type': 'application/json',\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        },\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                \"userId\": pm.collectionVariables.get(\"userId\"),\r",
+									"                \"postId\": pm.collectionVariables.get(\"postId\"),\r",
+									"                \"content\": pm.collectionVariables.get(\"commentContent\")\r",
+									"            })\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(createCommentRequest, (err, createCommentResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        let commentJsonBody = JSON.parse(createCommentResponse.stream);\r",
+									"\r",
+									"        pm.test(\"Successful creation of comment\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(createCommentResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"        pm.collectionVariables.set(\"commentId\", commentJsonBody.commentId);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{commentEndpoint}}/byPost?postId={{postId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{commentEndpoint}}",
+								"byPost"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "{{postId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like/Dislike Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains liked: true\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains fields for commentId, content, likes, date, and liked\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(\"commentId\", \"content\", \"likes\", \"date\", \"liked\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains the id and username of the user who liked the comment\", function() {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"userId\"));\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"username\"));\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let postJsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful creation of post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", postJsonBody.postId);\r",
+									"\r",
+									"    pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"commentEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"    const createCommentRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Post',\r",
+									"        header: {\r",
+									"            'Content-Type': 'application/json',\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        },\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                \"userId\": pm.collectionVariables.get(\"userId\"),\r",
+									"                \"postId\": pm.collectionVariables.get(\"postId\"),\r",
+									"                \"content\": pm.collectionVariables.get(\"commentContent\")\r",
+									"            })\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(createCommentRequest, (err, createCommentResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        let commentJsonBody = JSON.parse(createCommentResponse.stream);\r",
+									"\r",
+									"        pm.test(\"Successful creation of comment\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(createCommentResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"        pm.collectionVariables.set(\"commentId\", commentJsonBody.commentId);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{commentEndpoint}}/auth/likesUp?commentId={{commentId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{commentEndpoint}}",
+								"auth",
+								"likesUp"
+							],
+							"query": [
+								{
+									"key": "commentId",
+									"value": "{{commentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// proper validation of the comment editing by get one comment\r",
+									"\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"\r",
+									"const createPostRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let postJsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful creation of post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", postJsonBody.postId);\r",
+									"\r",
+									"    pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"commentEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"    const createCommentRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Post',\r",
+									"        header: {\r",
+									"            'Content-Type': 'application/json',\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': \"\"\r",
+									"        },\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                \"userId\": pm.collectionVariables.get(\"userId\"),\r",
+									"                \"postId\": pm.collectionVariables.get(\"postId\"),\r",
+									"                \"content\": pm.collectionVariables.get(\"commentContent\")\r",
+									"            })\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(createCommentRequest, (err, createCommentResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        let commentJsonBody = JSON.parse(createCommentResponse.stream);\r",
+									"\r",
+									"        pm.test(\"Successful creation of comment\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(createCommentResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"        pm.collectionVariables.set(\"commentId\", commentJsonBody.commentId);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{commentEndpoint}}/auth/editor?commentId={{commentId}}&content={{commentContent}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{commentEndpoint}}",
+								"auth",
+								"editor"
+							],
+							"query": [
+								{
+									"key": "commentId",
+									"value": "{{commentId}}"
+								},
+								{
+									"key": "content",
+									"value": "{{commentContent}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let username = pm.collectionVariables.get(\"username\");\r",
+									"let password = pm.collectionVariables.get(\"password\");\r",
+									"\r",
+									"let url;\r",
+									"let authUrl = \"http://localhost:8081/authenticate?username=\" + username + \"&password=\" + password;\r",
+									"const authRequest = {\r",
+									"    url: authUrl,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive'\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(authRequest, (err, authResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful authorization request before request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(authResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    let cookieValue;\r",
+									"    const cookieJar = pm.cookies.jar();\r",
+									"    cookieJar.get(\"localhost:8081/\", 'JSESSIONID', (error, cookie) => {\r",
+									"        if (error != null) console.log(error);\r",
+									"        console.log(cookie);\r",
+									"        cookieValue = cookie.toString();\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"    url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"\r",
+									"    const createPostRequest = {\r",
+									"        url: url,\r",
+									"        method: 'Post',\r",
+									"        header: {\r",
+									"            'Content-Type': 'application/json',\r",
+									"            'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"            'Accept': '*/*',\r",
+									"            'Host': pm.request.headers.get('Host'),\r",
+									"            'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"            'Connection': 'keep-alive',\r",
+									"            'Cookie': cookieValue\r",
+									"        },\r",
+									"        body: {\r",
+									"            mode: 'raw',\r",
+									"            raw: JSON.stringify({\r",
+									"                \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"                \"picture\": \"\",\r",
+									"                \"public\": true\r",
+									"            })\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    pm.sendRequest(createPostRequest, (err, createPostResponse) => {\r",
+									"        if (err) {\r",
+									"            console.log(err);\r",
+									"        }\r",
+									"\r",
+									"        let postJsonBody = JSON.parse(createPostResponse.stream);\r",
+									"\r",
+									"        pm.test(\"Successful creation of post\", function() {\r",
+									"            pm.expect(err).to.eql(null);\r",
+									"            pm.expect(createPostResponse).to.have.property('code', 200);\r",
+									"        });\r",
+									"\r",
+									"        pm.collectionVariables.set(\"postId\", postJsonBody.postId);\r",
+									"\r",
+									"        pm.collectionVariables.set(\"commentContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"        url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"commentEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"        const createCommentRequest = {\r",
+									"            url: url,\r",
+									"            method: 'Post',\r",
+									"            header: {\r",
+									"                'Content-Type': 'application/json',\r",
+									"                'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"                'Accept': '*/*',\r",
+									"                'Host': pm.request.headers.get('Host'),\r",
+									"                'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"                'Connection': 'keep-alive',\r",
+									"                'Cookie': cookieValue\r",
+									"            },\r",
+									"            body: {\r",
+									"                mode: 'raw',\r",
+									"                raw: JSON.stringify({\r",
+									"                    \"userId\": pm.collectionVariables.get(\"userId\"),\r",
+									"                    \"postId\": pm.collectionVariables.get(\"postId\"),\r",
+									"                    \"content\": pm.collectionVariables.get(\"commentContent\")\r",
+									"                })\r",
+									"            }\r",
+									"        }\r",
+									"\r",
+									"        pm.sendRequest(createCommentRequest, (err, createCommentResponse) => {\r",
+									"            if (err) {\r",
+									"                console.log(err);\r",
+									"            }\r",
+									"\r",
+									"            let commentJsonBody = JSON.parse(createCommentResponse.stream);\r",
+									"\r",
+									"            pm.test(\"Successful creation of comment\", function() {\r",
+									"                pm.expect(err).to.eql(null);\r",
+									"                pm.expect(createCommentResponse).to.have.property('code', 200);\r",
+									"            });\r",
+									"\r",
+									"            pm.collectionVariables.set(\"commentId\", commentJsonBody.commentId);\r",
+									"        });\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// proper validation of the comment deletion by get all comments on a post\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/manager?postId=\" + pm.collectionVariables.get(\"postId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Delete',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, deleteResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful deletion of the created post\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(deleteResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{commentEndpoint}}/auth/manager?commentId={{commentId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{commentEndpoint}}",
+								"auth",
+								"manager"
+							],
+							"query": [
+								{
+									"key": "commentId",
+									"value": "{{commentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rest Skill Controller",
+			"item": [
+				{
+					"name": "Find All",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"skillEndpoint\") + \"/create\";\r",
+									"pm.collectionVariables.set(\"skillName\", pm.variables.replaceIn('{{$randomCatchPhraseAdjective}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive'\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify(\r",
+									"            {\r",
+									"              \"category\": {\r",
+									"                 \"id\": pm.collectionVariables.get(\"categoryId\"),\r",
+									"                 \"name\": pm.collectionVariables.get(\"categoryName\")\r",
+									"                 },\r",
+									"                \"skill\": pm.collectionVariables.get(\"skillName\"),\r",
+									"                \"skillId\": 0\r",
+									"            }\r",
+									"        )\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"        let jsonBody = JSON.parse(response.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"\r",
+									"    pm.collectionVariables.set(\"skillId\", jsonBody.skillId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response contains the predifined skillName\", function () {\r",
+									"    pm.expect(json.skill).to.eql(pm.collectionVariables.get(\"skillName\"));\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.collectionVariables.get(\"skillEnding\") + \"/delete\" + \"?skillId=\" + pm.collectionVariables.get(\"skillId\");\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Put',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Postman-Token': pm.request.headers.get('Postman-Token'),\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Content-Length': pm.request.headers.get('Content-Length')\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful delete request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{skillEndpoint}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{skillEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Skill",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"skillEndpoint\") + \"/create\";\r",
+									"pm.collectionVariables.set(\"skillName\", pm.variables.replaceIn('{{$randomCatchPhraseAdjective}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive'\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify(\r",
+									"            {\r",
+									"              \"category\": {\r",
+									"                 \"id\": pm.collectionVariables.get(\"categoryId\"),\r",
+									"                 \"name\": pm.collectionVariables.get(\"categoryName\")\r",
+									"                 },\r",
+									"                \"skill\": pm.collectionVariables.get(\"skillName\"),\r",
+									"                \"skillId\": 0\r",
+									"            }\r",
+									"        )\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"        let jsonBody = JSON.parse(response.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"\r",
+									"    pm.collectionVariables.set(\"skillId\", jsonBody.skillId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response contains the predifined skillName\", function () {\r",
+									"    pm.expect(json.skill).to.eql(pm.collectionVariables.get(\"skillName\"));\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.collectionVariables.get(\"skillEnding\") + \"/delete\" + \"?skillId=\" + pm.collectionVariables.get(\"skillId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Put',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Postman-Token': pm.request.headers.get('Postman-Token'),\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Content-Length': pm.request.headers.get('Content-Length')\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful delete request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{skillEndpoint}}/getOne?skillId={{skillId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{skillEndpoint}}",
+								"getOne"
+							],
+							"query": [
+								{
+									"key": "skillId",
+									"value": "{{skillId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response contains the predifined skillName\", function () {\r",
+									"    pm.expect(jsonData.skill).to.eql(pm.collectionVariables.get(\"skillName\"));\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"skillId\", jsonData.skillId);\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"skillEndpoint\") + \"/delete\" + \"?skillId=\" + pm.collectionVariables.get(\"skillId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Put',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Postman-Token': pm.request.headers.get('Postman-Token'),\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Content-Length': pm.request.headers.get('Content-Length')\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful delete request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"skillName\", pm.variables.replaceIn('{{$randomCatchPhraseAdjective}}'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"category\": {\r\n    \"id\": {{categoryId}},\r\n    \"name\": \"{{categoryName}}\"\r\n  },\r\n  \"skill\": \"{{skillName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{skillEndpoint}}/create",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{skillEndpoint}}",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Skill",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"skillEndpoint\") + \"/create\";\r",
+									"pm.collectionVariables.set(\"skillName\", pm.variables.replaceIn('{{$randomCatchPhraseAdjective}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive'\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify(\r",
+									"            {\r",
+									"              \"category\": {\r",
+									"                 \"id\": pm.collectionVariables.get(\"categoryId\"),\r",
+									"                 \"name\": pm.collectionVariables.get(\"categoryName\")\r",
+									"                 },\r",
+									"                \"skill\": pm.collectionVariables.get(\"skillName\"),\r",
+									"                \"skillId\": 0\r",
+									"            }\r",
+									"        )\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"        let jsonBody = JSON.parse(response.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"\r",
+									"    pm.collectionVariables.set(\"skillId\", jsonBody.skillId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/skill/getOne\" + \"?skillId=\" + pm.collectionVariables.get(\"skillId\");\r",
+									"\r",
+									"const getRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Get',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Postman-Token': pm.request.headers.get('Postman-Token'),\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Content-Length': pm.request.headers.get('Content-Length')\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(getRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"GetOne request returns 404\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 404);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{skillEndpoint}}/delete?skillId={{skillId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{skillEndpoint}}",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "skillId",
+									"value": "{{skillId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Skill",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"skillRename\", pm.variables.replaceIn('{{$randomCatchPhraseAdjective}}'));\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"skillEndpoint\") + \"/create\";\r",
+									"pm.collectionVariables.set(\"skillName\", pm.variables.replaceIn('{{$randomCatchPhraseAdjective}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive'\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify(\r",
+									"            {\r",
+									"              \"category\": {\r",
+									"                 \"id\": pm.collectionVariables.get(\"categoryId\"),\r",
+									"                 \"name\": pm.collectionVariables.get(\"categoryName\")\r",
+									"                 },\r",
+									"                \"skill\": pm.collectionVariables.get(\"skillName\"),\r",
+									"                \"skillId\": 0\r",
+									"            }\r",
+									"        )\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"        let jsonBody = JSON.parse(response.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"\r",
+									"    pm.collectionVariables.set(\"skillId\", jsonBody.skillId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"skillEndpoint\") + \"/getOne\" + \"?skillId=\" + pm.collectionVariables.get(\"skillId\");\r",
+									"\r",
+									"const getRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Get',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Postman-Token': pm.request.headers.get('Postman-Token'),\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Content-Length': pm.request.headers.get('Content-Length')\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(getRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(response.stream);\r",
+									"\r",
+									"    pm.test(\"GetOne request returns 200 and the body contains the new name\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"        pm.expect(jsonBody.skill).to.eql(pm.collectionVariables.get(\"skillRename\"));\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"skillEndpoint\") + \"/delete\" + \"?skillId=\" + pm.collectionVariables.get(\"skillId\");\r",
+									"\r",
+									"const deleteRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Put',\r",
+									"    header: {\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Postman-Token': pm.request.headers.get('Postman-Token'),\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Content-Length': pm.request.headers.get('Content-Length')\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(deleteRequest, (err, response) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful delete request\", function () {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(response).to.have.property('code', 200);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/skill/getOne\" + \"?skillId=\" + pm.collectionVariables.get(\"skillId\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/{{skillEndpoint}}/edit?skill={{skillRename}}&skillId={{skillId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{skillEndpoint}}",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "skill",
+									"value": "{{skillRename}}"
+								},
+								{
+									"key": "skillId",
+									"value": "{{skillId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rest Connection Controller",
+			"item": [
+				{
+					"name": "Send Friend Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"send friend request to\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{secondUserId}}\",\r\n  \"username\": \"{{secondUsername}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/request",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Requests",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const cookieJar = pm.cookies.jar();\r",
+									"cookieJar.unset(\"weare-socialnetwork.duckdns.org/\", 'JSESSIONID', (error) => {\r",
+									"    if (error != null) console.log(error);\r",
+									"});\r",
+									"\r",
+									"let username = pm.collectionVariables.get(\"secondUsername\");\r",
+									"let password = pm.collectionVariables.get(\"password\");\r",
+									"let url = \"http://weare-socialnetwork.duckdns.org/authenticate?username=\" + username + \"&password=\" + password;\r",
+									"\r",
+									"const authRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive'\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(authRequest, (err, authResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful authorization before request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(authResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    const cookieJar = pm.cookies.jar();\r",
+									"    cookieJar.get(\"weare-socialnetwork.duckdns.org/\", 'JSESSIONID', (error, cookie) => {\r",
+									"        if (error != null) console.log(error);\r",
+									"        console.log(cookie);\r",
+									"        pm.collectionVariables.set(\"authCookie\", \"JSESSIONID=\" + cookie.toString());\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);   \r",
+									"pm.collectionVariables.set(\"friendRequestId\", data[0].id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains approved\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"approved\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/{{userEndpoint}}/{{secondUserId}}/request/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"{{userEndpoint}}",
+								"{{secondUserId}}",
+								"request",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Friend Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"approved request of\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const cookieJar = pm.cookies.jar();\r",
+									"cookieJar.unset(\"weare-socialnetwork.duckdns.org/\", 'JSESSIONID', (error) => {\r",
+									"    if (error != null) console.log(error);\r",
+									"});\r",
+									"\r",
+									"let username = pm.collectionVariables.get(\"secondUsername\");\r",
+									"let password = pm.collectionVariables.get(\"password\");\r",
+									"let url = \"http://weare-socialnetwork.duckdns.org/authenticate?username=\" + username + \"&password=\" + password;\r",
+									"\r",
+									"const authRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive'\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(authRequest, (err, authResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Successful authorization before request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(authResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    const cookieJar = pm.cookies.jar();\r",
+									"    cookieJar.get(\"weare-socialnetwork.duckdns.org/\", 'JSESSIONID', (error, cookie) => {\r",
+									"        if (error != null) console.log(error);\r",
+									"        console.log(cookie);\r",
+									"        pm.collectionVariables.set(\"authCookie\", \"JSESSIONID=\" + cookie.toString());\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/auth/{{userEndpoint}}/{{secondUserId}}/request/approve?requestId={{friendRequestId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"{{userEndpoint}}",
+								"{{secondUserId}}",
+								"request",
+								"approve"
+							],
+							"query": [
+								{
+									"key": "requestId",
+									"value": "{{friendRequestId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COMMON",
+			"item": [
+				{
+					"name": "Create User - Needed for All Requests That Need Authorization",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"username\", pm.variables.replaceIn('{{$randomFirstName}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseText= pm.response.text();\r",
+									"const myArray = responseText.split(\" \");\r",
+									"let responseId = myArray[6];\r",
+									"pm.collectionVariables.set(\"userId\", responseId);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"username\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"authorities\": [\r\n    \"ROLE_USER\"\r\n  ],\r\n  \"category\": {\r\n    \"id\": 100,\r\n    \"name\": \"All\"\r\n  },\r\n  \"email\": \"string1@test.bg\",\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{username}}\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Second User - Needed for Connection Tests",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"secondUsername\", pm.variables.replaceIn('{{$randomFirstName}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseText= pm.response.text();\r",
+									"const myArray = responseText.split(\" \");\r",
+									"let responseId = myArray[6];\r",
+									"pm.collectionVariables.set(\"secondUserId\", responseId);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"secondUsername\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"authorities\": [\r\n    \"ROLE_USER\"\r\n  ],\r\n  \"category\": {\r\n    \"id\": 100,\r\n    \"name\": \"All\"\r\n  },\r\n  \"email\": \"string2@test.bg\",\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{secondUsername}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const cookieJar = pm.cookies.jar();",
+					"cookieJar.unset(\"weare-socialnetwork.duckdns.org\", 'JSESSIONID', (error) => {",
+					"    if (error != null) console.log(error);",
+					"});",
+					"",
+					"let username = pm.collectionVariables.get(\"username\");",
+					"let password = pm.collectionVariables.get(\"password\");",
+					"let url = \"http://weare-socialnetwork.duckdns.org/authenticate?username=\" + username + \"&password=\" + password;",
+					"",
+					"const authRequest = {",
+					"    url: url,",
+					"    method: 'Post',",
+					"    header: {",
+					"        'Content-Type': 'application/json',",
+					"        'User-Agent': pm.request.headers.get('User-Agent'),",
+					"        'Accept': '*/*',",
+					"        'Host': pm.request.headers.get('Host'),",
+					"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),",
+					"        'Connection': 'keep-alive'",
+					"    }",
+					"}",
+					"",
+					"pm.sendRequest(authRequest, (err, authResponse) => {",
+					"    if (err) {",
+					"        console.log(err);",
+					"    }",
+					"",
+					"    pm.test(\"Successful authorization before request\", function() {",
+					"        pm.expect(err).to.eql(null);",
+					"        pm.expect(authResponse).to.have.property('code', 200);",
+					"    });",
+					"",
+					"    const cookieJar = pm.cookies.jar();",
+					"    cookieJar.get(\"weare-socialnetwork.duckdns.org\", 'JSESSIONID', (error, cookie) => {",
+					"        if (error != null) console.log(error);",
+					"        console.log(cookie);",
+					"        pm.collectionVariables.set(\"authCookie\", \"JSESSIONID=\");",
+					"    });",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "skillId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "skillName",
+			"value": "skillName",
+			"type": "string"
+		},
+		{
+			"key": "skillRename",
+			"value": "skillNewName",
+			"type": "string"
+		},
+		{
+			"key": "categoryId",
+			"value": "100",
+			"type": "string"
+		},
+		{
+			"key": "categoryName",
+			"value": "All",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "Darryl",
+			"type": "string"
+		},
+		{
+			"key": "secondUsername",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "password",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "0"
+		},
+		{
+			"key": "secondUserId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "birthYear",
+			"value": "1993-04-20",
+			"type": "string"
+		},
+		{
+			"key": "firstName",
+			"value": "firstName",
+			"type": "string"
+		},
+		{
+			"key": "lastName",
+			"value": "lastName",
+			"type": "string"
+		},
+		{
+			"key": "cityId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "picturePrivacy",
+			"value": "false",
+			"type": "string"
+		},
+		{
+			"key": "sex",
+			"value": "MALE",
+			"type": "string"
+		},
+		{
+			"key": "authUrl",
+			"value": "http://localhost:8081/authenticate",
+			"type": "string"
+		},
+		{
+			"key": "postId",
+			"value": ""
+		},
+		{
+			"key": "postContent",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "commentId",
+			"value": ""
+		},
+		{
+			"key": "commentContent",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "friendRequestId",
+			"value": "30"
+		},
+		{
+			"key": "authCookie",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
