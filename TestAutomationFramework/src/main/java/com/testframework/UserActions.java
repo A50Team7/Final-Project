@@ -146,6 +146,7 @@ public class UserActions {
     //############# WAITS #########
 
     public void assertElementPresent(By locator) {
+        waitForElementPresent(locator);
         Assertions.assertNotNull(Utils.getWebDriver().findElement(locator),
                 format("Element with %s isn't present.", locator));
     }
