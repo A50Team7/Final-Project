@@ -10,7 +10,6 @@ import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
-import com.testframework.models.User;
 import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.AfterEach;
