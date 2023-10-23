@@ -26,7 +26,7 @@ public class BaseTest extends BaseApiTest {
 
     @AfterEach
     public void deleteUser() {
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        if (user!=null) UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
     }
 
     @AfterAll
