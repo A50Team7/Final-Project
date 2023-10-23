@@ -16,7 +16,6 @@ public class AdminHomePage extends UserHomePage{
     }
 
     public void assertAdminZoneButtonPresent() {
-        actions.waitForElementPresent(adminZoneBy);
         actions.assertElementPresent(adminZoneBy);
     }
 }

@@ -49,12 +49,10 @@ public class PostPage extends BasePage {
 
     public void assertLengthErrorPresent(int expected) {
         By errorBy = getLengthErrorBy(expected);
-        actions.waitForElementPresent(errorBy);
         actions.assertElementPresent(errorBy);
     }
 
     public void assertCommentCount(int expected) {
-        //WaitHelper.waitForUserInteraction();
         int actual = FormatHelper.extractNumber(actions.getText(commentCountBy));
         Assertions.assertEquals(expected, actual, "The comment count doesn't match the expected count");
     }

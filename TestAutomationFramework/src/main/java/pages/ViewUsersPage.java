@@ -21,7 +21,6 @@ public class ViewUsersPage extends BasePage {
     private static final By errorMessageBy = By.xpath(Utils.getUIMappingByKey("search.errorMessage"));
 
     public void assertErrorMessagePresent() {
-        actions.waitForElementPresent(errorMessageBy);
         actions.assertElementPresent(errorMessageBy);
     }
 
@@ -49,12 +48,10 @@ public class ViewUsersPage extends BasePage {
     }
 
     public void assertUserContainerExists(int userId) {
-        actions.waitForElementPresent(userContainerBy(userId));
         actions.assertElementPresent(userContainerBy(userId));
     }
 
     public void assertViewProfileButtonPresent(int userId) {
-        actions.waitForElementPresent(viewProfileBy(userId));
         actions.assertElementPresent(viewProfileBy(userId));
     }
 

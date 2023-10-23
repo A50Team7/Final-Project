@@ -185,7 +185,6 @@ actions.clickElement(updateSurvicesBy);
 
     public void assertErrorMessagePresent(String message) {
         By errorMessageBy = By.xpath(String.format(errorMessage, message));
-        actions.waitForElementPresent(errorMessageBy);
         actions.assertElementPresent(errorMessageBy);
     }
 

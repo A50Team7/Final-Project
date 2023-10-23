@@ -26,13 +26,11 @@ public class RegisterPage extends BasePage {
     }
 
     public void assertWelcomeMessagePresent() {
-        actions.waitForElementPresent(welcomeMessageBy);
         actions.assertElementPresent(welcomeMessageBy);
     }
 
     public void assertErrorMessagePresent(String message) {
         By errorMessageBy = By.xpath(String.format(errorMessage, message));
-        actions.waitForElementPresent(errorMessageBy);
         actions.assertElementPresent(errorMessageBy);
     }
 

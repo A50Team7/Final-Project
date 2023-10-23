@@ -17,7 +17,6 @@ public class LoginPage extends BasePage {
 
     public void assertErrorMessagePresent(String text) {
         By errorBy = By.xpath(String.format(errorMessage, text));
-        actions.waitForElementPresent(errorBy);
         actions.assertElementPresent(errorBy);
     }
 

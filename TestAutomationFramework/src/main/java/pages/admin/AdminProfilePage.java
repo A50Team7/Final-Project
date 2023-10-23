@@ -24,17 +24,14 @@ public class AdminProfilePage extends PersonalProfilePage {
     }
 
     public void assertEnableButtonPresent() {
-        actions.waitForElementPresent(enableBy);
         actions.assertElementPresent(enableBy);
     }
 
     public void assertDisableButtonPresent() {
-        actions.waitForElementPresent(disableBy);
         actions.assertElementPresent(disableBy);
     }
 
     public void assertEditProfilePresent() {
-        actions.waitForElementPresent(editProfileBy);
         actions.assertElementPresent(editProfileBy);
     }
 }

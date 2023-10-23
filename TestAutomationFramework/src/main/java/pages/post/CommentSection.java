@@ -21,23 +21,36 @@ public class CommentSection extends BaseSection {
     private String dislikeComment= Utils.getUIMappingByKey("post.commentSection.dislikeComment");
 
     public void assertComment(Comment comment, int id) {
-        Assertions.assertEquals(comment.getAuthor().getUsername(), getCommentAuthor(id), "Author doesn't match");
-        Assertions.assertEquals(FormatHelper.formatDateTime(comment.getCreationDateTime()).substring(0, 17),
-                getCommentDateTime(id).substring(0, 17), "DateTime of creation doesn't match");
-        Assertions.assertEquals(comment.getContent(), getCommentContent(id), "Content doesn't match");
-        Assertions.assertEquals(comment.getLikes(), FormatHelper.extractNumber(getCommentLikesCount(id)), "Comment's like count doesn't match");
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(comment.getAuthor().getUsername(),
+                        getCommentAuthor(id),
+                        "Author doesn't match"),
+                () -> Assertions.assertEquals(FormatHelper.formatDateTime(comment.getCreationDateTime()).substring(0, 17),
+                        getCommentDateTime(id).substring(0, 17),
+                        "DateTime of creation doesn't match"),
+                () -> Assertions.assertEquals(comment.getContent(),
+                        getCommentContent(id),
+                        "Content doesn't match"),
+                () -> Assertions.assertEquals(comment.getLikes(),
+                        FormatHelper.extractNumber(getCommentLikesCount(id)),
+                        "Comment's like count doesn't match")
+        );
     }
 
     public void assertLiked(Comment comment) {
-        actions.waitForElementPresent(getDislikeBy(comment.getCommentId()));
-        actions.assertElementPresent(getDislikeBy(comment.getCommentId()));
-        Assertions.assertEquals(comment.getLikes(), FormatHelper.extractNumber(getCommentLikesCount(comment.getCommentId())));
+        Assertions.assertAll(
+                () -> actions.assertElementPresent(getDislikeBy(comment.getCommentId())),
+                () -> Assertions.assertEquals(comment.getLikes(),
+                        FormatHelper.extractNumber(getCommentLikesCount(comment.getCommentId())))
+        );
     }
 
     public void assertDisliked(Comment comment) {
-        actions.waitForElementPresent(getLikeBy(comment.getCommentId()));
-        actions.assertElementPresent(getLikeBy(comment.getCommentId()));
-        Assertions.assertEquals(comment.getLikes(), FormatHelper.extractNumber(getCommentLikesCount(comment.getCommentId())));
+        Assertions.assertAll(
+                () -> actions.assertElementPresent(getLikeBy(comment.getCommentId())),
+                () -> Assertions.assertEquals(comment.getLikes(),
+                        FormatHelper.extractNumber(getCommentLikesCount(comment.getCommentId())))
+        );
     }
 
     public boolean existsInTheDatabase(Comment comment) {

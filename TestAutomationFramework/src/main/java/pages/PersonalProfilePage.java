@@ -75,17 +75,14 @@ public class PersonalProfilePage extends BasePage {
     }
 
     public void assertConnectedMessagePresent() {
-        actions.waitForElementPresent(connectedMessageBy);
         actions.assertElementPresent(connectedMessageBy);
     }
 
     public void assertDisconnectButtonPresent() {
-        actions.waitForElementPresent(disconnectButtonBy);
         actions.assertElementPresent(disconnectButtonBy);
     }
 
     public void assertConnectButtonPresent() {
-        actions.waitForElementPresent(connectButtonBy);
         actions.assertElementPresent(connectButtonBy);
     }
 
