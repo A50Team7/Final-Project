@@ -20,4 +20,14 @@ public class PersonalPostPage extends PostPage {
     public void deletePost() {
         actions.clickElement(deletePostBy);
     }
+
+    public void assertEditPostButtonPresent() {
+        actions.waitForElementPresent(editPostBy);
+        actions.assertElementPresent(editPostBy);
+    }
+
+    public void assertDeletePostButtonPresent() {
+        actions.waitForElementPresent(deletePostBy);
+        actions.assertElementPresent(deletePostBy);
+    }
 }
