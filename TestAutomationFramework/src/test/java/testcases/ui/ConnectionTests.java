@@ -1,85 +1,102 @@
 package testcases.ui;
 
 import com.testframework.Utils;
+import com.testframework.WaitHelper;
+import com.testframework.api.controllers.RestConnectionController;
 import com.testframework.api.controllers.RestUserController;
+import com.testframework.api.models.ConnectionRequest;
 import com.testframework.api.models.UserRequest;
+import com.testframework.databasehelper.ConnectionHelper;
+import com.testframework.databasehelper.RequestsHelper;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
+import pages.PersonalProfilePage;
 
-public class ConnectionTests extends BaseTest{
+public class ConnectionTests extends BaseTest {
 
-    private User sender;
+    private boolean connected = false;
     private User receiver;
-    private String cookieValue;
+    private String senderCookieValue;
+    private String receiverCookieValue;
     private static String profileUrl = Utils.getConfigPropertyByKey("weare.profile.url");
-    private static final By connectButton = By.xpath(Utils.getUIMappingByKey("connection.connectButton"));
-    private static final By approveButton = By.xpath(Utils.getUIMappingByKey("connection.approveButton"));
+    public static PersonalProfilePage profilePage;
     private Response senderResponse;
     private Response receiverResponse;
     private int receiverId;
     private int senderId;
+
     @BeforeEach
     public void setup() {
-        //Create 2 users
-        sender = UserFactory.createUser();
-        senderResponse = RestUserController.createUser(new UserRequest("ROLE_USER", sender));
+        user = UserFactory.createUser();
+        RestUserController.createUser(new UserRequest("ROLE_USER", user));
         receiver = UserFactory.createUser();
-        receiverResponse = RestUserController.createUser(new UserRequest("ROLE_USER", receiver));
+        RestUserController.createUser(new UserRequest("ROLE_USER", receiver));
 
-        cookieValue = login(sender);
+        senderCookieValue = login(user);
 
-        ResponseBody senderBody = senderResponse.getBody();
-        var senderArray = senderBody.asString().split(" ");
-        var senderResponseId = senderArray[6];
-        senderId = Integer.valueOf(senderResponseId);
+        senderId = user.getUserId();
+        receiverId = receiver.getUserId();
 
-        ResponseBody receiverBody = receiverResponse.getBody();
-        var receiverArray = receiverBody.asString().split(" ");
-        var receiverResponseId = receiverArray[6];
-        receiverId = Integer.valueOf(receiverResponseId);
-
+        profilePage = new PersonalProfilePage(actions.getDriver(), String.format(profileUrl, receiverId));
+        profilePage.navigateToPage();
+        profilePage.sendConnectionRequest();
     }
+
+    @Test
+    public void sendingFriendRequest_Should_BeSuccessful() {
+        profilePage.assertConnectedMessagePresent();
+    }
+
+    @Test
+    public void acceptingFriendRequest_Should_BeSuccessful() {
+        actions.cleanDriver("weare.baseUrl");
+        receiverCookieValue = login(receiver);
+        profilePage.navigateToPage();
+        profilePage.viewNewFriendRequests();
+        profilePage.acceptLatestRequest();
+        connected = true;
+
+        profilePage = new PersonalProfilePage(actions.getDriver(), String.format(profileUrl, senderId));
+        profilePage.navigateToPage();
+        profilePage.assertDisconnectButtonPresent();
+    }
+
+    @Test
+    public void disconnectingWithAlreadyConnectedUser_Should_BeSuccessful() {
+        actions.cleanDriver("weare.baseUrl");
+        receiverCookieValue = login(receiver);
+        profilePage.navigateToPage();
+        profilePage.viewNewFriendRequests();
+        profilePage.acceptLatestRequest();
+        connected = true;
+
+        profilePage = new PersonalProfilePage(actions.getDriver(), String.format(profileUrl, senderId));
+        profilePage.navigateToPage();
+        Assertions.assertAll(
+                () -> profilePage.assertDisconnectButtonPresent(),
+                () -> {
+                    profilePage.disconnect();
+                    profilePage.assertConnectButtonPresent();
+                }
+        );
+    }
+
     @AfterEach
-    public void cleaner() {
-        //Checkup the database
-
-
-
-    }
-    @Test
-    public void sendFriendRequest() {
-
-        String receiverProfileUrl = String.format(profileUrl,receiverId);
-        actions.getDriver().get(receiverProfileUrl);
-
-        actions.waitForElementClickable(connectButton);
-        actions.clickElement(connectButton);
-        //Assertions
-
+    public void deleteSecondUser() {
+        if (connected) disconnect();
+        RequestsHelper.truncateRequestsTable();
+        ConnectionHelper.truncateConnectionsTable();
+        UserHelper.deleteUser("username", String.format("'%s'", receiver.getUsername()));
     }
 
-    @Test
-    public void acceptFriendRequest() {
-
-        String receiverProfileUrl = String.format(profileUrl,receiverId);
-        actions.getDriver().get(receiverProfileUrl);
-
-        actions.waitForElementClickable(connectButton);
-        actions.clickElement(connectButton);
-
-        cookieValue = login(receiver);
-        actions.getDriver().get(receiverProfileUrl);
-        actions.waitForElementClickable(connectButton);
-        actions.clickElement(connectButton);
-
-        actions.waitForElementClickable(approveButton);
-        actions.clickElement(approveButton);
-        //Assertions
+    private void disconnect() {
+        ConnectionRequest connectionRequest = new ConnectionRequest(receiver.getUserId(), receiver.getUsername());
+        RestConnectionController.sendFriendRequest(connectionRequest, senderCookieValue);
     }
 }
