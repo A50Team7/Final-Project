@@ -5,186 +5,250 @@ import com.testframework.api.controllers.RestCommentController;
 import com.testframework.api.controllers.RestPostController;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.CommentRequest;
+import com.testframework.api.models.PersonalProfileRequest;
 import com.testframework.api.models.PostRequest;
-import com.testframework.api.models.PostResponse;
 import com.testframework.api.models.UserRequest;
+import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.CommentFactory;
 import com.testframework.factories.PostFactory;
+import com.testframework.factories.ProfileFactory;
 import com.testframework.factories.UserFactory;
-import com.testframework.generations.GenerateRandom;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
+import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import pages.CreateNewPostPage;
+import pages.PersonalProfileEditorPage;
+import pages.admin.AdminProfilePage;
+import pages.admin.AdminZonePage;
+import pages.common.DeletePage;
+import pages.common.EditPage;
+import pages.common.EditPostPage;
 import pages.post.PersonalPostPage;
+import testcases.ApiHelper;
 
 public class AdminTests extends BaseTest {
 
+    private boolean forDelete = false;
+
+    private static String adminZoneUrl = Utils.getConfigPropertyByKey("weare.adminZone.url");
+    private static String userPersonalPageUrl = Utils.getConfigPropertyByKey("weare.profile.url");
+    private static String userEditProfilePageUrl = Utils.getConfigPropertyByKey("weare.profile.editor.url");
+    private static String postUrl = Utils.getConfigPropertyByKey("weare.post.url");
+    private static String editPostUrl = Utils.getConfigPropertyByKey("weare.post.edit.url");
+    private static String deletePostUrl = Utils.getConfigPropertyByKey("weare.post.delete.url");
+    private static String editCommentUrl = Utils.getConfigPropertyByKey("weare.comment.edit.url");
+    private static String deleteCommentUrl = Utils.getConfigPropertyByKey("weare.comment.delete.url");
+
+    private static AdminZonePage adminZonePage = new AdminZonePage(actions.getDriver(), adminZoneUrl);
+    private static AdminProfilePage userProfilePage;
+    private static PersonalProfileEditorPage editorPage;
+    private static PersonalPostPage postPage;
+    private static EditPostPage editPage;
+    private static DeletePage deletePage;
+    private static EditPage editCommentPage;
+
     private User admin;
-    private User user;
-    private Response userResponse;
-    private PostResponse postResponse;
     private Post post;
     private Comment comment;
-    private static PersonalPostPage personalPostPage;
     private String cookieValue;
     private int userId;
-    private static final String ADMIN_URL = Utils.getConfigPropertyByKey("weare.admin.url");
-    private static final String CREATEPOST_URL = Utils.getConfigPropertyByKey("weare.createpost.url");
-    private static final By disableButton = By.xpath(Utils.getUIMappingByKey("admin.disableUserButton"));
-    private static final By enableButton = By.xpath(Utils.getUIMappingByKey("admin.enableUserButton"));
-    private static final By editProfileButton = By.xpath(Utils.getUIMappingByKey("admin.editProfileButton"));
-    private static final By editPostButton = By.xpath(Utils.getUIMappingByKey("admin.editPostButton"));
-    private static final By deletePostButton = By.xpath(Utils.getUIMappingByKey("admin.deletePostButton"));
-    private static final By savePostButton = By.xpath(Utils.getUIMappingByKey("admin.savePostButton"));
-    private static String createPostUrl = Utils.getConfigPropertyByKey("weare.createpost.url");
-    private static CreateNewPostPage createNewPostPage = new CreateNewPostPage(actions.getDriver(), createPostUrl);
+
     @BeforeEach
     public void setup() {
-
         admin = UserFactory.createUser();
-        String adminName = String.format("admin"+"%s", GenerateRandom.generateRandomBoundedAlphabeticString(5));
+        String adminName = String.format("admin%s", UserFactory.generateUsername(5));
         admin.setUsername(adminName);
         RestUserController.createUser(new UserRequest("ROLE_USER", admin));
 
-        user = UserFactory.createUser();
-        userResponse = RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        user = UserFactory.createUserWithProfile();
+        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        userId = user.getUserId();
+        cookieValue = ApiHelper.getCookieValue(user);
 
-        ResponseBody userBody = userResponse.getBody();
-        var userArray = userBody.asString().split(" ");
-        var userResponseId = userArray[6];
-        userId = Integer.valueOf(userResponseId);
+        login(admin);
 
+        userProfilePage = new AdminProfilePage(actions.getDriver(), String.format(userPersonalPageUrl, userId));
+        editorPage = new PersonalProfileEditorPage(actions.getDriver(), String.format(userEditProfilePageUrl, userId));
     }
-    @Test
-    public void navigatedToAdminPage() {
-        cookieValue = login(admin);
 
-        actions.getDriver().get(ADMIN_URL);
+    @Test
+    public void navigatingToAdminZonePageAsAdmin_Should_BeSuccessful() {
+        adminZonePage.navigateToPage();
 
-        String actualUrl = actions.getDriver().getCurrentUrl();
-        Assertions.assertEquals(ADMIN_URL, actualUrl, "Could not navigate to admin page");
+        adminZonePage.assertPageNavigated();
     }
-    @Test
-    public void disableUser() {
-        //Login as admin
-        cookieValue = login(admin);
-        //Navigate to user profile
-        String userUrl = String.format("http://localhost:8081/auth/users/%s/profile", userId);
-        actions.getDriver().get(userUrl);
-        //Click Disable button
-        actions.waitForElementClickable(disableButton);
-        actions.clickElement(disableButton);
-        //Assertions
-    }
-    @Test
-    public void enableUser() {
-        //Login as admin
-        cookieValue = login(admin);
-        //Navigate to user profile
-        String userUrl = String.format("http://localhost:8081/auth/users/%s/profile", userId);
-        actions.getDriver().get(userUrl);
-        //Click Disable button
-        actions.waitForElementClickable(disableButton);
-        actions.clickElement(disableButton);
-        //Click Enable button
-        actions.waitForElementClickable(enableButton);
-        actions.clickElement(enableButton);
-        //Assertions
-    }
-    @Test
-    public void showAllUsers() {
 
-    }
     @Test
-    public void editUser() {
-        //Login as admin
-        cookieValue = login(admin);
-        //Navigate to user profile
-        String userUrl = String.format("http://localhost:8081/auth/users/%s/profile", userId);
-        actions.getDriver().get(userUrl);
-        //Edit profile
-        actions.waitForElementClickable(editProfileButton);
-        actions.clickElement(editProfileButton);
-        //Change some data
-        //Assert
+    public void disablingUser_Should_BeSuccessful() {
+        userProfilePage.navigateToPage();
+
+        userProfilePage.disable();
+
+        userProfilePage.assertEnableButtonPresent();
+        // api check
     }
+
     @Test
-    public void editPost() {
-        //Login as User
-        cookieValue = login(user);
-        //Create a Post
+    public void enablingUser_Should_BeSuccessful() {
+        userProfilePage.navigateToPage();
+
+        userProfilePage.disable();
+        userProfilePage.enable();
+
+        userProfilePage.assertDisableButtonPresent();
+        // api check
+    }
+
+    // WIP
+    //@Test
+    public void viewingAllUsersInAdminZone_Should_BeSuccessful() {
+        adminZonePage.navigateToPage();
+        adminZonePage.viewUsers();
+
+        // assert
+    }
+
+    // WIP
+    //@Test
+    public void editingUserProfile_Should_BeSuccessful() {
+        RestUserController.upgradeUserPersonalProfile(user.getUserId(), new PersonalProfileRequest(user), cookieValue);
+
+        user.getProfile().setFirstName(ProfileFactory.generateFirstName());
+
+        userProfilePage.navigateToPage();
+
+        userProfilePage.assertEditProfilePresent();
+
+        userProfilePage.editProfile();
+        editorPage.enterFirstName(user.getProfile().getFirstName());
+        editorPage.updateProfile();
+        userProfilePage.navigateToPage();
+
+        // WIP
+        userProfilePage.assertEqualData(user);
+    }
+
+    @Test
+    public void editingPost_Should_BeSuccessful() {
+        int postId = createPostAndReturnId();
+        forDelete = true;
+        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage.navigateToPage();
+
+        Assertions.assertAll(
+                () -> postPage.assertEditPostButtonPresent(),
+                () -> {
+                    postPage.editPost();
+                    editPage = new EditPostPage(actions.getDriver(), String.format(editPostUrl, postId));
+                    editPage.assertPageNavigated();
+                },
+                () -> {
+                    post.setContent(PostFactory.generateContent());
+                    editPage.editPostAndSubmit(post.getContent(), post.getVisibility());
+                    postPage.assertPost(post);
+                }
+        );
+    }
+
+    @Test
+    public void deletingPost_Should_BeSuccessful() {
+        int postId = createPostAndReturnId();
+        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage.navigateToPage();
+
+        Assertions.assertAll(
+                () -> postPage.assertDeletePostButtonPresent(),
+                () -> {
+                    postPage.deletePost();
+                    deletePage = new DeletePage(actions.getDriver(), String.format(deletePostUrl, postId));
+                    deletePage.assertPageNavigated();
+                },
+                () -> {
+                    deletePage.selectAndConfirm(ConfirmDelete.DELETE);
+                    deletePage.assertDeletedSuccessfullyMessagePresent();
+                },
+                () -> Assertions.assertFalse(postPage.existsInTheDatabase(post))
+        );
+    }
+
+    @Test
+    public void editingComment_Should_BeSuccessful() {
+        int postId = createPostAndReturnId();
+        forDelete = true;
+        int commentId = createCommentAndReturnId();
+
+        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage.navigateToPage();
+        postPage.showComments();
+
+        comment.setContent(CommentFactory.generateContent());
+
+        Assertions.assertAll(
+                () -> postPage.getPersonalComment().assertEditCommentButtonPresent(commentId),
+                () -> {
+                    postPage.getPersonalComment().editComment(commentId);
+                    editCommentPage = new EditPage(actions.getDriver(), String.format(editCommentUrl, commentId));
+                    editCommentPage.assertPageNavigated();
+                },
+                () -> {
+                    editCommentPage.editAndSubmit(comment.getContent());
+
+                    postPage.showComments();
+                    postPage.getCommentSection().assertComment(comment, commentId);
+                }
+        );
+    }
+
+    @Test
+    public void deletingComment_Should_BeSuccessful() {
+        int postId = createPostAndReturnId();
+        forDelete = true;
+        int commentId = createCommentAndReturnId();
+
+        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage.navigateToPage();
+        postPage.showComments();
+
+        Assertions.assertAll(
+                () -> postPage.getPersonalComment().assertDeleteCommentButtonPresent(commentId),
+                () -> {
+                    postPage.getPersonalComment().deleteComment(commentId);
+                    deletePage = new DeletePage(actions.getDriver(), String.format(deleteCommentUrl, commentId));
+                    deletePage.assertPageNavigated();
+                },
+                () -> {
+                    deletePage.selectAndConfirm(ConfirmDelete.DELETE);
+                    deletePage.assertDeletedSuccessfullyMessagePresent();
+                },
+                () -> {
+                    postPage.navigateToPage();
+                    postPage.showComments();
+                    Assertions.assertFalse(postPage.getCommentSection().existsInTheDatabase(comment));
+                }
+        );
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (forDelete) RestPostController.deletePost(post.getPostId(), cookieValue);
+        UserHelper.deleteUser("username", String.format("'%s'", admin.getUsername()));
+    }
+
+    private int createPostAndReturnId() {
         post = PostFactory.createPost(user, Visibility.PUBLIC);
-        var resp = RestPostController.createPost(new PostRequest(post), cookieValue);
-        //Login as Admin
-        cookieValue = login(admin);
-        actions.getDriver().get(ADMIN_URL);
-        //Navigate to Post
-        String postUrl = String.format("http://localhost:8081/posts/%s", resp.getPostId());
-        actions.getDriver().get(postUrl);
-        //Wait and Click for Edit Button
-         By editButton = By.xpath(String.format("//a[@href='/posts/auth/editor/%s']", resp.getPostId()));
-        actions.waitForElementClickable(editButton);
-        actions.clickElement(editButton);
-        //Change content
-        actions.waitForElementClickable(savePostButton);
-        post = PostFactory.createPost(user, Visibility.PUBLIC);
-        createNewPostPage.createPostAndSubmit(post);
-        //Assertions
-
-
+        var response = RestPostController.createPost(new PostRequest(post), cookieValue);
+        return response.getPostId();
     }
-    @Test
-    public void deletePost() {
-        //Login as User
-        cookieValue = login(user);
-        //Create a Post
-        post = PostFactory.createPost(user, Visibility.PUBLIC);
-        var resp = RestPostController.createPost(new PostRequest(post), cookieValue);
-        //Login as Admin
-        cookieValue = login(admin);
-        //Navigate to Post
-        String postUrl = String.format("http://localhost:8081/posts/%s", resp.getPostId());
-        actions.getDriver().get(postUrl);
-        //Delete Post
-        By deleteButton = By.xpath(String.format("//a[@href='/posts/auth/manager/%s']", resp.getPostId()));
-        actions.waitForElementClickable(deleteButton);
-        actions.clickElement(deleteButton);
-    }
-    @Test
-    public void editComment() {
-        //Login as User
-        cookieValue = login(user);
-        //Create a Post
-        post = PostFactory.createPost(user, Visibility.PUBLIC);
-        var postResp = RestPostController.createPost(new PostRequest(post), cookieValue);
-        //Create a Comment
+
+    private int createCommentAndReturnId() {
         comment = CommentFactory.createComment(post, user);
         CommentRequest commentRequest = new CommentRequest(comment);
         var commentResponse = RestCommentController.createComment(commentRequest, cookieValue);
-        int commentId = commentResponse.getCommentId();
-        //Login as Admin
-        cookieValue = login(admin);
-        //Navigate to Comment
-        String commentUrl = String.format("http://localhost:8081/comments/editor/%s", commentId);
-        actions.getDriver().get(commentUrl);
-        //Edit Comment
-
-    }
-    @Test
-    public void deleteComment() {
-        //Login as User
-        //Create a Post
-        //Create a Comment
-        //Login as Admin
-        //Navigate to Post
-        //Delete Comment
+        return commentResponse.getCommentId();
     }
 }
