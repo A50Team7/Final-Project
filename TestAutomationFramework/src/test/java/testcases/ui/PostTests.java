@@ -45,7 +45,7 @@ public class PostTests extends BaseTest {
     }
 
     @Test
-    public void editingContentOfCreatedPost_Should_BeSuccessful() {
+    public void FP_158_editingContentOfCreatedPost_Should_BeSuccessful() {
         personalPostPage.editPost();
         editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
         editPostPage.assertPageNavigated();
@@ -57,7 +57,7 @@ public class PostTests extends BaseTest {
     }
 
     @Test
-    public void editingVisibilityOfCreatedPostToPrivate_Should_BeSuccessful() {
+    public void FP_163_editingVisibilityOfCreatedPostToPrivate_Should_BeSuccessful() {
         personalPostPage.editPost();
         editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
         editPostPage.assertPageNavigated();
@@ -70,7 +70,20 @@ public class PostTests extends BaseTest {
     }
 
     @Test
-    public void deletingCreatedPostBySelectingDeleteAndSubmitting_Should_BeSuccessful() {
+    public void FP_162_goingToEditPostPageAndLeavingItWithoutAnyResultingChange_Should_BeSuccessful() {
+        personalPostPage.editPost();
+        editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
+        editPostPage.assertPageNavigated();
+
+        post.setContent(PostFactory.generateContent());
+        editPostPage.editMessage(post.getContent());
+
+        personalPostPage.navigateToPage();
+        personalPostPage.assertPost(post);
+    }
+
+    @Test
+    public void FP_159_deletingCreatedPostBySelectingDeleteAndSubmitting_Should_BeSuccessful() {
         personalPostPage.deletePost();
         deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
         deletePage.assertPageNavigated();
@@ -83,7 +96,7 @@ public class PostTests extends BaseTest {
     }
 
     @Test
-    public void deletingCreatedPostBySelectingCancelAndSubmitting_Should_BeUnsuccessful() {
+    public void FP_160_deletingCreatedPostBySelectingCancelAndSubmitting_Should_BeUnsuccessful() {
         personalPostPage.deletePost();
         deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
         deletePage.assertPageNavigated();
@@ -92,6 +105,17 @@ public class PostTests extends BaseTest {
 
         personalPostPage.assertPost(post);
         Assertions.assertTrue(personalPostPage.existsInTheDatabase(post));
+    }
+
+    @Test
+    public void FP_161_goingToDeletePostPageAndLeavingItWithoutResultingInDeletion_Should_BeSuccessful() {
+        personalPostPage.deletePost();
+        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
+        deletePage.assertPageNavigated();
+        deletePage.selectFromDropdown(ConfirmDelete.DELETE);
+
+        personalPostPage.navigateToPage();
+        personalPostPage.assertPost(post);
     }
 
     @AfterEach

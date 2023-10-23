@@ -49,12 +49,12 @@ public class ConnectionTests extends BaseTest {
     }
 
     @Test
-    public void sendingFriendRequest_Should_BeSuccessful() {
+    public void FP_53_sendingFriendRequest_Should_BeSuccessful() {
         profilePage.assertConnectedMessagePresent();
     }
 
     @Test
-    public void acceptingFriendRequest_Should_BeSuccessful() {
+    public void FP_54_acceptingFriendRequest_Should_BeSuccessful() {
         actions.cleanDriver("weare.baseUrl");
         receiverCookieValue = login(receiver);
         profilePage.navigateToPage();
@@ -68,7 +68,7 @@ public class ConnectionTests extends BaseTest {
     }
 
     @Test
-    public void disconnectingWithAlreadyConnectedUser_Should_BeSuccessful() {
+    public void FP_55_disconnectingWithAlreadyConnectedUser_Should_BeSuccessful() {
         actions.cleanDriver("weare.baseUrl");
         receiverCookieValue = login(receiver);
         profilePage.navigateToPage();

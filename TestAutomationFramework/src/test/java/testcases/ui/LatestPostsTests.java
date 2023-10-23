@@ -44,14 +44,14 @@ public class LatestPostsTests extends BaseTest {
     }
 
     @Test
-    public void likingAPost_Should_BeSuccessful() {
+    public void FP_70_likingAPost_Should_BeSuccessful() {
         latestPostsPage.like(post);
 
         latestPostsPage.assertLiked(post);
     }
 
     @Test
-    public void dislikingAPost_Should_BeSuccessful() {
+    public void FP_71_dislikingAPost_Should_BeSuccessful() {
         latestPostsPage.like(post);
 
         latestPostsPage.dislike(post);
@@ -60,7 +60,7 @@ public class LatestPostsTests extends BaseTest {
     }
 
     @Test
-    public void exploringAPost_Should_BeSuccessful() {
+    public void FP_72_exploringAPost_Should_BeSuccessful() {
         int postId = post.getPostId();
         postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
 

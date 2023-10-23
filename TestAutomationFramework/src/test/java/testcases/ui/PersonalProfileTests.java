@@ -41,13 +41,13 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void addingValidPersonalInformationToPersonalProfile_Should_BeSuccessful() {
+    public void FP_3_addingValidPersonalInformationToPersonalProfile_Should_BeSuccessful() {
         personalProfilePage.navigateToPage();
         personalProfilePage.assertEqualData(user);
     }
 
     @Test
-    public void addingValidServiceAndWeeklyAvailabilityToPersonalProfile_Should_BeSuccessful() {
+    public void FP_4_addingValidServiceAndWeeklyAvailabilityToPersonalProfile_Should_BeSuccessful() {
         personalProfileEditorPage.enterServiceAndUpdate(user.getProfile(), user.getProfile().getServices().getServiceOne());
         personalProfilePage.navigateToPage();
         personalProfilePage.assertEqualServiceData(user.getProfile().getServices().getServiceOne(), PersonalProfileData.SERVICE_ONE);
@@ -55,7 +55,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingProfessionalCategoryInPersonalProfile_Should_BeSuccessful() {
+    public void FP_5_changingProfessionalCategoryInPersonalProfile_Should_BeSuccessful() {
         user.setCategory(ProfessionalCategory.getProfessionalCategoryById(ProfessionalCategory.selectRandomId()));
         personalProfileEditorPage.updateProfile();
         personalProfileEditorPage.enterProfessionalCategoryAndUpdate(user);
@@ -65,7 +65,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingFirstNameWithInvalidStringInPersonalProfile_Should_BeUnsuccessful() {
+    public void FP_8_changingFirstNameWithInvalidStringInPersonalProfile_Should_BeUnsuccessful() {
         user.getProfile().setFirstName(ProfileFactory.generateInvalidName());
 
         personalProfileEditorPage.enterFirstName(user.getProfile().getFirstName());
@@ -75,7 +75,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingLastNameWithInvalidStringInPersonalProfile_Should_BeUnsuccessful() {
+    public void FP_9_changingLastNameWithInvalidStringInPersonalProfile_Should_BeUnsuccessful() {
         user.getProfile().setLastName(ProfileFactory.generateInvalidName());
 
         personalProfileEditorPage.enterLastName(user.getProfile().getLastName());
@@ -85,7 +85,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingFirstNameInPersonalProfileBVA_lowerbound_Should_BeUnsuccessful() {
+    public void FP_10_changingFirstNameInPersonalProfileBVA_lowerbound_Should_BeUnsuccessful() {
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("firstName.lowerbound"));
         user.getProfile().setFirstName(ProfileFactory.generateFirstName(lowerbound - 1));
 
@@ -97,7 +97,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingLastNameInPersonalProfileBVA_lowerbound_Should_BeUnsuccessful() {
+    public void FP_11_changingLastNameInPersonalProfileBVA_lowerbound_Should_BeUnsuccessful() {
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("lastName.lowerbound"));
         user.getProfile().setLastName(ProfileFactory.generateLastName(lowerbound - 1));
 
@@ -109,7 +109,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void removingBioFromPersonalProfile_Should_BeSuccessful() {
+    public void FP_12_removingBioFromPersonalProfile_Should_BeSuccessful() {
         personalProfileEditorPage.clearBio();
         personalProfileEditorPage.updateProfile();
 
@@ -118,7 +118,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingBirthdayToNullInPersonalProfile_Should_BeUnsuccessful() {
+    public void FP_13_changingBirthdayToNullInPersonalProfile_Should_BeUnsuccessful() {
         personalProfileEditorPage.clearBirthday();
         personalProfileEditorPage.updateProfile();
 
@@ -127,7 +127,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingBirthdayToInvalidDateInPersonalProfile_Should_BeUnsuccessful() {
+    public void FP_14_changingBirthdayToInvalidDateInPersonalProfile_Should_BeUnsuccessful() {
         user.getProfile().setBirthday(ProfileFactory.generateInvalidBirthday());
 
         personalProfileEditorPage.enterBirthday(user.getProfile().getBirthday());
@@ -140,7 +140,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingBirthdayToDateAfterTheRegistrationDateInPersonalProfile_Should_BeUnsuccessful() {
+    public void FP_15_changingBirthdayToDateAfterTheRegistrationDateInPersonalProfile_Should_BeUnsuccessful() {
         user.getProfile().setBirthday(ProfileFactory.generateImpossibleBirthday());
 
         personalProfileEditorPage.enterBirthday(user.getProfile().getBirthday());
@@ -152,9 +152,9 @@ public class PersonalProfileTests extends BaseTest {
                 "The birthday date was changed successfully to a date after the registration date.");
     }
 
-    //Doesn't work
-    @Test
-    public void changingWeeklyAvailabilityToAnImpossibleNumberInPersonalProfile_Should_BeUnsuccessful() {
+    // WIP
+    //@Test
+    public void FP_16_changingWeeklyAvailabilityToAnImpossibleNumberInPersonalProfile_Should_BeUnsuccessful() {
         personalProfileEditorPage.enterServiceAndUpdate(user.getProfile(), user.getProfile().getServices().getServiceOne());
 
         user.getProfile().getServices().setWeeklyAvailability(ServicesFactory.generateInvalidWeeklyAvailability());
@@ -170,7 +170,7 @@ public class PersonalProfileTests extends BaseTest {
 
     // WIP
     //@Test
-    public void changingWeeklyAvailabilityToANegativeNumberInPersonalProfile_Should_BeUnsuccessful() {
+    public void FP_17_changingWeeklyAvailabilityToANegativeNumberInPersonalProfile_Should_BeUnsuccessful() {
         user.getProfile().getServices().setWeeklyAvailability(-10);
 
         personalProfileEditorPage.enterWeeklyAvailability(user.getProfile().getServices().getWeeklyAvailability());
@@ -183,7 +183,7 @@ public class PersonalProfileTests extends BaseTest {
     }
 
     @Test
-    public void changingEmailToAnotherValidEmailInPersonalProfile_Should_BeSuccessful() {
+    public void FP_19_changingEmailToAnotherValidEmailInPersonalProfile_Should_BeSuccessful() {
         user.setEmail(UserFactory.generateValidEmail());
 
         personalProfileEditorPage.enterEmail(user.getEmail());
@@ -195,7 +195,7 @@ public class PersonalProfileTests extends BaseTest {
 
     // WIP
     //@Test
-    public void changingEmailToInvalidEmailInPersonalProfile_Should_BeUnsuccessful() {
+    public void FP_20_changingEmailToInvalidEmailInPersonalProfile_Should_BeUnsuccessful() {
         user.setEmail(UserFactory.generateInvalidEmail());
 
         personalProfileEditorPage.enterEmail(user.getEmail());

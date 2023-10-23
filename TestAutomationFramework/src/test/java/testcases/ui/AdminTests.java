@@ -84,7 +84,7 @@ public class AdminTests extends BaseTest {
     }
 
     @Test
-    public void disablingUser_Should_BeSuccessful() {
+    public void FP_86_disablingUser_Should_BeSuccessful() {
         userProfilePage.navigateToPage();
 
         userProfilePage.disable();
@@ -94,7 +94,7 @@ public class AdminTests extends BaseTest {
     }
 
     @Test
-    public void enablingUser_Should_BeSuccessful() {
+    public void FP_87_enablingUser_Should_BeSuccessful() {
         userProfilePage.navigateToPage();
 
         userProfilePage.disable();
@@ -134,7 +134,7 @@ public class AdminTests extends BaseTest {
     }
 
     @Test
-    public void editingPost_Should_BeSuccessful() {
+    public void FP_81_editingPost_Should_BeSuccessful() {
         int postId = createPostAndReturnId();
         forDelete = true;
         postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
@@ -156,7 +156,7 @@ public class AdminTests extends BaseTest {
     }
 
     @Test
-    public void deletingPost_Should_BeSuccessful() {
+    public void FP_82_deletingPost_Should_BeSuccessful() {
         int postId = createPostAndReturnId();
         postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
         postPage.navigateToPage();
@@ -177,7 +177,7 @@ public class AdminTests extends BaseTest {
     }
 
     @Test
-    public void editingComment_Should_BeSuccessful() {
+    public void FP_83_editingComment_Should_BeSuccessful() {
         int postId = createPostAndReturnId();
         forDelete = true;
         int commentId = createCommentAndReturnId();
@@ -205,7 +205,7 @@ public class AdminTests extends BaseTest {
     }
 
     @Test
-    public void deletingComment_Should_BeSuccessful() {
+    public void FP_84_deletingComment_Should_BeSuccessful() {
         int postId = createPostAndReturnId();
         forDelete = true;
         int commentId = createCommentAndReturnId();

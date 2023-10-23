@@ -48,7 +48,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void creatingCommentWithMaxSymbolsAllowed_Should_BeSuccessful() {
+    public void FP_49_creatingCommentWithMaxSymbolsAllowed_Should_BeSuccessful() {
         comment = CommentFactory.createComment(post, user);
         comment.setContent(CommentFactory.generateContent(Integer.parseInt(Utils.getConfigPropertyByKey("comment.content.upperbound"))));
         personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
@@ -59,7 +59,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void creatingCommentWithMoreThanTheMaxSymbolsAllowed_Should_BeUnsuccessful() {
+    public void FP_50_creatingCommentWithMoreThanTheMaxSymbolsAllowed_Should_BeUnsuccessful() {
         comment = CommentFactory.createComment(post, user);
         int upperbound = Integer.parseInt(Utils.getConfigPropertyByKey("comment.content.upperbound"));
         comment.setContent(CommentFactory.generateContent(upperbound + 1));
@@ -70,7 +70,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void creatingCommentWithMinSymbols_Should_BeSuccessful() {
+    public void FP_31_creatingCommentWithMinSymbols_Should_BeSuccessful() {
         comment = CommentFactory.createComment(post, user);
         int lowerbound = Integer.parseInt(Utils.getConfigPropertyByKey("comment.content.lowerbound"));
         comment.setContent(CommentFactory.generateContent(lowerbound));
@@ -82,7 +82,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void creatingBlankComment_Should_BeUnsuccessful() {
+    public void FP_32_creatingBlankComment_Should_BeUnsuccessful() {
         comment = CommentFactory.createComment(post, user);
         comment.setContent("");
         personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
@@ -91,7 +91,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void likeAnExistingComment_Should_BeSuccessful() {
+    public void FP_47_likeAnExistingComment_Should_BeSuccessful() {
         comment = CommentFactory.createComment(post, user);
         personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
 
@@ -101,7 +101,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void dislikeALikedComment_Should_BeSuccessful() {
+    public void FP_48_dislikeALikedComment_Should_BeSuccessful() {
         comment = CommentFactory.createComment(post, user);
         personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
 
@@ -112,7 +112,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void editAnExistingComment_Should_BeSuccessful() {
+    public void FP_35_editAnExistingComment_Should_BeSuccessful() {
         comment = CommentFactory.createComment(post, user);
         personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
 
@@ -128,7 +128,7 @@ public class CommentsTests extends BaseTest {
     }
 
     @Test
-    public void deleteAnExistingCommentBySelectingDeleteAndSubmitting_Should_BeSuccessful() {
+    public void FP_34_deleteAnExistingCommentBySelectingDeleteAndSubmitting_Should_BeSuccessful() {
         comment = CommentFactory.createComment(post, user);
         personalPostPage.getCreateCommentSection().createCommentAndPost(comment.getContent());
 
@@ -141,7 +141,6 @@ public class CommentsTests extends BaseTest {
         Assertions.assertFalse(personalPostPage.getCommentSection().existsInTheDatabase(comment));
     }
 
-    //Add this test in Jira
     @Test
     public void deleteAnExistingCommentBySelectingCancelAndSubmitting_Should_BeUnsuccessful() {
         comment = CommentFactory.createComment(post, user);

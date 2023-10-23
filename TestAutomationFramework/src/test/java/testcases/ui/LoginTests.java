@@ -29,7 +29,7 @@ public class LoginTests extends BaseTest {
     }
 
     @Test
-    public void loginWithValidCredentials_Should_BeSuccessful() {
+    public void FP_63_loginWithValidCredentials_Should_BeSuccessful() {
         loginPage.enterAllCredentialsAndLogin(user.getUsername(), user.getPassword());
 
         homePage.assertLogoutButtonPresent();
@@ -37,21 +37,21 @@ public class LoginTests extends BaseTest {
     }
 
     @Test
-    public void loginWithBothCredentialsInvalid_Should_BeUnsuccessful() {
+    public void FP_66_loginWithBothCredentialsInvalid_Should_BeUnsuccessful() {
         loginPage.enterAllCredentialsAndLogin(unregisteredUser.getUsername(), unregisteredUser.getPassword());
 
         assertUnsuccessfulLogin();
     }
 
     @Test
-    public void loginWithDifferentUsername_Should_BeUnsuccessful() {
+    public void FP_65_loginWithDifferentUsername_Should_BeUnsuccessful() {
         loginPage.enterAllCredentialsAndLogin(unregisteredUser.getUsername(), user.getPassword());
 
         assertUnsuccessfulLogin();
     }
 
     @Test
-    public void loginWithDifferentPassword_Should_BeUnsuccessful() {
+    public void FP_64_loginWithDifferentPassword_Should_BeUnsuccessful() {
         loginPage.enterAllCredentialsAndLogin(user.getUsername(), unregisteredUser.getPassword());
 
         assertUnsuccessfulLogin();

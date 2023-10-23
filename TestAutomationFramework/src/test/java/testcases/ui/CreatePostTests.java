@@ -37,14 +37,14 @@ public class CreatePostTests extends BaseTest {
     }
 
     @Test
-    public void createValidPublicPost_Should_BeSuccessful() {
+    public void FP_68_createValidPublicPost_Should_BeSuccessful() {
         createNewPostPage.createPostAndSubmit(post);
 
         assertPostPage();
     }
 
     @Test
-    public void createValidPrivatePost_Should_BeSuccessful() {
+    public void FP_67_createValidPrivatePost_Should_BeSuccessful() {
         post.setVisibility(Visibility.PRIVATE);
         createNewPostPage.createPostAndSubmit(post);
 
