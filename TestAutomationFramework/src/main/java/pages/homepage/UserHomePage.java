@@ -27,7 +27,6 @@ public class UserHomePage extends HomePage{
     }
 
     public void assertLogoutButtonPresent() {
-        actions.waitForElementPresent(logoutBy);
         actions.assertElementPresent(logoutBy);
     }
 }
