@@ -35,7 +35,6 @@ public class CustomWebDriverManager {
 
         private WebDriver setupBrowser() {
             WebDriver driver = new ChromeDriver();
-            
             driver.manage().window().maximize();
             this.driver = driver;
             return driver;
