@@ -2,6 +2,7 @@ package com.testframework;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v113.network.Network;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -34,7 +35,9 @@ public class CustomWebDriverManager {
         }
 
         private WebDriver setupBrowser() {
-            WebDriver driver = new ChromeDriver();
+            var options = new ChromeOptions();
+            options.addArguments("--headless");
+            WebDriver driver = new ChromeDriver(options);
             driver.manage().window().maximize();
             this.driver = driver;
             return driver;
