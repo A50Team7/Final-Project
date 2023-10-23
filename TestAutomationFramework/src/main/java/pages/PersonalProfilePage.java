@@ -28,7 +28,7 @@ public class PersonalProfilePage extends BasePage {
     private By friendListBy = By.xpath(String.format(baseXpath, "Friend list"));
     private By yourBioBy = By.xpath(String.format(baseXpath, "Your Bio"));
 
-    private By editProfileBy = By.xpath(Utils.getUIMappingByKey("personalProfile.edit"));
+    protected By editProfileBy = By.xpath(Utils.getUIMappingByKey("personalProfile.edit"));
 
     private By serviceOneBy = By.xpath(String.format(baseServiceXpath, "2"));
 
@@ -41,6 +41,11 @@ public class PersonalProfilePage extends BasePage {
 
     private By professionalCategoryBy = By.xpath(Utils.getUIMappingByKey("personalProfile.professionalCategory"));
 
+    private static final By connectButtonBy = By.xpath(Utils.getUIMappingByKey("connection.connectButton"));
+    private static final By disconnectButtonBy = By.xpath(Utils.getUIMappingByKey("connection.disconnectButton"));
+    private static final By approveButtonBy = By.xpath(Utils.getUIMappingByKey("connection.approveButton"));
+    private static final By connectedMessageBy = By.xpath(Utils.getUIMappingByKey("connection.connectedMessage"));
+    private static final By viewRequestsBy = By.xpath(Utils.getUIMappingByKey("connection.viewRequests"));
 
     private String getFieldText(By locator) {
         return actions.getText(locator);
@@ -64,8 +69,24 @@ public class PersonalProfilePage extends BasePage {
                 return getFieldText(yourBioBy);
             case WEEKLY_AVAILABILITY:
                 return getFieldText(weeklyAvailabilityBy);
-            default: throw new IllegalArgumentException("Invalid PersonalProfileData.");
+            default:
+                throw new IllegalArgumentException("Invalid PersonalProfileData.");
         }
+    }
+
+    public void assertConnectedMessagePresent() {
+        actions.waitForElementPresent(connectedMessageBy);
+        actions.assertElementPresent(connectedMessageBy);
+    }
+
+    public void assertDisconnectButtonPresent() {
+        actions.waitForElementPresent(disconnectButtonBy);
+        actions.assertElementPresent(disconnectButtonBy);
+    }
+
+    public void assertConnectButtonPresent() {
+        actions.waitForElementPresent(connectButtonBy);
+        actions.assertElementPresent(connectButtonBy);
     }
 
     public void assertEqualProfileData(String expectedData, PersonalProfileData data) {
@@ -138,13 +159,28 @@ public class PersonalProfilePage extends BasePage {
     }
 
     public void assertBioIsCleared() {
-        Assertions.assertEquals(null, getFieldText(yourBioBy));
+        Assertions.assertNull(getFieldText(yourBioBy));
     }
 
     public void editProfile() {
         actions.clickElement(editProfileBy);
     }
 
+    public void sendConnectionRequest() {
+        actions.clickElement(connectButtonBy);
+    }
+
+    public void viewNewFriendRequests() {
+        actions.clickElement(viewRequestsBy);
+    }
+
+    public void acceptLatestRequest() {
+        actions.clickElement(approveButtonBy);
+    }
+
+    public void disconnect() {
+        actions.clickElement(disconnectButtonBy);
+    }
 }
 
 
