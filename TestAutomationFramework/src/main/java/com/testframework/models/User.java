@@ -5,6 +5,7 @@ import com.testframework.models.enums.ProfessionalCategory;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.Date;
 
 @Getter @Setter
@@ -14,6 +15,7 @@ public class User {
         setEmail(email);
         setPassword(password);
         setCategory(category);
+        setRegistrationDate(Date.from(Instant.now()));
     }
 
     public User(String username, String email, String password, ProfessionalCategory category, Profile profile) {
@@ -22,6 +24,7 @@ public class User {
         setPassword(password);
         setCategory(category);
         setProfile(profile);
+        setRegistrationDate(Date.from(Instant.now()));
     }
 
     private Profile profile;
