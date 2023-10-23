@@ -5,9 +5,9 @@ import com.testframework.Utils;
 import java.sql.*;
 
 public class DatabaseHelper {
-    private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url.local");
-    private static final String username = Utils.getConfigPropertyByKey("weare.db.username.local");
-    private static final String password = Utils.getConfigPropertyByKey("weare.db.password.local");
+    private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url");
+    private static final String username = Utils.getConfigPropertyByKey("weare.db.username");
+    private static final String password = Utils.getConfigPropertyByKey("weare.db.password");
     protected static final String deleteQuery =  "DELETE FROM %s WHERE %s=%s;";
     protected static final String findQuery = "SELECT * FROM %s WHERE %s=%s;";
 
