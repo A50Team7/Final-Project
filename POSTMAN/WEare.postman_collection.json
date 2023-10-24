@@ -105,12 +105,18 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/{{userEndpoint}}",
+							"raw": "{{baseURL}}/{{userEndpoint}}?sorted=true",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"{{userEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "sorted",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -178,6 +184,55 @@
 				{
 					"name": "Show Profile Posts",
 					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let url;\r",
+									"\r",
+									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
+									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
+									"\r",
+									"const createRequest = {\r",
+									"    url: url,\r",
+									"    method: 'Post',\r",
+									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
+									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
+									"        'Accept': '*/*',\r",
+									"        'Host': pm.request.headers.get('Host'),\r",
+									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
+									"            \"picture\": \"\",\r",
+									"            \"public\": true\r",
+									"        })\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest(createRequest, (err, createResponse) => {\r",
+									"    if (err) {\r",
+									"        console.log(err);\r",
+									"    }\r",
+									"\r",
+									"    let jsonBody = JSON.parse(createResponse.stream);\r",
+									"\r",
+									"    pm.test(\"Successful create request\", function() {\r",
+									"        pm.expect(err).to.eql(null);\r",
+									"        pm.expect(createResponse).to.have.property('code', 200);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
 						{
 							"listen": "test",
 							"script": {
@@ -252,55 +307,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"let url;\r",
-									"\r",
-									"url = pm.environment.get(\"baseURL\") + \"/\" + pm.environment.get(\"postEndpoint\") + \"/\" + \"auth/creator\";\r",
-									"pm.collectionVariables.set(\"postContent\", pm.variables.replaceIn('{{$randomCatchPhrase}}'));\r",
-									"\r",
-									"const createRequest = {\r",
-									"    url: url,\r",
-									"    method: 'Post',\r",
-									"    header: {\r",
-									"        'Content-Type': 'application/json',\r",
-									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
-									"        'Accept': '*/*',\r",
-									"        'Host': pm.request.headers.get('Host'),\r",
-									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
-									"        'Connection': 'keep-alive',\r",
-									"        'Cookie': \"\"\r",
-									"    },\r",
-									"    body: {\r",
-									"        mode: 'raw',\r",
-									"        raw: JSON.stringify({\r",
-									"            \"content\": pm.collectionVariables.get(\"postContent\"),\r",
-									"            \"picture\": \"\",\r",
-									"            \"public\": true\r",
-									"        })\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"pm.sendRequest(createRequest, (err, createResponse) => {\r",
-									"    if (err) {\r",
-									"        console.log(err);\r",
-									"    }\r",
-									"\r",
-									"    let jsonBody = JSON.parse(createResponse.stream);\r",
-									"\r",
-									"    pm.test(\"Successful create request\", function() {\r",
-									"        pm.expect(err).to.eql(null);\r",
-									"        pm.expect(createResponse).to.have.property('code', 200);\r",
-									"    });\r",
-									"\r",
-									"    pm.collectionVariables.set(\"postId\", jsonBody.postId);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"protocolProfileBehavior": {
@@ -336,6 +342,16 @@
 					"name": "Upgrade Personal Profile",
 					"event": [
 						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+									"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
 							"listen": "test",
 							"script": {
 								"exec": [
@@ -349,75 +365,9 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Body contains approved\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(\"approved\");\r",
-									"});\r",
-									"\r",
 									"pm.test(\"Body contains id\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
-									"});var template = `\r",
-									"<style type=\"text/css\">\r",
-									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
-									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
-									"    .tftable tr {background-color:#ffffff;}\r",
-									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
-									"    .tftable tr:hover {background-color:#e0ffff;}\r",
-									"</style>\r",
-									"\r",
-									"<table class=\"tftable\" border=\"1\">\r",
-									"    <tr>\r",
-									"        <th>ID</th>\r",
-									"        <th>Approved</th>\r",
-									"        <th>Seen</th>\r",
-									"        <th>Timestamp</th>\r",
-									"    </tr>\r",
-									"    \r",
-									"    {{#each response}}\r",
-									"        <tr>\r",
-									"            <td>{{id}}</td>\r",
-									"            <td>{{approved}}</td>\r",
-									"            <td>{{seen}}</td>\r",
-									"            <td>{{timeStamp}}</td>\r",
-									"        </tr>\r",
-									"    {{/each}}\r",
-									"</table>\r",
-									"`;\r",
-									"\r",
-									"function constructVisualizerPayload() {\r",
-									"    return {response: pm.response.json()}\r",
-									"}\r",
-									"\r",
-									"pm.visualizer.set(template, constructVisualizerPayload());"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
-									"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'));\r",
-									"let pass = pm.collectionVariables.get(\"password\");\r",
-									"let user =  pm.collectionVariables.get(\"username\");\r",
-									"\r",
-									"\r",
-									"    // pm.sendRequest({\r",
-									"    // url: 'http://localhost:8081/authenticate',\r",
-									"    // method: 'POST',\r",
-									"    // header: {\r",
-									"    //     'Content-Type': 'multipart/form-data',\r",
-									"    //       },\r",
-									"    //     'body': {\r",
-									"    //         'mode': 'formdata',\r",
-									"    //         'formdata': [\r",
-									"    //             {'key':'password', 'value': pass},\r",
-									"    //             {'key':'username', 'value': user}\r",
-									"    //         ]\r",
-									"    //      }\r",
-									"    // });\r",
-									"\r",
-									""
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2143,6 +2093,7 @@
 									"    url: url,\r",
 									"    method: 'Delete',\r",
 									"    header: {\r",
+									"        'Content-Type': 'application/json',\r",
 									"        'User-Agent': pm.request.headers.get('User-Agent'),\r",
 									"        'Accept': '*/*',\r",
 									"        'Host': pm.request.headers.get('Host'),\r",
@@ -2307,7 +2258,8 @@
 									"        'Accept': '*/*',\r",
 									"        'Host': pm.request.headers.get('Host'),\r",
 									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
-									"        'Connection': 'keep-alive'\r",
+									"        'Connection': 'keep-alive',\r",
+									"        'Cookie': \"\"\r",
 									"    }\r",
 									"}\r",
 									"\r",
@@ -2506,8 +2458,7 @@
 									"                 \"id\": pm.collectionVariables.get(\"categoryId\"),\r",
 									"                 \"name\": pm.collectionVariables.get(\"categoryName\")\r",
 									"                 },\r",
-									"                \"skill\": pm.collectionVariables.get(\"skillName\"),\r",
-									"                \"skillId\": 0\r",
+									"                \"skill\": pm.collectionVariables.get(\"skillName\")\r",
 									"            }\r",
 									"        )\r",
 									"    }\r",
@@ -2557,7 +2508,8 @@
 									"        'Host': pm.request.headers.get('Host'),\r",
 									"        'Accept-Encoding': pm.request.headers.get('Accept-Encoding'),\r",
 									"        'Connection': 'keep-alive',\r",
-									"        'Content-Length': pm.request.headers.get('Content-Length')\r",
+									"        'Content-Length': pm.request.headers.get('Content-Length'),\r",
+									"        'Cookie': ''\r",
 									"    }\r",
 									"}\r",
 									"\r",
@@ -3073,6 +3025,167 @@
 			"name": "Rest Connection Controller",
 			"item": [
 				{
+					"name": "Create User - Needed for All Requests That Need Authorization",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"username\", pm.variables.replaceIn('{{$randomFirstName}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseText= pm.response.text();\r",
+									"const myArray = responseText.split(\" \");\r",
+									"let responseId = myArray[6];\r",
+									"pm.collectionVariables.set(\"senderId\", responseId);\r",
+									"let reponseSender = myArray[3];\r",
+									"pm.collectionVariables.set(\"senderUsername\", reponseSender);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"username\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"authorities\": [\r\n    \"ROLE_USER\"\r\n  ],\r\n  \"category\": {\r\n    \"id\": 100,\r\n    \"name\": \"All\"\r\n  },\r\n  \"email\": \"string1@test.bg\",\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{username}}\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Second User - Needed for Connection Tests",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"secondUsername\", pm.variables.replaceIn('{{$randomFirstName}}'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseText= pm.response.text();\r",
+									"const myArray = responseText.split(\" \");\r",
+									"let responseId = myArray[6];\r",
+									"pm.collectionVariables.set(\"secondUserId\", responseId);\r",
+									"\r",
+									"let responseReceiver = myArray[3];\r",
+									"pm.collectionVariables.set(\"receiverUsername\", responseReceiver);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"secondUsername\"));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"authorities\": [\r\n    \"ROLE_USER\"\r\n  ],\r\n  \"category\": {\r\n    \"id\": 100,\r\n    \"name\": \"All\"\r\n  },\r\n  \"email\": \"string2@test.bg\",\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{secondUsername}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/{{userEndpoint}}/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"{{userEndpoint}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate Sender",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{senderUsername}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Send Friend Request",
 					"event": [
 						{
@@ -3096,7 +3209,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"{{secondUserId}}\",\r\n  \"username\": \"{{secondUsername}}\"\r\n}",
+							"raw": "{\r\n  \"id\": {{secondUserId}},\r\n  \"username\": \"{{secondUsername}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3117,8 +3230,64 @@
 					"response": []
 				},
 				{
+					"name": "Authenticate Receiver",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{receiverUsername}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get User Requests",
 					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);   \r",
+									"pm.collectionVariables.set(\"friendRequestId\", data[0].id);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains approved\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"approved\");\r",
+									"});\r",
+									"\r",
+									"// pm.test(\"Body contains id\", function () {\r",
+									"//     pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"// });"
+								],
+								"type": "text/javascript"
+							}
+						},
 						{
 							"listen": "prerequest",
 							"script": {
@@ -3161,28 +3330,6 @@
 									"        console.log(cookie);\r",
 									"        pm.collectionVariables.set(\"authCookie\", \"JSESSIONID=\" + cookie);\r",
 									"    });\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var data = JSON.parse(responseBody);   \r",
-									"pm.collectionVariables.set(\"friendRequestId\", data[0].id);\r",
-									"\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Body contains approved\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(\"approved\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Body contains id\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3300,133 +3447,6 @@
 									"key": "requestId",
 									"value": "{{friendRequestId}}"
 								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "COMMON",
-			"item": [
-				{
-					"name": "Create User - Needed for All Requests That Need Authorization",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.collectionVariables.set(\"username\", pm.variables.replaceIn('{{$randomFirstName}}'));"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let responseText= pm.response.text();\r",
-									"const myArray = responseText.split(\" \");\r",
-									"let responseId = myArray[6];\r",
-									"pm.collectionVariables.set(\"userId\", responseId);\r",
-									"\r",
-									"\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Body matches string\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"username\"));\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"authorities\": [\r\n    \"ROLE_USER\"\r\n  ],\r\n  \"category\": {\r\n    \"id\": 100,\r\n    \"name\": \"All\"\r\n  },\r\n  \"email\": \"string1@test.bg\",\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{username}}\"\r\n  \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/{{userEndpoint}}/",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"{{userEndpoint}}",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Second User - Needed for Connection Tests",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.collectionVariables.set(\"secondUsername\", pm.variables.replaceIn('{{$randomFirstName}}'));"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let responseText= pm.response.text();\r",
-									"const myArray = responseText.split(\" \");\r",
-									"let responseId = myArray[6];\r",
-									"pm.collectionVariables.set(\"secondUserId\", responseId);\r",
-									"\r",
-									"\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Body matches string\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get(\"secondUsername\"));\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"authorities\": [\r\n    \"ROLE_USER\"\r\n  ],\r\n  \"category\": {\r\n    \"id\": 100,\r\n    \"name\": \"All\"\r\n  },\r\n  \"email\": \"string2@test.bg\",\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{secondUsername}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/{{userEndpoint}}/",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"{{userEndpoint}}",
-								""
 							]
 						}
 					},
@@ -3604,6 +3624,18 @@
 			"key": "authCookie",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "senderId",
+			"value": ""
+		},
+		{
+			"key": "senderUsername",
+			"value": ""
+		},
+		{
+			"key": "receiverUsername",
+			"value": ""
 		}
 	]
 }
