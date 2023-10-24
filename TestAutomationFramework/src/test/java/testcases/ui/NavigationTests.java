@@ -1,14 +1,11 @@
 package testcases.ui;
 
 import com.testframework.Utils;
-import com.testframework.WaitHelper;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.UserRequest;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
-import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import pages.homepage.AnonymousHomePage;
