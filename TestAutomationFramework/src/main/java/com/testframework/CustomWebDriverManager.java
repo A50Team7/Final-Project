@@ -35,9 +35,7 @@ public class CustomWebDriverManager {
         }
 
         private WebDriver setupBrowser() {
-            var options = new ChromeOptions();
-            options.addArguments("--headless");
-            WebDriver driver = new ChromeDriver(options);
+            WebDriver driver = new ChromeDriver();
             driver.manage().window().maximize();
             this.driver = driver;
             return driver;
