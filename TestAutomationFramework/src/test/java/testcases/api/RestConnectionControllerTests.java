@@ -10,11 +10,11 @@ import com.testframework.databasehelper.RequestsHelper;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
+import com.testframework.models.enums.Authority;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import testcases.ApiHelper;
 
 public class RestConnectionControllerTests extends BaseApiTest {
     private boolean connected = false;
@@ -29,12 +29,12 @@ public class RestConnectionControllerTests extends BaseApiTest {
         sender = UserFactory.createUserWithProfile();
         receiver = UserFactory.createUserWithProfile();
 
-        UserRequest userRequest1 = new UserRequest("ROLE_USER", sender);
+        UserRequest userRequest1 = new UserRequest(Authority.ROLE_USER.toString(), sender);
         RestUserController.createUser(userRequest1);
-        UserRequest userRequest2 = new UserRequest("ROLE_USER", receiver);
+        UserRequest userRequest2 = new UserRequest(Authority.ROLE_USER.toString(), receiver);
         RestUserController.createUser(userRequest2);
 
-        senderAuthCookie = ApiHelper.getCookieValue(sender);
+        senderAuthCookie = getCookieValue(sender);
         ConnectionRequest connectionRequest = new ConnectionRequest(receiver.getUserId(), receiver.getUsername());
         connectionRequestResponse = RestConnectionController.sendFriendRequest(connectionRequest, senderAuthCookie);
 
@@ -47,7 +47,7 @@ public class RestConnectionControllerTests extends BaseApiTest {
 
     @Test
     public void getFriendRequests() {
-        receiverAuthCookie = ApiHelper.getCookieValue(receiver);
+        receiverAuthCookie = getCookieValue(receiver);
         ConnectionResponse[] friendRequests =
                 RestConnectionController.getFriendRequests(receiver.getUserId(), receiverAuthCookie);
 
@@ -57,7 +57,7 @@ public class RestConnectionControllerTests extends BaseApiTest {
 
     @Test
     public void acceptFriendRequest() {
-        receiverAuthCookie = ApiHelper.getCookieValue(receiver);
+        receiverAuthCookie = getCookieValue(receiver);
         ConnectionResponse[] friendRequests =
                 RestConnectionController.getFriendRequests(receiver.getUserId(), receiverAuthCookie);
 

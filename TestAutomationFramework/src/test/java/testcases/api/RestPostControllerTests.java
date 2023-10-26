@@ -10,11 +10,11 @@ import com.testframework.factories.UserFactory;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
+import com.testframework.models.enums.Authority;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.*;
 import com.testframework.api.controllers.RestUserController;
 import com.testframework.databasehelper.UserHelper;
-import testcases.ApiHelper;
 
 import java.util.Arrays;
 
@@ -32,9 +32,9 @@ public class RestPostControllerTests extends BaseApiTest {
     public void setup() {
         user = UserFactory.createUser();
         post = PostFactory.createPost(user, Visibility.PUBLIC);
-        userRequest = new UserRequest("ROLE_USER", user);
+        userRequest = new UserRequest(Authority.ROLE_USER.toString(), user);
         RestUserController.createUser(userRequest);
-        authCookie = ApiHelper.getCookieValue(user);
+        authCookie = getCookieValue(user);
 
         postRequest = new PostRequest(post);
         postResponse = RestPostController.createPost(postRequest, authCookie);
