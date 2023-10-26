@@ -15,14 +15,4 @@ public class Category {
     private int id;
     private String name;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Category c = (Category) o;
-
-        return id == c.id
-                && name.equals(c.name);
-    }
-
 }
