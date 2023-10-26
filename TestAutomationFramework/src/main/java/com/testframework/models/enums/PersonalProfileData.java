@@ -1,5 +1,8 @@
 package com.testframework.models.enums;
 
+/**
+ * Personal Profile data model representing the possible data showing in one's profile page in the application.
+ */
 public enum PersonalProfileData {
 
     USER_ID,
@@ -18,4 +21,5 @@ public enum PersonalProfileData {
     SERVICE_FOUR,
     SERVICE_FIVE,
     WEEKLY_AVAILABILITY;
+
 }

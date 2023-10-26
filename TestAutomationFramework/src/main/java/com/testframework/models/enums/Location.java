@@ -3,8 +3,12 @@ package com.testframework.models.enums;
 import com.testframework.generations.GenerateRandom;
 import lombok.Getter;
 
+/**
+ * Location model representing the possible locations/cities in the application.
+ */
 @Getter
 public enum Location {
+
     SOFIA("Sofia", 1),
     PLOVDIV("Plovdiv", 2),
     VARNA("Varna", 3),
@@ -53,19 +57,36 @@ public enum Location {
         this.id = id;
     }
 
+    /**
+     * Returns the Location corresponding to the provided ID.
+     *
+     * @param id the ID of the location
+     * @return the Location corresponding to the provided ID
+     * @throws IllegalArgumentException if no such location is found
+     */
     public static Location getLocationById(int id) {
         for (Location location : Location.values()) {
-            if (location.getId()==id) return location;
+            if (location.getId() == id) return location;
         }
         throw new IllegalArgumentException("No such location found.");
     }
 
+    /**
+     * Generates and returns a random ID within the range of location IDs.
+     *
+     * @return a random ID within the range of location IDs
+     */
     public static int selectRandomId() {
         int lowerBound = 1;
         int upperBound = Location.getMaxId();
         return GenerateRandom.generateRandomBoundedInteger(lowerBound, upperBound);
     }
 
+    /**
+     * Returns the maximum ID of the locations.
+     *
+     * @return the maximum ID of the locations
+     */
     private static int getMaxId() {
         Location[] locations = Location.values();
         return locations[locations.length - 1].id;

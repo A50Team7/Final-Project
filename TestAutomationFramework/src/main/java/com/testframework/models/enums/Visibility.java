@@ -2,8 +2,12 @@ package com.testframework.models.enums;
 
 import lombok.Getter;
 
+/**
+ * Visibility model representing the possible visibility options in the application.
+ */
 @Getter
 public enum Visibility {
+
     PRIVATE("Private"),
     PUBLIC("Public");
 
@@ -12,4 +16,5 @@ public enum Visibility {
     Visibility(String stringValue) {
         this.stringValue = stringValue;
     }
+    
 }

@@ -2,8 +2,12 @@ package com.testframework.models.enums;
 
 import lombok.Getter;
 
+/**
+ * Model representing the possible options in the 'delete pages' in the application.
+ */
 @Getter
 public enum ConfirmDelete {
+
     DELETE("Delete"),
     CANCEL("Cancel");
 
@@ -12,4 +16,5 @@ public enum ConfirmDelete {
     ConfirmDelete(String stringValue) {
         this.stringValue = stringValue;
     }
+
 }

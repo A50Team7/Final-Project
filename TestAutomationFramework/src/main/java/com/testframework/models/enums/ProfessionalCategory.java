@@ -3,6 +3,9 @@ package com.testframework.models.enums;
 import com.testframework.generations.GenerateRandom;
 import lombok.Getter;
 
+/**
+ * Professional Category representing the possible categories in the application.
+ */
 @Getter
 public enum ProfessionalCategory {
     ALL("All", 100),
@@ -71,19 +74,36 @@ public enum ProfessionalCategory {
         this.id = id;
     }
 
+    /**
+     * Returns the ProfessionalCategory corresponding to the provided ID.
+     *
+     * @param id the ID of the professional category
+     * @return the ProfessionalCategory corresponding to the provided ID
+     * @throws IllegalArgumentException if no such professional category is found
+     */
     public static ProfessionalCategory getProfessionalCategoryById(int id) {
         for (ProfessionalCategory category : ProfessionalCategory.values()) {
-            if (category.getId()==id) return category;
+            if (category.getId() == id) return category;
         }
         throw new IllegalArgumentException("No such professional category found.");
     }
 
+    /**
+     * Generates and returns a random ID within the range of professional category IDs.
+     *
+     * @return a random ID within the range of professional category IDs
+     */
     public static int selectRandomId() {
         int lowerBound = 100;
         int upperBound = ProfessionalCategory.getMaxId();
         return GenerateRandom.generateRandomBoundedInteger(lowerBound, upperBound);
     }
 
+    /**
+     * Returns the maximum ID of the professional categories.
+     *
+     * @return the maximum ID of the professional categories
+     */
     private static int getMaxId() {
         ProfessionalCategory[] categories = ProfessionalCategory.values();
         return categories[categories.length - 1].id;
