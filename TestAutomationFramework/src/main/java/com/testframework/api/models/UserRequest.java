@@ -25,18 +25,6 @@ public class UserRequest {
     private String password;
     private String username;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserRequest u = (UserRequest) o;
-
-        return authorities.equals(u.authorities)
-                && category.equals(u.category)
-                && email.equals(u.email)
-                && username.equals(u.username);
-    }
-
     private void addAuthority(String string) {
         authorities.add(string);
     }
