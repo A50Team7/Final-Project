@@ -7,7 +7,7 @@ import java.sql.ResultSet;
  *
  * @see DatabaseHelper
  */
-public class PostHelper extends DatabaseHelper{
+public class PostHelper extends DatabaseHelper {
 
     private static final String tableName = "posts_table";
     private static final String tableSpecificQuery =
@@ -16,7 +16,7 @@ public class PostHelper extends DatabaseHelper{
     /**
      * Retrieves a post based on the specified key and value.
      *
-     * @param key the key to search for
+     * @param key   the key to search for
      * @param value the value corresponding to the key
      * @return the result set containing the post
      */
@@ -37,7 +37,7 @@ public class PostHelper extends DatabaseHelper{
     /**
      * Deletes a post based on the specified key and value.
      *
-     * @param key the key to search for
+     * @param key   the key to search for
      * @param value the value corresponding to the key
      */
     public static void deletePost(String key, String value) {

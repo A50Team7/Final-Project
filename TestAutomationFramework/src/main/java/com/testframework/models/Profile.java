@@ -34,8 +34,8 @@ public class Profile implements Friendable, Postability {
      * Constructs a Profile with the provided first name, last name, and birthday.
      *
      * @param firstName the first name of the profile owner
-     * @param lastName the last name of the profile owner
-     * @param birthday the birthday of the profile owner
+     * @param lastName  the last name of the profile owner
+     * @param birthday  the birthday of the profile owner
      */
     public Profile(String firstName, String lastName, LocalDate birthday) {
         setFirstName(firstName);

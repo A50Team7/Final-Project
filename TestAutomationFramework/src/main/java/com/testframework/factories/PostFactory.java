@@ -15,7 +15,7 @@ public class PostFactory {
     /**
      * Creates a post with the provided author and visibility, and generated content.
      *
-     * @param author the author of the post
+     * @param author     the author of the post
      * @param visibility the visibility setting of the post
      * @return the created Post object
      */

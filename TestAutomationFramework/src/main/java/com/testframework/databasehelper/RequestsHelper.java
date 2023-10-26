@@ -5,7 +5,7 @@ package com.testframework.databasehelper;
  *
  * @see DatabaseHelper
  */
-public class RequestsHelper extends DatabaseHelper{
+public class RequestsHelper extends DatabaseHelper {
 
     private static String truncateRequestsTableQuery = "TRUNCATE TABLE requests;";
 

@@ -27,8 +27,8 @@ public class Post implements Likable, Commentable {
      * Constructs a Post with the provided author, content, and visibility.
      * The creation date and time are set to the current date based on the configured time zone.
      *
-     * @param author the author of the post
-     * @param content the content of the post
+     * @param author     the author of the post
+     * @param content    the content of the post
      * @param visibility the visibility of the post
      */
     public Post(User author, String content, Visibility visibility) {

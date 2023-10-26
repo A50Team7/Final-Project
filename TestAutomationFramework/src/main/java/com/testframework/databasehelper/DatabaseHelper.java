@@ -17,7 +17,7 @@ public class DatabaseHelper {
     private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url");
     private static final String username = Utils.getConfigPropertyByKey("weare.db.username");
     private static final String password = Utils.getConfigPropertyByKey("weare.db.password");
-    protected static final String deleteQuery =  "DELETE FROM %s WHERE %s=%s;";
+    protected static final String deleteQuery = "DELETE FROM %s WHERE %s=%s;";
     protected static final String findQuery = "SELECT * FROM %s WHERE %s=%s;";
 
     /**
@@ -33,7 +33,7 @@ public class DatabaseHelper {
             throw new RuntimeException(e);
         }
 
-        try(Connection con = DriverManager.getConnection(dbUrl, username, password)) {
+        try (Connection con = DriverManager.getConnection(dbUrl, username, password)) {
             PreparedStatement stmt = con.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
             resultSet.first();
@@ -48,7 +48,7 @@ public class DatabaseHelper {
      * Retrieves an entity from the database based on the provided table, key, and value.
      *
      * @param table the table name
-     * @param key the key to search for
+     * @param key   the key to search for
      * @param value the value corresponding to the key
      * @return the result set containing the entity
      */
@@ -64,7 +64,7 @@ public class DatabaseHelper {
      */
     public static boolean entityExists(ResultSet resultSet) {
         try {
-            return resultSet.getRow()==1;
+            return resultSet.getRow() == 1;
         } catch (SQLException e) {
             Utils.LOGGER.info("Unsuccessful query.");
             Utils.LOGGER.info(e);
@@ -75,7 +75,7 @@ public class DatabaseHelper {
     /**
      * Retrieves the ID of the entity from the result set based on the specified column label.
      *
-     * @param resultSet the result set containing the entity
+     * @param resultSet   the result set containing the entity
      * @param columnLabel the column label for the ID
      * @return the ID of the entity
      */
@@ -94,10 +94,10 @@ public class DatabaseHelper {
     public static void deleteEntity(String entityName, String table, String key, String value) {
         if (entityExists(getEntity(table, key, value))) {
             executeQuery(String.format(deleteQuery, table, key, value));
-            if (!entityExists(getEntity(table, key, value))) Utils.LOGGER.info(String.format("Successfully deleted %s.", entityName));
+            if (!entityExists(getEntity(table, key, value)))
+                Utils.LOGGER.info(String.format("Successfully deleted %s.", entityName));
             else Utils.LOGGER.info(String.format("Deleting %s was unsuccessful.", entityName));
-        }
-        else Utils.LOGGER.info(String.format("No %s found.", entityName));
+        } else Utils.LOGGER.info(String.format("No %s found.", entityName));
     }
 
     public static int getEntityIdByKey(String table, String key, String value, String idColumnLabel) {

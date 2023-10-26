@@ -9,14 +9,14 @@ import java.sql.*;
  *
  * @see DatabaseHelper
  */
-public class UserHelper extends DatabaseHelper{
+public class UserHelper extends DatabaseHelper {
 
     private static final String tableName = "users";
 
     /**
      * Retrieves a user based on the specified key and value.
      *
-     * @param key the key to search for
+     * @param key   the key to search for
      * @param value the value corresponding to the key
      * @return the result set containing the user
      */
@@ -37,7 +37,7 @@ public class UserHelper extends DatabaseHelper{
     /**
      * Deletes a user based on the specified key and value.
      *
-     * @param key the key to search for
+     * @param key   the key to search for
      * @param value the value corresponding to the key
      */
     public static void deleteUser(String key, String value) {

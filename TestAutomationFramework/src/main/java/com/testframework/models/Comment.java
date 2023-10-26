@@ -24,8 +24,8 @@ public class Comment implements Likable {
      * The creation date and time are set to the current date based on the configured time zone.
      * The comment is added to the corresponding post.
      *
-     * @param post the post the comment is associated with
-     * @param author the author of the comment
+     * @param post    the post the comment is associated with
+     * @param author  the author of the comment
      * @param content the content of the comment
      */
     public Comment(Post post, User author, String content) {
@@ -61,4 +61,5 @@ public class Comment implements Likable {
     public int getCommentId() {
         return CommentHelper.getCommentId(CommentHelper.getComment("content", String.format("'%s'", this.content)));
     }
+
 }

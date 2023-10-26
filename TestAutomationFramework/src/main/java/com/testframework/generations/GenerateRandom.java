@@ -104,7 +104,7 @@ public class GenerateRandom {
     /**
      * Generates a random date within the specified lower and upper bounds.
      *
-     * @param firstDate the lower bound date
+     * @param firstDate  the lower bound date
      * @param secondDate the upper bound date
      * @return the generated random date
      */

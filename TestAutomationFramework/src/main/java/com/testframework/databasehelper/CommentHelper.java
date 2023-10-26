@@ -7,14 +7,14 @@ import java.sql.ResultSet;
  *
  * @see DatabaseHelper
  */
-public class CommentHelper extends DatabaseHelper{
+public class CommentHelper extends DatabaseHelper {
 
     private static final String tableName = "comments_table";
 
     /**
      * Retrieves a comment based on the specified key and value.
      *
-     * @param key the key to search for
+     * @param key   the key to search for
      * @param value the value corresponding to the key
      * @return the result set containing the comment
      */
@@ -35,7 +35,7 @@ public class CommentHelper extends DatabaseHelper{
     /**
      * Deletes a comment based on the specified key and value.
      *
-     * @param key the key to search for
+     * @param key   the key to search for
      * @param value the value corresponding to the key
      */
     public static void deleteComment(String key, String value) {

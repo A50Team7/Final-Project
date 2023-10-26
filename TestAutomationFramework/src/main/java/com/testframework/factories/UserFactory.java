@@ -64,7 +64,7 @@ public class UserFactory {
      * @return the created User object
      */
     public static User createUser() {
-        return new User (
+        return new User(
                 generateUsername(),
                 generateValidEmail(),
                 generatePassword(),
@@ -78,7 +78,7 @@ public class UserFactory {
      * @return the created User object with admin privileges
      */
     public static User createAdmin() {
-        return new User (
+        return new User(
                 generateAdminUsername(),
                 generateValidEmail(),
                 generatePassword(),

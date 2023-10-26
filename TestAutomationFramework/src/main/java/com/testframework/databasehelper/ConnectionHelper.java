@@ -5,7 +5,7 @@ package com.testframework.databasehelper;
  *
  * @see DatabaseHelper
  */
-public class ConnectionHelper extends DatabaseHelper{
+public class ConnectionHelper extends DatabaseHelper {
 
     private static String truncateConnectionsTableQuery = "TRUNCATE TABLE connections_table;";
 

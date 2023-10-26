@@ -26,7 +26,7 @@ public class User {
      * The registration date is set to the current date based on the configured time zone.
      *
      * @param username the username of the user
-     * @param email the email of the user
+     * @param email    the email of the user
      * @param password the password of the user
      * @param category the professional category of the user
      */
@@ -43,10 +43,10 @@ public class User {
      * The registration date is set to the current date based on the configured time zone.
      *
      * @param username the username of the user
-     * @param email the email of the user
+     * @param email    the email of the user
      * @param password the password of the user
      * @param category the professional category of the user
-     * @param profile the profile of the user
+     * @param profile  the profile of the user
      */
     public User(String username, String email, String password, ProfessionalCategory category, Profile profile) {
         setUsername(username);
