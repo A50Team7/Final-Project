@@ -8,8 +8,6 @@
 
 ### System Test Performed
 
-<br/>
-
 &nbsp; Detailed test cases are written for high risk and critical functionalities, such as register, login, posting, commenting, etc.
 Xray for Jira is used to store, organize and run manual tests / test cases. The test cases cover not only the “Happy paths” but also alternative paths to validate that the delivered functionality is build according to the requirements.
 <br/>
