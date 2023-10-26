@@ -13,7 +13,7 @@ public class PostResponse {
     private UserResponse[] likes;
     private CommentResponse[] comments;
     private int rank;
-    private boolean isPublic= true;
+    @SerializedName("public") private boolean isPublic;
     private boolean liked;
     private Category category;
 
