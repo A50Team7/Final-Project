@@ -18,15 +18,4 @@ public class Skill {
     private String skill;
     private Category category;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Skill c = (Skill) o;
-
-        return skillId == c.skillId
-                && skill.equals(c.skill)
-                && category.equals(c.category);
-    }
-
 }
