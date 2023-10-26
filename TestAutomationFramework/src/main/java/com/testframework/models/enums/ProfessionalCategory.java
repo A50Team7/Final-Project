@@ -89,8 +89,20 @@ public enum ProfessionalCategory {
     }
 
     /**
-     * Generates and returns a random ID within the range of professional category IDs.
+     * Returns the ProfessionalCategory corresponding to the provided category name.
      *
+     * @param categoryName the professional category in String format
+     * @return the ProfessionalCategory corresponding to the provided category name
+     * @throws IllegalArgumentException if no such professional category is found
+     */
+    public static ProfessionalCategory getProfessionalCategoryByString(String categoryName) {
+        for (ProfessionalCategory category : ProfessionalCategory.values()) {
+            if (category.getStringValue().equalsIgnoreCase(categoryName)) return category;
+        }
+        throw new IllegalArgumentException("No such professional category found.");
+    }
+
+    /**
      * @return a random ID within the range of professional category IDs
      */
     public static int selectRandomId() {
@@ -100,8 +112,6 @@ public enum ProfessionalCategory {
     }
 
     /**
-     * Returns the maximum ID of the professional categories.
-     *
      * @return the maximum ID of the professional categories
      */
     private static int getMaxId() {
