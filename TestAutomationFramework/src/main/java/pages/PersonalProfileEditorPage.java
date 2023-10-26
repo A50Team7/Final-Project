@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class PersonalProfileEditorPage extends BasePage {
@@ -84,7 +85,7 @@ public class PersonalProfileEditorPage extends BasePage {
         actions.clearAndTypeValueInField(lastNameBy, name);
     }
 
-    public void enterBirthday(Date date) {
+    public void enterBirthday(LocalDate date) {
         actions.typeValueInField(birthdayBy, FormatHelper.formatDateAmericanFormat(date).replace("/", ""));
     }
 
