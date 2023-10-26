@@ -7,16 +7,21 @@ The WEare social network is a web application designed to help users connect, sh
 The main purpose of the test process is to verify if the product meets defined requirements, make sure bugs are discovered and reported and to report deviations to stakeholders. Testing is executed based on written specifications.
 <br/>
 <br/>
+
 ### SYSTEM TEST PERFORMED
+
 <br/>
+
 Detailed test cases are written for high risk and critical functionalities, such as register, login, posting, commenting, etc.
 Xray for Jira is used to store, organize and run manual tests / test cases. The test cases cover not only the “Happy paths” but also alternative paths to validate that the delivered functionality is build according to the requirements.
 <br/>
+
 #### Approach
-1.	Functional Testing: Validate all listed functionalities.
-2.	API Testing: All CRUD and user operations in the REST API.
-3.	UI/UX Testing: Compatibility across browsers and devices.
-4.	Database Testing: Data integrity and relationship in MySQL/MariaDB.
+
+1. Functional Testing: Validate all listed functionalities.
+2. API Testing: All CRUD and user operations in the REST API.
+3. UI/UX Testing: Compatibility across browsers and devices.
+4. Database Testing: Data integrity and relationship in MySQL/MariaDB.
 
 <br/>
 <br/>
