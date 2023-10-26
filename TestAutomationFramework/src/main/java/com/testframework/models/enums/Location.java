@@ -72,6 +72,21 @@ public enum Location {
     }
 
     /**
+     * Returns the Location corresponding to the provided location name.
+     *
+     * @param locationName the location in String format
+     * @return the Location corresponding to the provided location name
+     * @throws IllegalArgumentException if no such location is found
+     */
+    public static Location getLocationByString(String locationName) {
+        if (locationName == null) return null;
+        for (Location location : Location.values()) {
+            if (location.getStringValue().equalsIgnoreCase(locationName)) return location;
+        }
+        throw new IllegalArgumentException("No such location found.");
+    }
+
+    /**
      * Generates and returns a random ID within the range of location IDs.
      *
      * @return a random ID within the range of location IDs
