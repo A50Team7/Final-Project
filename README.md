@@ -12,12 +12,11 @@
 Xray for Jira is used to store, organize and run manual tests / test cases. The test cases cover not only the “Happy paths” but also alternative paths to validate that the delivered functionality is build according to the requirements.
 <br/>
 
-#### Approach
+####  Functional Testing Approach
 
-1. Functional Testing: Validate all listed functionalities.
+1. Validate all listed functionalities with manual testing
 2. API Testing: All CRUD and user operations in the REST API.
-3. UI/UX Testing: Compatibility across browsers and devices.
-4. Database Testing: Data integrity and relationship in MySQL/MariaDB.
+3. UI/UX Automation Testing with Selenium WebDriver
 <br/>
 
 ### Test Plan
