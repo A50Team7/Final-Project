@@ -1,5 +1,6 @@
 package com.testframework.api.models;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,8 @@ public class UserResponse {
     private List<String> authorities;
     private String email;
     private String firstName;
-    private String lastName;
+    // this field has a typo in the backend, return and fix it here, when the bug is also fixed
+    @SerializedName("lastNAme") private String lastName;
     private String gender;
     private City city;
     private String birthYear;
