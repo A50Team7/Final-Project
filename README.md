@@ -26,9 +26,7 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 ### JIRA Deliverables
 
 * ##### [JIRA Project](https://team7a50.atlassian.net/jira/software/c/projects/FP/issues)
-
 * ##### [Test Template](https://docs.google.com/document/d/1CnhW7T1fabypqMS75cqJ9VzzbF7UFqN8/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
-
 * ##### [Bug Template](https://docs.google.com/document/d/1JJUcfjOxF5zw_y7JA3ypwSsLl1vEXJTV/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
 
 * ##### [JIRA Bugs Exported](https://docs.google.com/document/d/15J1OtHZfzZtrnKHIGnuNSD-cNlruOcIY/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
