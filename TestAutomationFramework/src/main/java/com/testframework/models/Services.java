@@ -3,6 +3,8 @@ package com.testframework.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 /**
  * Services model representing the services in the application.
  * Instances can be created using the ServicesFactory class.
@@ -11,6 +13,35 @@ import lombok.Setter;
  */
 @Getter @Setter
 public class Services {
+
+    public Services() {
+
+    }
+
+    public Services(String[] services) {
+        if (services.length > 5) throw new IllegalArgumentException("Too many services, conversion impossible.");
+        try {
+            setServiceOne(services[0]);
+            setServiceTwo(services[1]);
+            setServiceThree(services[2]);
+            setServiceFour(services[3]);
+            setServiceFive(services[4]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // ignore
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Services s = (Services) o;
+        return Objects.deepEquals(serviceOne, s.serviceOne) &&
+                Objects.deepEquals(serviceTwo, s.serviceTwo) &&
+                Objects.deepEquals(serviceThree, s.serviceThree) &&
+                Objects.deepEquals(serviceFour, s.serviceFour) &&
+                Objects.deepEquals(serviceFive, s.serviceFive);
+    }
 
     private String serviceOne;
     private String serviceTwo;
