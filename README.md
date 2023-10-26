@@ -1,11 +1,9 @@
 #     WeARE APPLICATION TESTING
 
 <br/>
-<br/>
 The WEare social network is a web application designed to help users connect, share, and offer professional services. With functionalities spanning from a public-facing platform to private interactions among registered users, and administrative capabilities, this platform provides a comprehensive social networking experience.
 <br/>
 The main purpose of the test process is to verify if the product meets defined requirements, make sure bugs are discovered and reported and to report deviations to stakeholders. Testing is executed based on written specifications.
-<br/>
 <br/>
 
 ### System Test Performed
@@ -24,11 +22,9 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 4. Database Testing: Data integrity and relationship in MySQL/MariaDB.
 
 <br/>
-<br/>
 
 ### Test Plan
 
-<br/>
 <br/>
   
 ### JIRA Deliverables
@@ -47,7 +43,6 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 
 * ##### [Test Plan Metrics Report](https://drive.google.com/file/d/1x7ms9zAa-V46mS_p6atV3agR7TxsPOuq/view?usp=drive_link)
 <br/>
-<br/>
 
 ### Postman Deliverables
 
@@ -58,7 +53,6 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 * ##### [Postman Environment Exported](https://drive.google.com/file/d/1LoIluPqW0hu-9lYnWu5W8jLHnT-LJ7ZX/view?usp=drive_link)
 
 * ##### [Postman Test Run 23.10.2023](https://drive.google.com/file/d/1YqEhFOknYw0Ce6MXw8Va6ft0kMccjHD4/view?usp=drive_link)
-<br/>
 <br/>
 
 ### Postman Deliverables
