@@ -16,4 +16,9 @@ public enum Gender {
         this.stringValue = stringValue;
     }
 
+    public static Gender getGenderFromString(String gender) {
+        if (gender == null) return null;
+        if (gender.equalsIgnoreCase(MALE.getStringValue())) return MALE;
+        else return FEMALE;
+    }
 }
