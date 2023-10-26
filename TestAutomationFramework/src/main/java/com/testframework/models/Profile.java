@@ -8,19 +8,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Profile model representing the profiles in the application.
+ * Instances can be created using the ProfileFactory class.
+ *
+ * @see com.testframework.factories.ProfileFactory
+ */
 @Getter @Setter
 public class Profile implements Friendable, Postability {
 
+    /**
+     * Constructs an empty Profile with initialized friend list and posts.
+     */
     public Profile() {
         friendList = new ArrayList<User>();
         posts = new ArrayList<Post>();
         services = new Services();
     }
 
-    public Profile(String firstName, String lastName, Date birthday) {
+    /**
+     * Constructs a Profile with the provided first name, last name, and birthday.
+     *
+     * @param firstName the first name of the profile owner
+     * @param lastName the last name of the profile owner
+     * @param birthday the birthday of the profile owner
+     */
+    public Profile(String firstName, String lastName, LocalDate birthday) {
         setFirstName(firstName);
         setLastName(lastName);
         setBirthday(birthday);
@@ -30,7 +47,7 @@ public class Profile implements Friendable, Postability {
 
     private String firstName;
     private String lastName;
-    private Date birthday;
+    private LocalDate birthday;
     private Gender gender;
     private Location location;
     private ArrayList<User> friendList;
@@ -38,24 +55,6 @@ public class Profile implements Friendable, Postability {
     private String bio;
     private Services services;
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Profile p = (Profile) o;
-
-        return firstName.equals(p.firstName)
-                && lastName.equals(p.lastName)
-                && birthday.equals(p.birthday)
-                && gender.equals(p.gender)
-                && location.equals(p.location)
-                && friendList.equals(p.friendList)
-                && posts.equals(p.posts)
-                && bio.equals(p.bio);
-    }
-
-    //############# LISTS #########
     public void addFriend(User user) {
         if (friendList.contains(user)) throw new IllegalArgumentException("This user is already in the friend list.");
         friendList.add(user);
@@ -84,6 +83,11 @@ public class Profile implements Friendable, Postability {
         return new ArrayList<Post>(posts);
     }
 
+    /**
+     * Retrieves the full name of the profile owner by combining the first name and last name.
+     *
+     * @return the full name of the profile
+     */
     public String getFullName() {
         return firstName + " " + lastName;
     }
