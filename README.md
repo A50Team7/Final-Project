@@ -1,7 +1,7 @@
 #     WeARE APPLICATION TESTING
 
 <br/>
-ensp The WEare social network is a web application designed to help users connect, share, and offer professional services. With functionalities spanning from a public-facing platform to private interactions among registered users, and administrative capabilities, this platform provides a comprehensive social networking experience.
+&nbsp; The WEare social network is a web application designed to help users connect, share, and offer professional services. With functionalities spanning from a public-facing platform to private interactions among registered users, and administrative capabilities, this platform provides a comprehensive social networking experience.
 <br/>
 ensp The main purpose of the test process is to verify if the product meets defined requirements, make sure bugs are discovered and reported and to report deviations to stakeholders. Testing is executed based on written specifications.
 <br/>
