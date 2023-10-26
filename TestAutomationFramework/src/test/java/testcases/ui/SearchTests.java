@@ -7,13 +7,11 @@ import com.testframework.api.models.UserRequest;
 import com.testframework.factories.ProfileFactory;
 import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
-import org.junit.jupiter.api.Assertions;
+import com.testframework.models.enums.Authority;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import pages.ViewUsersPage;
 import pages.homepage.HomePage;
-import testcases.ApiHelper;
 
 
 public class SearchTests extends BaseTest {
@@ -27,8 +25,8 @@ public class SearchTests extends BaseTest {
     @BeforeEach
     public void setupUser() {
         user = UserFactory.createUserWithProfile();
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
-        RestUserController.upgradeUserPersonalProfile(user.getUserId(), new PersonalProfileRequest(user), ApiHelper.getCookieValue(user));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
+        RestUserController.upgradeUserPersonalProfile(user.getUserId(), new PersonalProfileRequest(user), getCookieValue(user));
 
         homePage.navigateToPage();
     }

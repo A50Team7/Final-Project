@@ -8,6 +8,7 @@ import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.ProfileFactory;
 import com.testframework.factories.ServicesFactory;
 import com.testframework.factories.UserFactory;
+import com.testframework.models.enums.Authority;
 import com.testframework.models.enums.PersonalProfileData;
 import com.testframework.models.enums.ProfessionalCategory;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +27,7 @@ public class PersonalProfileTests extends BaseTest {
     @BeforeEach
     public void userSetup() {
         user = UserFactory.createUserWithProfile();
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
         int userId = UserHelper.getUserId(UserHelper.getUser("username", String.format("'%s'", user.getUsername())));
 
         login(user);

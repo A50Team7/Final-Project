@@ -16,6 +16,7 @@ import com.testframework.factories.UserFactory;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
+import com.testframework.models.enums.Authority;
 import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.AfterEach;
@@ -29,7 +30,6 @@ import pages.common.DeletePage;
 import pages.common.EditPage;
 import pages.common.EditPostPage;
 import pages.post.PersonalPostPage;
-import testcases.ApiHelper;
 
 public class AdminTests extends BaseTest {
 
@@ -60,15 +60,13 @@ public class AdminTests extends BaseTest {
 
     @BeforeEach
     public void setup() {
-        admin = UserFactory.createUser();
-        String adminName = String.format("admin%s", UserFactory.generateUsername(5));
-        admin.setUsername(adminName);
-        RestUserController.createUser(new UserRequest("ROLE_USER", admin));
+        admin = UserFactory.createAdmin();
+        RestUserController.createUser(new UserRequest(Authority.ROLE_ADMIN.toString(), admin));
 
         user = UserFactory.createUserWithProfile();
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
         userId = user.getUserId();
-        cookieValue = ApiHelper.getCookieValue(user);
+        cookieValue = getCookieValue(user);
 
         login(admin);
 

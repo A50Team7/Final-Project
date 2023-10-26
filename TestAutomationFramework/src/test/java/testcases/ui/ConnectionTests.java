@@ -10,6 +10,7 @@ import com.testframework.databasehelper.RequestsHelper;
 import com.testframework.databasehelper.UserHelper;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
+import com.testframework.models.enums.Authority;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -33,9 +34,9 @@ public class ConnectionTests extends BaseTest {
     @BeforeEach
     public void setup() {
         user = UserFactory.createUser();
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
         receiver = UserFactory.createUser();
-        RestUserController.createUser(new UserRequest("ROLE_USER", receiver));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), receiver));
 
         senderCookieValue = login(user);
 

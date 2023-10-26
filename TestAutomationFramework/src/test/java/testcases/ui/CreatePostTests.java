@@ -9,6 +9,7 @@ import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.Post;
 import com.testframework.models.User;
+import com.testframework.models.enums.Authority;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ public class CreatePostTests extends BaseTest {
     @BeforeEach
     public void setup() {
         user = UserFactory.createUser();
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
 
         cookieValue = login(user);
 

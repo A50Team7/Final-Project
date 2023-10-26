@@ -5,6 +5,7 @@ import com.testframework.api.controllers.RestUserController;
 import com.testframework.api.models.UserRequest;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.User;
+import com.testframework.models.enums.Authority;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ public class LoginTests extends BaseTest {
     public void registerUser() {
         user = UserFactory.createUser();
         unregisteredUser = UserFactory.createUser();
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
 
         loginPage.navigateToPage();
     }

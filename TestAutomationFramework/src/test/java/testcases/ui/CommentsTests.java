@@ -10,6 +10,7 @@ import com.testframework.factories.PostFactory;
 import com.testframework.factories.UserFactory;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
+import com.testframework.models.enums.Authority;
 import com.testframework.models.enums.ConfirmDelete;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.AfterEach;
@@ -35,7 +36,7 @@ public class CommentsTests extends BaseTest {
     public void registerAndLoginAndCreatePost() {
         user = UserFactory.createUser();
         post = PostFactory.createPost(user, Visibility.PUBLIC);
-        RestUserController.createUser(new UserRequest("ROLE_USER", user));
+        RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
 
         cookieValue = login(user);
 
