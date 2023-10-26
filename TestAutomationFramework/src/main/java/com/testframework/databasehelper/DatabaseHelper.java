@@ -4,6 +4,15 @@ import com.testframework.Utils;
 
 import java.sql.*;
 
+/**
+ * A utility class for database operations.
+ *
+ * @see UserHelper
+ * @see PostHelper
+ * @see CommentHelper
+ * @see ConnectionHelper
+ * @see RequestsHelper
+ */
 public class DatabaseHelper {
     private static final String dbUrl = Utils.getConfigPropertyByKey("weare.db.url");
     private static final String username = Utils.getConfigPropertyByKey("weare.db.username");
@@ -11,6 +20,12 @@ public class DatabaseHelper {
     protected static final String deleteQuery =  "DELETE FROM %s WHERE %s=%s;";
     protected static final String findQuery = "SELECT * FROM %s WHERE %s=%s;";
 
+    /**
+     * Executes the provided SQL query and returns the result set.
+     *
+     * @param query the SQL query to be executed
+     * @return the result set from the executed query
+     */
     protected static ResultSet executeQuery(String query) {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -29,10 +44,24 @@ public class DatabaseHelper {
         return null;
     }
 
+    /**
+     * Retrieves an entity from the database based on the provided table, key, and value.
+     *
+     * @param table the table name
+     * @param key the key to search for
+     * @param value the value corresponding to the key
+     * @return the result set containing the entity
+     */
     public static ResultSet getEntity(String table, String key, String value) {
         return executeQuery(String.format(findQuery, table, key, value));
     }
 
+    /**
+     * Checks if the entity exists in the provided result set.
+     *
+     * @param resultSet the result set to check
+     * @return true if the entity exists; otherwise, false
+     */
     public static boolean entityExists(ResultSet resultSet) {
         try {
             return resultSet.getRow()==1;
@@ -43,6 +72,13 @@ public class DatabaseHelper {
         return false;
     }
 
+    /**
+     * Retrieves the ID of the entity from the result set based on the specified column label.
+     *
+     * @param resultSet the result set containing the entity
+     * @param columnLabel the column label for the ID
+     * @return the ID of the entity
+     */
     public static int getEntityId(ResultSet resultSet, String columnLabel) {
         try {
             return resultSet.getInt(columnLabel);
@@ -75,4 +111,6 @@ public class DatabaseHelper {
         else return getEntityId(resultSet, idColumnLabel);
         return -1;
     }
+
+
 }
