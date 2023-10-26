@@ -3,6 +3,12 @@ package com.testframework.models;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Services model representing the services in the application.
+ * Instances can be created using the ServicesFactory class.
+ *
+ * @see com.testframework.factories.ServicesFactory
+ */
 @Getter @Setter
 public class Services {
 
