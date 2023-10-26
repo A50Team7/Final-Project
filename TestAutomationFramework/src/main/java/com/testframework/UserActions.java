@@ -1,6 +1,5 @@
 package com.testframework;
 
-import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
@@ -9,16 +8,28 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import java.util.Arrays;
 
 import static java.lang.String.format;
 
+/**
+ * UserActions class providing a set of useful actions that can be performed on the web elements using Selenium WebDriver.
+ */
 public class UserActions {
 
+    /**
+     * Retrieves the WebDriver instance.
+     *
+     * @return the WebDriver instance
+     */
     public WebDriver getDriver() {
         return Utils.getWebDriver();
     }
 
+    /**
+     * Loads the browser with the specified base URL.
+     *
+     * @param baseUrlKey the key representing the base URL to load
+     */
     public static void loadBrowser(String baseUrlKey) {
         Utils.getWebDriver().get(Utils.getConfigPropertyByKey(baseUrlKey));
     }
@@ -27,6 +38,11 @@ public class UserActions {
         Utils.tearDownWebDriver();
     }
 
+    /**
+     * Deletes all cookies to ensure a partially cleaned session.
+     *
+     * @param baseUrlKey the key representing the URL to which the driver should navigate
+     */
     public void cleanDriver(String baseUrlKey) {
         Utils.getWebDriver().manage().deleteAllCookies();
         Utils.getWebDriver().get(Utils.getConfigPropertyByKey(baseUrlKey));
@@ -37,6 +53,12 @@ public class UserActions {
         Utils.getWebDriver().manage().addCookie(new Cookie.Builder(name, value).build());
     }
 
+    /**
+     * Checks whether a cookie with the specified name exists.
+     *
+     * @param name the name of the cookie to check
+     * @return true if a cookie with the given name exists, false otherwise
+     */
     public boolean cookieExists(String name) {
         return getDriver().manage().getCookies().stream()
                 .anyMatch(cookie -> cookie.getName().equals(name));
@@ -46,17 +68,32 @@ public class UserActions {
         return getDriver().manage().getCookieNamed(name).getValue();
     }
 
+    /**
+     * Scrolls the web page until the specified element is visible.
+     *
+     * @param element the WebElement to scroll to
+     */
     public void scrollUntilVisible(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) Utils.getWebDriver();
         js.executeScript("arguments[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });", element);
     }
 
+    /**
+     * Scrolls the web page until the element located by the specified locator is visible.
+     *
+     * @param locator the locator used to find the element
+     */
     public void scrollUntilVisible(By locator) {
         WebElement element = Utils.getWebDriver().findElement(locator);
         JavascriptExecutor js = (JavascriptExecutor) Utils.getWebDriver();
         js.executeScript("arguments[0].scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });", element);
     }
 
+    /**
+     * Clicks the element located by the specified locator after implementing necessary wait logics.
+     *
+     * @param locator the locator used to find the element
+     */
     public void clickElement(By locator) {
         Utils.LOGGER.info("Clicking on element " + locator);
         WebElement element = Utils.getWebDriver().findElement(locator);
@@ -66,6 +103,11 @@ public class UserActions {
         tryClick(element);
     }
 
+    /**
+     * Attempts to click the provided WebElement with a specified timeout.
+     *
+     * @param element the WebElement to click
+     */
     public void tryClick(WebElement element) {
         var wait = new FluentWait<>(Utils.getWebDriver())
                 .withTimeout(Duration.ofSeconds(15))
@@ -76,6 +118,12 @@ public class UserActions {
             element.click();
             return true;
         });
+    }
+
+    public String getText(By locator) {
+        waitForElementClickable(locator);
+        WebElement element = Utils.getWebDriver().findElement(locator);
+        return element.getText();
     }
 
     public void typeValueInField(By locator, String value) {
@@ -197,19 +245,6 @@ public class UserActions {
         } catch (Exception exception) {
             Assertions.fail("Element with locator: '" + locator + "' was not found.");
         }
-    }
-
-    public String getText(By locator) {
-        waitForElementClickable(locator);
-        WebElement element = Utils.getWebDriver().findElement(locator);
-        return element.getText();
-    }
-
-    public String getTheFirstWordOfField(By locator) {
-        waitForElementClickable(locator);
-        WebElement element = Utils.getWebDriver().findElement(locator);
-        String[] words = element.getText().split(" ");
-        return words[0];
     }
 
 }
