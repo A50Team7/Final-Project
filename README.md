@@ -8,7 +8,7 @@ The main purpose of the test process is to verify if the product meets defined r
 <br/>
 <br/>
 
-### SYSTEM TEST PERFORMED
+### System Test Performed
 
 <br/>
 
@@ -25,10 +25,21 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 
 <br/>
 <br/>
+
+### Test Plan
+
+<br/>
+<br/>
   
 ### JIRA DELIVERABLES
 
-* ##### JIRA PROJECT
+* ##### [JIRA Project](https://team7a50.atlassian.net/jira/software/c/projects/FP/issues)
+
+* ##### [Test Template](https://docs.google.com/document/d/1CnhW7T1fabypqMS75cqJ9VzzbF7UFqN8/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
+
+* ##### [Bug Template](https://docs.google.com/document/d/1JJUcfjOxF5zw_y7JA3ypwSsLl1vEXJTV/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
+
+* ##### [JIRA Bugs Exported](https://docs.google.com/document/d/15J1OtHZfzZtrnKHIGnuNSD-cNlruOcIY/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
 
 * ##### [Test Sets List](https://drive.google.com/file/d/1VLQrX6tVV1tvi33ifl4MX6j0nhUOLEXl/view?usp=drive_link)
 
@@ -37,4 +48,12 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 * ##### [Test Plan Metrics Report](https://drive.google.com/file/d/1x7ms9zAa-V46mS_p6atV3agR7TxsPOuq/view?usp=drive_link)
 <br/>
 <br/>
-<br/>
+
+### Postman Deliverables
+
+* ##### Postman Project
+
+* ##### Postman Project
+
+* ##### Postman Project
+
