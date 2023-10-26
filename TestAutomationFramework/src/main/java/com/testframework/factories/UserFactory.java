@@ -23,7 +23,7 @@ public class UserFactory {
                 generateValidEmail(),
                 generatePassword(),
                 selectCategory(),
-                ProfileFactory.createProfile()
+                ProfileFactory.createProfileWithServices()
         );
     }
 
@@ -38,7 +38,7 @@ public class UserFactory {
                 generateValidEmail(),
                 generatePassword(),
                 selectCategory(),
-                ProfileFactory.createProfile()
+                ProfileFactory.createProfileWithServices()
         );
     }
 
