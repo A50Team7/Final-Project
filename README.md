@@ -31,7 +31,7 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 <br/>
 <br/>
   
-### JIRA DELIVERABLES
+### JIRA Deliverables
 
 * ##### [JIRA Project](https://team7a50.atlassian.net/jira/software/c/projects/FP/issues)
 
@@ -51,9 +51,20 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 
 ### Postman Deliverables
 
-* ##### Postman Project
+* ##### [Postman Project](https://martian-flare-701498.postman.co/workspace/WEare~000249d9-0ea2-4fba-9706-fa46ce66af1f/overview)
 
-* ##### Postman Project
+* ##### [Postman Collection Exported](https://drive.google.com/file/d/1sdwKXoYysN5laAGM9tb6Qa9SqUeVHos1/view?usp=drive_link)
 
-* ##### Postman Project
+* ##### [Postman Environment Exported](https://drive.google.com/file/d/1LoIluPqW0hu-9lYnWu5W8jLHnT-LJ7ZX/view?usp=drive_link)
 
+* ##### [Postman Test Run 23.10.2023](https://drive.google.com/file/d/1YqEhFOknYw0Ce6MXw8Va6ft0kMccjHD4/view?usp=drive_link)
+<br/>
+<br/>
+
+### Postman Deliverables
+
+* ##### [Postman Report](https://drive.google.com/file/d/1UThd2ozjbS3QpEW-h0WpXbvNkTgDQOHT/view?usp=drive_link)
+
+* ##### [RestAssured Report](https://drive.google.com/file/d/14zg6lqqqf0KDrWSMUbONjD2cw-68kf78/view?usp=drive_link)
+
+* ##### [Selenium UI Report](https://drive.google.com/file/d/1yDSPev5LzBtaaM2dG0g0wML4dQyVmRMz/view?usp=drive_link)
