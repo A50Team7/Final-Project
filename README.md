@@ -18,11 +18,9 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 2. API Testing: All CRUD and user operations in the REST API.
 3. UI/UX Testing: Compatibility across browsers and devices.
 4. Database Testing: Data integrity and relationship in MySQL/MariaDB.
-
 <br/>
 
 ### Test Plan
-
 <br/>
   
 ### JIRA Deliverables
