@@ -11,12 +11,12 @@ import com.testframework.factories.UserFactory;
 import com.testframework.models.Comment;
 import com.testframework.models.Post;
 import com.testframework.models.User;
+import com.testframework.models.enums.Authority;
 import com.testframework.models.enums.Visibility;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import testcases.ApiHelper;
 
 import java.util.Arrays;
 
@@ -36,9 +36,9 @@ public class RestCommentControllerTests extends BaseApiTest {
         Post post = PostFactory.createPost(user, Visibility.PUBLIC);
         comment = CommentFactory.createComment(post, user);
 
-        userRequest = new UserRequest("ROLE_USER", user);
+        userRequest = new UserRequest(Authority.ROLE_USER.toString(), user);
         RestUserController.createUser(userRequest);
-        authCookie = ApiHelper.getCookieValue(user);
+        authCookie = getCookieValue(user);
 
         PostRequest postRequest = new PostRequest(post);
         PostResponse postResponse = RestPostController.createPost(postRequest, authCookie);
@@ -56,7 +56,7 @@ public class RestCommentControllerTests extends BaseApiTest {
             int comId = com.getCommentId();
             CommentResponse getCommentResponse = RestCommentController.getSingleComment(comId);
 
-            assertIdAndContent(com, getCommentResponse);
+            ApiHelper.assertComment(com, getCommentResponse);
         }
     }
 
@@ -67,21 +67,20 @@ public class RestCommentControllerTests extends BaseApiTest {
             int commentUnderPostId = commentUnderPost.getCommentId();
             CommentResponse getCommentResponse = RestCommentController.getSingleComment(commentUnderPostId);
 
-            assertIdAndContent(commentUnderPost, getCommentResponse);
+            ApiHelper.assertComment(commentResponse, getCommentResponse);
         }
     }
 
     @Test
     public void createComment() {
-        Assertions.assertEquals(commentResponse.getContent(), comment.getContent(),
-                "The comment's content doesn't match the intended content.");
+        ApiHelper.assertComment(comment, commentResponse);
     }
 
     @Test
     public void getOneComment() {
         CommentResponse getCommentResponse = RestCommentController.getSingleComment(commentId);
 
-        assertIdAndContent(commentResponse, getCommentResponse);
+        ApiHelper.assertComment(commentResponse, getCommentResponse);
     }
 
     @Test
@@ -91,8 +90,7 @@ public class RestCommentControllerTests extends BaseApiTest {
 
         CommentResponse getCommentResponse = RestCommentController.getSingleComment(commentId);
 
-        Assertions.assertEquals(comment.getContent(), getCommentResponse.getContent(),
-                "The comment's content doesn't match the intended new content.");
+        ApiHelper.assertComment(comment, getCommentResponse);
     }
 
     @Test
@@ -119,13 +117,6 @@ public class RestCommentControllerTests extends BaseApiTest {
     public void cleanup() {
         RestPostController.deletePost(postId, authCookie);
         UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
-    }
-
-    private static void assertIdAndContent(CommentResponse commentResponse1, CommentResponse commentResponse2) {
-        Assertions.assertEquals(commentResponse1.getCommentId(), commentResponse2.getCommentId(),
-                "Comment's id doesn't match.");
-        Assertions.assertEquals(commentResponse1.getContent(), commentResponse2.getContent(),
-                "Comment's content doesn't match the intended content.");
     }
 
 }
