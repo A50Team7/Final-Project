@@ -3,13 +3,11 @@ package com.testframework.factories;
 import com.testframework.Utils;
 import com.testframework.generations.GenerateRandom;
 import com.testframework.models.Profile;
-import com.testframework.models.User;
+import com.testframework.models.Services;
 import com.testframework.models.enums.Gender;
 import com.testframework.models.enums.Location;
 
 import java.sql.Date;
-import java.text.DecimalFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 
 /**
@@ -24,7 +22,7 @@ public class ProfileFactory {
      *
      * @return the created Profile object
      */
-    public static Profile createProfile() {
+    public static Profile createProfileWithServices() {
         Profile profile = new Profile(
                 generateFirstName(),
                 generateLastName(),
@@ -34,6 +32,19 @@ public class ProfileFactory {
         profile.setLocation(selectLocation());
         profile.setBio(generateBio());
         profile.setServices(ServicesFactory.createServices());
+        return profile;
+    }
+
+    public static Profile createProfile() {
+        Profile profile = new Profile(
+                generateFirstName(),
+                generateLastName(),
+                generateBirthday()
+        );
+        profile.setGender(Gender.MALE);
+        profile.setLocation(selectLocation());
+        profile.setBio(generateBio());
+        profile.setServices(new Services());
         return profile;
     }
 
