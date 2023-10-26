@@ -1,16 +1,16 @@
 #     WeARE APPLICATION TESTING
 
 <br/>
-The WEare social network is a web application designed to help users connect, share, and offer professional services. With functionalities spanning from a public-facing platform to private interactions among registered users, and administrative capabilities, this platform provides a comprehensive social networking experience.
+;NBSPThe WEare social network is a web application designed to help users connect, share, and offer professional services. With functionalities spanning from a public-facing platform to private interactions among registered users, and administrative capabilities, this platform provides a comprehensive social networking experience.
 <br/>
-The main purpose of the test process is to verify if the product meets defined requirements, make sure bugs are discovered and reported and to report deviations to stakeholders. Testing is executed based on written specifications.
+;NBSPThe main purpose of the test process is to verify if the product meets defined requirements, make sure bugs are discovered and reported and to report deviations to stakeholders. Testing is executed based on written specifications.
 <br/>
 
 ### System Test Performed
 
 <br/>
 
-Detailed test cases are written for high risk and critical functionalities, such as register, login, posting, commenting, etc.
+;NBSPDetailed test cases are written for high risk and critical functionalities, such as register, login, posting, commenting, etc.
 Xray for Jira is used to store, organize and run manual tests / test cases. The test cases cover not only the “Happy paths” but also alternative paths to validate that the delivered functionality is build according to the requirements.
 <br/>
 
