@@ -28,7 +28,7 @@ public class PersonalProfileTests extends BaseTest {
     public void userSetup() {
         user = UserFactory.createUserWithProfile();
         RestUserController.createUser(new UserRequest(Authority.ROLE_USER.toString(), user));
-        int userId = UserHelper.getUserId(UserHelper.getUser("username", String.format("'%s'", user.getUsername())));
+        int userId = UserHelper.getUserIdByUsername(user.getUsername());
 
         login(user);
 

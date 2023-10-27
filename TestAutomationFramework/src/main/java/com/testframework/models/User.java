@@ -122,7 +122,7 @@ public class User implements Dated {
      * @see UserHelper
      */
     public int getUserId() {
-        return UserHelper.getUserId(UserHelper.getUser("username", String.format("'%s'", this.username)));
+        return UserHelper.getUserIdByUsername(this.getUsername());
     }
 
 }

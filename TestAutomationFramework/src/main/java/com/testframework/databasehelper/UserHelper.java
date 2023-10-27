@@ -44,6 +44,10 @@ public class UserHelper extends DatabaseHelper {
         deleteEntity("user", tableName, key, value);
     }
 
+    public static void deleteUserByUsername(String username) {
+        deleteUser("username", String.format("'%s'", username));
+    }
+
     /**
      * Retrieves the user ID based on the provided username.
      *

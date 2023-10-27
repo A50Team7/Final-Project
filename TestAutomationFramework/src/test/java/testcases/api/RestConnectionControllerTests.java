@@ -76,8 +76,8 @@ public class RestConnectionControllerTests extends BaseApiTest {
         if (connected) disconnect();
         RequestsHelper.truncateRequestsTable();
         ConnectionHelper.truncateConnectionsTable();
-        UserHelper.deleteUser("username", String.format("'%s'", sender.getUsername()));
-        UserHelper.deleteUser("username", String.format("'%s'", receiver.getUsername()));
+        UserHelper.deleteUserByUsername(sender.getUsername());
+        UserHelper.deleteUserByUsername(receiver.getUsername());
     }
 
     private void assertMessageContainsBothUsernames(String text) {

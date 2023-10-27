@@ -116,7 +116,7 @@ public class RestCommentControllerTests extends BaseApiTest {
     @AfterEach
     public void cleanup() {
         RestPostController.deletePost(postId, authCookie);
-        UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
+        UserHelper.deleteUserByUsername(user.getUsername());
     }
 
 }

@@ -102,7 +102,7 @@ public class RestUserControllerTests extends BaseApiTest {
     @AfterEach
     public void cleanup() {
         if (postId != -1) RestPostController.deletePost(postId, cookieValue);
-        UserHelper.deleteUser("username", String.format("'%s'", user.getUsername()));
+        UserHelper.deleteUserByUsername(user.getUsername());
     }
 
     private void getUserByIdAndAssertTheResponse() {

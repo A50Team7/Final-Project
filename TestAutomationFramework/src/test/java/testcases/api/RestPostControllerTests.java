@@ -23,7 +23,6 @@ public class RestPostControllerTests extends BaseApiTest {
     private int postId;
     private boolean deleted = false;
     private User user;
-    private UserRequest userRequest;
     private Post post;
     private PostRequest postRequest;
     private PostResponse postResponse;
@@ -32,7 +31,7 @@ public class RestPostControllerTests extends BaseApiTest {
     public void setup() {
         user = UserFactory.createUser();
         post = PostFactory.createPost(user, Visibility.PUBLIC);
-        userRequest = new UserRequest(Authority.ROLE_USER.toString(), user);
+        UserRequest userRequest = new UserRequest(Authority.ROLE_USER.toString(), user);
         RestUserController.createUser(userRequest);
         authCookie = getCookieValue(user);
 
@@ -105,7 +104,7 @@ public class RestPostControllerTests extends BaseApiTest {
     @AfterEach
     public void cleanup() {
         if (!deleted) RestPostController.deletePost(postId, authCookie);
-        UserHelper.deleteUser("username", String.format("'%s'", userRequest.getUsername()));
+        UserHelper.deleteUserByUsername(user.getUsername());
     }
 
     private void assertVisibility() {
