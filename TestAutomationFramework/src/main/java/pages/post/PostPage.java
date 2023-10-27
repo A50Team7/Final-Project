@@ -31,7 +31,7 @@ public class PostPage extends BasePage {
         try {
             int id = post.getPostId();
             return id != -1;
-        } catch(Exception e) {
+        } catch (Exception e) {
             Utils.LOGGER.info(e);
             return false;
         }

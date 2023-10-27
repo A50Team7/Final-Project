@@ -5,7 +5,7 @@ import com.testframework.models.enums.Visibility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class EditPostPage extends EditPage{
+public class EditPostPage extends EditPage {
     public EditPostPage(String url) {
         super(url);
     }

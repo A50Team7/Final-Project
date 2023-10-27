@@ -26,8 +26,8 @@ public interface Dated {
     /**
      * Checks if two LocalDate objects are approximately equal within the specified threshold in days.
      *
-     * @param d1            the first LocalDate object
-     * @param d2            the second LocalDate object
+     * @param d1 the first LocalDate object
+     * @param d2 the second LocalDate object
      * @return true if the difference is within the threshold, false otherwise
      */
     static boolean dateApproximatelyEquals(LocalDate d1, LocalDate d2) {

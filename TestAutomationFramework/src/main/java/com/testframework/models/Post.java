@@ -20,7 +20,8 @@ import java.util.ArrayList;
  *
  * @see com.testframework.factories.PostFactory
  */
-@Getter @Setter
+@Getter
+@Setter
 public class Post implements Likable, Commentable {
 
     /**

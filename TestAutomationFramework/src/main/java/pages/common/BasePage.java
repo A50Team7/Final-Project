@@ -1,5 +1,6 @@
 package pages.common;
 
+import com.testframework.UserActions;
 import com.testframework.Utils;
 import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
@@ -7,13 +8,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 @Getter
-public abstract class BasePage extends BaseSection{
+public abstract class BasePage {
 
     protected String url;
+    protected WebDriver driver;
+    public UserActions actions;
 
     public BasePage(String url) {
-        super();
         this.url = url;
+        actions = new UserActions();
+        this.driver = actions.getDriver();
     }
 
     protected static By homeButtonBy = By.xpath(Utils.getUIMappingByKey("navigation.homeButton"));

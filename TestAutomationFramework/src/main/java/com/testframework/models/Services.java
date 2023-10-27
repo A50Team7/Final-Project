@@ -1,6 +1,7 @@
 package com.testframework.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
@@ -11,12 +12,10 @@ import java.util.Objects;
  *
  * @see com.testframework.factories.ServicesFactory
  */
-@Getter @Setter
+@Getter
+@Setter
+@NoArgsConstructor
 public class Services {
-
-    public Services() {
-
-    }
 
     public Services(String[] services) {
         if (services.length > 5) throw new IllegalArgumentException("Too many services, conversion impossible.");
@@ -31,6 +30,13 @@ public class Services {
         }
     }
 
+    private String serviceOne;
+    private String serviceTwo;
+    private String serviceThree;
+    private String serviceFour;
+    private String serviceFive;
+    private double weeklyAvailability;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,12 +48,5 @@ public class Services {
                 Objects.deepEquals(serviceFour, s.serviceFour) &&
                 Objects.deepEquals(serviceFive, s.serviceFive);
     }
-
-    private String serviceOne;
-    private String serviceTwo;
-    private String serviceThree;
-    private String serviceFour;
-    private String serviceFive;
-    private double weeklyAvailability;
 
 }

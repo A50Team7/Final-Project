@@ -16,7 +16,8 @@ import java.time.ZonedDateTime;
  *
  * @see com.testframework.factories.CommentFactory
  */
-@Getter @Setter
+@Getter
+@Setter
 public class Comment implements Likable {
 
     /**

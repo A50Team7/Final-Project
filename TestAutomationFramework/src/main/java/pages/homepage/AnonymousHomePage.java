@@ -4,7 +4,7 @@ import com.testframework.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class AnonymousHomePage extends HomePage{
+public class AnonymousHomePage extends HomePage {
     public AnonymousHomePage(String url) {
         super(url);
     }

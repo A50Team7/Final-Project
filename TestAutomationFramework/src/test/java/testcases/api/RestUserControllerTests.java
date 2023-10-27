@@ -41,10 +41,10 @@ public class RestUserControllerTests extends BaseApiTest {
 
     @Test
     public void getUsers() {
-        UsersRequest usersRequest = new UsersRequest(0, true, "", "", 100);
-        UsersResponse[] users = RestUserController.getUsers(usersRequest);
+        AllUsersRequest allUsersRequest = new AllUsersRequest(0, true, "", "", 100);
+        AllUsersResponse[] users = RestUserController.getUsers(allUsersRequest);
 
-        for (UsersResponse responseUser : users) {
+        for (AllUsersResponse responseUser : users) {
             UserResponse returnedUser = RestUserController.getUserById(responseUser.getUserId(), "admin");
 
             Assertions.assertEquals(responseUser.getUsername(), returnedUser.getUsername(),
@@ -68,7 +68,7 @@ public class RestUserControllerTests extends BaseApiTest {
 
         postId = postResponse.getPostId();
 
-        UsersRequest profilePostsRequest = new UsersRequest(0, true, "", "", 10);
+        AllUsersRequest profilePostsRequest = new AllUsersRequest(0, true, "", "", 10);
         var posts = RestUserController.getAllProfilePosts(profilePostsRequest, user.getUserId(), cookieValue);
 
         Assertions.assertTrue(Arrays.stream(posts)

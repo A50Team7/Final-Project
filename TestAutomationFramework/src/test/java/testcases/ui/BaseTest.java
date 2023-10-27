@@ -26,7 +26,7 @@ public class BaseTest extends BaseApiTest {
 
     @AfterEach
     public void deleteUser() {
-        if (user!=null) UserHelper.deleteUserByUsername(user.getUsername());
+        if (user != null) UserHelper.deleteUserByUsername(user.getUsername());
     }
 
     @AfterAll
@@ -38,7 +38,6 @@ public class BaseTest extends BaseApiTest {
      * Method used in UI tests; It authorized the given user through the API and adds the generated cookie to the WebDriver.
      *
      * @param user the credentials with which one will log-in
-     *
      * @return String value of the created cookie
      */
     public String login(User user) {
