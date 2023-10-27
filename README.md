@@ -1,19 +1,59 @@
 #     WeARE APPLICATION TESTING
 
-\
-\
-\
+<br/>
+&nbsp; The WEare social network is a web application designed to help users connect, share, and offer professional services. With functionalities spanning from a public-facing platform to private interactions among registered users, and administrative capabilities, this platform provides a comprehensive social networking experience.
+<br/>
+&nbsp; The main purpose of the test process is to verify if the product meets defined requirements, make sure bugs are discovered and reported and to report deviations to stakeholders. Testing is executed based on written specifications.
+<br/>
 
+### System Test Performed
+
+&nbsp; Detailed test cases are written for high risk and critical functionalities, such as register, login, posting, commenting, etc.
+Xray for Jira is used to store, organize and run manual tests / test cases. The test cases cover not only the “Happy paths” but also alternative paths to validate that the delivered functionality is build according to the requirements.
+<br/>
+
+####  Functional Testing Approach
+
+1. Validate all listed functionalities with manual testing
+2. API Testing: All CRUD and user operations in the REST API.
+3. UI/UX Automation Testing with Selenium WebDriver
+<br/>
+
+### Test Plan
+<br/>
   
-### JIRA REPORTS
-* ##### [Test Plan Metrics Report](https://team7a50.atlassian.net/plugins/servlet/ac/com.xpandit.plugins.xray/testplans-metrics-report-page?project.key=FP&project.id=10002&ac.reportId=6532357b70b9f096d048215e)
+### JIRA Deliverables
 
-* ##### [Test Sets List](https://team7a50.atlassian.net/plugins/servlet/ac/com.xpandit.plugins.xray/testsets-report-page?project.key=FP&project.id=10002&ac.reportId=653245e234ab45d35ec8f27b)
+* ##### [JIRA Project](https://team7a50.atlassian.net/jira/software/c/projects/FP/issues)
 
-* ##### [Tests List](https://team7a50.atlassian.net/plugins/servlet/ac/com.xpandit.plugins.xray/tests-report-page?project.key=FP&project.id=10002&ac.reportId=653248045463e962b3be3669)
+* ##### [Test Template](https://docs.google.com/document/d/1CnhW7T1fabypqMS75cqJ9VzzbF7UFqN8/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
 
-\
-\
+* ##### [Bug Template](https://docs.google.com/document/d/1JJUcfjOxF5zw_y7JA3ypwSsLl1vEXJTV/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
 
-### [POSTMAN PROJECT](https://martian-flare-701498.postman.co/workspace/WEare~000249d9-0ea2-4fba-9706-fa46ce66af1f/overview)
+* ##### [JIRA Bugs Exported](https://docs.google.com/document/d/15J1OtHZfzZtrnKHIGnuNSD-cNlruOcIY/edit?usp=drive_link&ouid=116138352122249371070&rtpof=true&sd=true)
 
+* ##### [Test Sets List](https://drive.google.com/file/d/1VLQrX6tVV1tvi33ifl4MX6j0nhUOLEXl/view?usp=drive_link)
+
+* ##### [Test Executions Report](https://drive.google.com/file/d/15gR9pVmcmA-ZpUMbHlbJJ4DbEOyNcIZY/view?usp=drive_link)
+
+* ##### [Test Plan Metrics Report](https://drive.google.com/file/d/1x7ms9zAa-V46mS_p6atV3agR7TxsPOuq/view?usp=drive_link)
+<br/>
+
+### Postman Deliverables
+
+* ##### [Postman Project](https://martian-flare-701498.postman.co/workspace/WEare~000249d9-0ea2-4fba-9706-fa46ce66af1f/overview)
+
+* ##### [Postman Collection Exported](https://drive.google.com/file/d/1sdwKXoYysN5laAGM9tb6Qa9SqUeVHos1/view?usp=drive_link)
+
+* ##### [Postman Environment Exported](https://drive.google.com/file/d/1LoIluPqW0hu-9lYnWu5W8jLHnT-LJ7ZX/view?usp=drive_link)
+
+* ##### [Postman Test Run 23.10.2023](https://drive.google.com/file/d/1YqEhFOknYw0Ce6MXw8Va6ft0kMccjHD4/view?usp=drive_link)
+<br/>
+
+### Postman Deliverables
+
+* ##### [Postman Report](https://drive.google.com/file/d/1UThd2ozjbS3QpEW-h0WpXbvNkTgDQOHT/view?usp=drive_link)
+
+* ##### [RestAssured Report](https://drive.google.com/file/d/14zg6lqqqf0KDrWSMUbONjD2cw-68kf78/view?usp=drive_link)
+
+* ##### [Selenium UI Report](https://drive.google.com/file/d/1yDSPev5LzBtaaM2dG0g0wML4dQyVmRMz/view?usp=drive_link)
