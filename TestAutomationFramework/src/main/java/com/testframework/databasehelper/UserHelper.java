@@ -55,7 +55,7 @@ public class UserHelper extends DatabaseHelper {
      * @return the ID of the user
      */
     public static int getUserIdByUsername(String username) {
-        return getEntityIdByKey("user", tableName, "username", username, "user_id");
+        return getUserId(getUser("username", String.format("'%s'", username)));
     }
 
 }
