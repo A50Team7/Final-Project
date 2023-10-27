@@ -2,15 +2,17 @@ package com.testframework.api.models;
 
 import com.testframework.FormatHelper;
 import com.testframework.Utils;
+import com.testframework.api.models.common.ApiLocation;
 import com.testframework.models.Profile;
 import com.testframework.models.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
+@NoArgsConstructor
 public class PersonalProfileRequest {
-
-    public PersonalProfileRequest() {}
 
     public PersonalProfileRequest(User user) {
         Profile profile = user.getProfile();
@@ -19,7 +21,7 @@ public class PersonalProfileRequest {
                 Utils.getConfigPropertyByKey("weare.format.date.birthday"));
         firstName = profile.getFirstName();
         lastName = profile.getLastName();
-        location = new Location(profile.getLocation());
+        apiLocation = new ApiLocation(profile.getLocation());
         picturePrivacy = false;
         sex = profile.getGender().getStringValue();
     }
@@ -27,7 +29,7 @@ public class PersonalProfileRequest {
     private String birthYear;
     private String firstName;
     private String lastName;
-    private Location location;
+    private ApiLocation apiLocation;
     private boolean picturePrivacy;
     private String sex;
 

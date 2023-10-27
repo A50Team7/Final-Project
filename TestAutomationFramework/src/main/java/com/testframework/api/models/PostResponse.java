@@ -1,6 +1,7 @@
 package com.testframework.api.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.testframework.api.models.common.Category;
 import lombok.Getter;
 
 @Getter

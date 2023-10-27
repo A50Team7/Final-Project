@@ -3,8 +3,9 @@ package com.testframework.api.models;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
-public class UsersResponse {
+@Getter
+@Setter
+public class AllUsersResponse {
 
     private int userId;
     private String username;

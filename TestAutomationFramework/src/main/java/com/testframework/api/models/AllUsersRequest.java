@@ -3,10 +3,11 @@ package com.testframework.api.models;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
-public class UsersRequest {
+@Getter
+@Setter
+public class AllUsersRequest {
 
-    public UsersRequest(int index, boolean next, String searchParam1, String searchParam2, int size) {
+    public AllUsersRequest(int index, boolean next, String searchParam1, String searchParam2, int size) {
         setIndex(index);
         setNext(next);
         setSearchParam1(searchParam1);

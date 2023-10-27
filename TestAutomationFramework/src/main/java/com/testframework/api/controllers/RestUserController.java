@@ -2,7 +2,6 @@ package com.testframework.api.controllers;
 
 import com.testframework.Utils;
 import com.testframework.api.models.*;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -31,17 +30,17 @@ public class RestUserController extends BaseController {
     /**
      * Retrieves an array of UsersResponse objects based on the provided request.
      *
-     * @param usersRequest the UsersRequest object containing request information
+     * @param allUsersRequest the UsersRequest object containing request information
      * @return an array of UsersResponse objects
      */
-    public static UsersResponse[] getUsers(UsersRequest usersRequest) {
+    public static AllUsersResponse[] getUsers(AllUsersRequest allUsersRequest) {
         return base()
-                .body(usersRequest)
+                .body(allUsersRequest)
                 .when()
                 .post("/users")
                 .then()
                 .assertThat().statusCode(200)
-                .extract().response().as(UsersResponse[].class);
+                .extract().response().as(AllUsersResponse[].class);
     }
 
     /**
@@ -105,7 +104,7 @@ public class RestUserController extends BaseController {
      * @param cookieValue the cookie value to be used for the request
      * @return an array of PostResponse objects corresponding to the user's profile posts
      */
-    public static PostResponse[] getAllProfilePosts(UsersRequest request, int userId, String cookieValue) {
+    public static PostResponse[] getAllProfilePosts(AllUsersRequest request, int userId, String cookieValue) {
         return base(cookieValue)
                 .body(request)
                 .when()

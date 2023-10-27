@@ -1,12 +1,14 @@
 package com.testframework.api.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.testframework.api.models.common.City;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 public class UserResponse {
 
     private int id;

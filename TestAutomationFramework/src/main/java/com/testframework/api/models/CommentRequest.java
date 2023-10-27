@@ -5,7 +5,8 @@ import com.testframework.models.Comment;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class CommentRequest {
 
     public CommentRequest(Comment comment) {
@@ -13,13 +14,6 @@ public class CommentRequest {
         setPostId(comment.getPost().getPostId());
         setContent(comment.getContent());
     }
-    public CommentRequest(int userId, int postId){
-        setUserId(userId);
-        setPostId(postId);
-        setContent(GenerateRandom.generateRandomBoundedAlphanumericString(30));
-    }
-
-
 
     private int userId;
     private int postId;
