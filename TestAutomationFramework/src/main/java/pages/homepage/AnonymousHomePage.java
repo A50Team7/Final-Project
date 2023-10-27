@@ -5,8 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class AnonymousHomePage extends HomePage{
-    public AnonymousHomePage(WebDriver driver, String url) {
-        super(driver, url);
+    public AnonymousHomePage(String url) {
+        super(url);
     }
 
     private static By registerBy = By.xpath(Utils.getUIMappingByKey("anon.homepage.registerButton"));

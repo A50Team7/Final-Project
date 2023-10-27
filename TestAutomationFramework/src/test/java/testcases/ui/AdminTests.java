@@ -44,7 +44,7 @@ public class AdminTests extends BaseTest {
     private static String editCommentUrl = Utils.getConfigPropertyByKey("weare.comment.edit.url");
     private static String deleteCommentUrl = Utils.getConfigPropertyByKey("weare.comment.delete.url");
 
-    private static AdminZonePage adminZonePage = new AdminZonePage(actions.getDriver(), adminZoneUrl);
+    private static AdminZonePage adminZonePage = new AdminZonePage(adminZoneUrl);
     private static AdminProfilePage userProfilePage;
     private static PersonalProfileEditorPage editorPage;
     private static PersonalPostPage postPage;
@@ -70,8 +70,8 @@ public class AdminTests extends BaseTest {
 
         login(admin);
 
-        userProfilePage = new AdminProfilePage(actions.getDriver(), String.format(userPersonalPageUrl, userId));
-        editorPage = new PersonalProfileEditorPage(actions.getDriver(), String.format(userEditProfilePageUrl, userId));
+        userProfilePage = new AdminProfilePage(String.format(userPersonalPageUrl, userId));
+        editorPage = new PersonalProfileEditorPage(String.format(userEditProfilePageUrl, userId));
     }
 
     @Test
@@ -135,14 +135,14 @@ public class AdminTests extends BaseTest {
     public void FP_81_editingPost_Should_BeSuccessful() {
         int postId = createPostAndReturnId();
         forDelete = true;
-        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage = new PersonalPostPage(String.format(postUrl, postId));
         postPage.navigateToPage();
 
         Assertions.assertAll(
                 () -> postPage.assertEditPostButtonPresent(),
                 () -> {
                     postPage.editPost();
-                    editPage = new EditPostPage(actions.getDriver(), String.format(editPostUrl, postId));
+                    editPage = new EditPostPage(String.format(editPostUrl, postId));
                     editPage.assertPageNavigated();
                 },
                 () -> {
@@ -156,14 +156,14 @@ public class AdminTests extends BaseTest {
     @Test
     public void FP_82_deletingPost_Should_BeSuccessful() {
         int postId = createPostAndReturnId();
-        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage = new PersonalPostPage(String.format(postUrl, postId));
         postPage.navigateToPage();
 
         Assertions.assertAll(
                 () -> postPage.assertDeletePostButtonPresent(),
                 () -> {
                     postPage.deletePost();
-                    deletePage = new DeletePage(actions.getDriver(), String.format(deletePostUrl, postId));
+                    deletePage = new DeletePage(String.format(deletePostUrl, postId));
                     deletePage.assertPageNavigated();
                 },
                 () -> {
@@ -180,7 +180,7 @@ public class AdminTests extends BaseTest {
         forDelete = true;
         int commentId = createCommentAndReturnId();
 
-        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage = new PersonalPostPage(String.format(postUrl, postId));
         postPage.navigateToPage();
         postPage.showComments();
 
@@ -190,7 +190,7 @@ public class AdminTests extends BaseTest {
                 () -> postPage.getPersonalComment().assertEditCommentButtonPresent(commentId),
                 () -> {
                     postPage.getPersonalComment().editComment(commentId);
-                    editCommentPage = new EditPage(actions.getDriver(), String.format(editCommentUrl, commentId));
+                    editCommentPage = new EditPage(String.format(editCommentUrl, commentId));
                     editCommentPage.assertPageNavigated();
                 },
                 () -> {
@@ -208,7 +208,7 @@ public class AdminTests extends BaseTest {
         forDelete = true;
         int commentId = createCommentAndReturnId();
 
-        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage = new PersonalPostPage(String.format(postUrl, postId));
         postPage.navigateToPage();
         postPage.showComments();
 
@@ -216,7 +216,7 @@ public class AdminTests extends BaseTest {
                 () -> postPage.getPersonalComment().assertDeleteCommentButtonPresent(commentId),
                 () -> {
                     postPage.getPersonalComment().deleteComment(commentId);
-                    deletePage = new DeletePage(actions.getDriver(), String.format(deleteCommentUrl, commentId));
+                    deletePage = new DeletePage(String.format(deleteCommentUrl, commentId));
                     deletePage.assertPageNavigated();
                 },
                 () -> {

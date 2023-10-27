@@ -18,8 +18,8 @@ import java.util.Date;
 
 public class PersonalProfileEditorPage extends BasePage {
 
-    public PersonalProfileEditorPage(WebDriver driver, String url) {
-        super(driver, url);
+    public PersonalProfileEditorPage(String url) {
+        super(url);
     }
 
     private static String baseXpath = Utils.getUIMappingByKey("profileEditor.personalData");

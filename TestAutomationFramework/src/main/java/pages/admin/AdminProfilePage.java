@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import pages.PersonalProfilePage;
 
 public class AdminProfilePage extends PersonalProfilePage {
-    public AdminProfilePage(WebDriver driver, String url) {
-        super(driver, url);
+    public AdminProfilePage(String url) {
+        super(url);
     }
 
     private static By disableBy = By.xpath(Utils.getUIMappingByKey("admin.disableUserButton"));

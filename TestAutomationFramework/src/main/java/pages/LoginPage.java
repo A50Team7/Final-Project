@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class LoginPage extends BasePage {
-    public LoginPage(WebDriver driver, String url) {
-        super(driver, url);
+    public LoginPage(String url) {
+        super(url);
     }
 
     private static By usernameBy = By.xpath(Utils.getUIMappingByKey("login.username"));

@@ -16,8 +16,8 @@ public class NavigationTests extends BaseTest {
 
     private final static String ERROR_MESSAGE = "Navigated to a wrong url";
     private static String baseUrl = Utils.getConfigPropertyByKey("weare.baseUrl");
-    private static AnonymousHomePage anonHomePage = new AnonymousHomePage(actions.getDriver(), baseUrl);
-    private static UserHomePage userHomePage = new UserHomePage(actions.getDriver(), baseUrl);
+    private static AnonymousHomePage anonHomePage = new AnonymousHomePage(baseUrl);
+    private static UserHomePage userHomePage = new UserHomePage(baseUrl);
     private User user;
     private String cookieValue;
 

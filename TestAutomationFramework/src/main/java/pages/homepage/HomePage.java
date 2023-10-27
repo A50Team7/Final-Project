@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class HomePage extends BasePage {
-    public HomePage(WebDriver driver, String url) {
-        super(driver, url);
+    public HomePage(String url) {
+        super(url);
     }
 
     private static By professionSearchBy = By.xpath(Utils.getUIMappingByKey("homepage.search.profession"));

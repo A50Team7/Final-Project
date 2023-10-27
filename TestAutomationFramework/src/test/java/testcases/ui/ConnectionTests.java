@@ -43,7 +43,7 @@ public class ConnectionTests extends BaseTest {
         senderId = user.getUserId();
         receiverId = receiver.getUserId();
 
-        profilePage = new PersonalProfilePage(actions.getDriver(), String.format(profileUrl, receiverId));
+        profilePage = new PersonalProfilePage(String.format(profileUrl, receiverId));
         profilePage.navigateToPage();
         profilePage.sendConnectionRequest();
     }
@@ -62,7 +62,7 @@ public class ConnectionTests extends BaseTest {
         profilePage.acceptLatestRequest();
         connected = true;
 
-        profilePage = new PersonalProfilePage(actions.getDriver(), String.format(profileUrl, senderId));
+        profilePage = new PersonalProfilePage(String.format(profileUrl, senderId));
         profilePage.navigateToPage();
         profilePage.assertDisconnectButtonPresent();
     }
@@ -76,7 +76,7 @@ public class ConnectionTests extends BaseTest {
         profilePage.acceptLatestRequest();
         connected = true;
 
-        profilePage = new PersonalProfilePage(actions.getDriver(), String.format(profileUrl, senderId));
+        profilePage = new PersonalProfilePage(String.format(profileUrl, senderId));
         profilePage.navigateToPage();
         Assertions.assertAll(
                 () -> profilePage.assertDisconnectButtonPresent(),

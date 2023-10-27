@@ -5,8 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class EditPage extends BasePage {
-    public EditPage(WebDriver driver, String url) {
-        super(driver, url);
+    public EditPage(String url) {
+        super(url);
     }
 
     private By editMessageBy = By.xpath(Utils.getUIMappingByKey("edit.message"));

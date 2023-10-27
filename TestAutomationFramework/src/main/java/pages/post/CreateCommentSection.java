@@ -9,8 +9,8 @@ import pages.common.BaseSection;
 @Getter
 public class CreateCommentSection extends BaseSection {
 
-    public CreateCommentSection(WebDriver driver) {
-        super(driver);
+    public CreateCommentSection() {
+        super();
     }
 
     private By commentMessageBy = By.xpath(Utils.getUIMappingByKey("post.commentMessage"));

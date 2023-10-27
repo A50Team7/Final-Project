@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class RegisterPage extends BasePage {
-    public RegisterPage(WebDriver driver, String url) {
-        super(driver, url);
+    public RegisterPage(String url) {
+        super(url);
     }
 
     public void enterAllDataAndRegister(User user) {

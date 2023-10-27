@@ -9,8 +9,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class LatestPostsPage extends BasePage {
-    public LatestPostsPage(WebDriver driver, String url) {
-        super(driver, url);
+    public LatestPostsPage(String url) {
+        super(url);
     }
 
     private static String baseLocator = Utils.getUIMappingByKey("viewPosts.container");

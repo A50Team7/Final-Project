@@ -40,7 +40,7 @@ public class PostTests extends BaseTest {
 
         RestPostController.createPost(new PostRequest(post), cookieValue);
 
-        personalPostPage = new PersonalPostPage(actions.getDriver(), String.format(postPageUrl, post.getPostId()));
+        personalPostPage = new PersonalPostPage(String.format(postPageUrl, post.getPostId()));
         personalPostPage.navigateToPage();
         personalPostPage.assertPost(post);
     }
@@ -48,7 +48,7 @@ public class PostTests extends BaseTest {
     @Test
     public void FP_158_editingContentOfCreatedPost_Should_BeSuccessful() {
         personalPostPage.editPost();
-        editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
+        editPostPage = new EditPostPage(String.format(editPostPageUrl, post.getPostId()));
         editPostPage.assertPageNavigated();
 
         post.setContent(PostFactory.generateContent());
@@ -60,7 +60,7 @@ public class PostTests extends BaseTest {
     @Test
     public void FP_163_editingVisibilityOfCreatedPostToPrivate_Should_BeSuccessful() {
         personalPostPage.editPost();
-        editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
+        editPostPage = new EditPostPage(String.format(editPostPageUrl, post.getPostId()));
         editPostPage.assertPageNavigated();
 
         post.setVisibility(Visibility.PRIVATE);
@@ -73,7 +73,7 @@ public class PostTests extends BaseTest {
     @Test
     public void FP_162_goingToEditPostPageAndLeavingItWithoutAnyResultingChange_Should_BeSuccessful() {
         personalPostPage.editPost();
-        editPostPage = new EditPostPage(actions.getDriver(), String.format(editPostPageUrl, post.getPostId()));
+        editPostPage = new EditPostPage(String.format(editPostPageUrl, post.getPostId()));
         editPostPage.assertPageNavigated();
 
         post.setContent(PostFactory.generateContent());
@@ -86,7 +86,7 @@ public class PostTests extends BaseTest {
     @Test
     public void FP_159_deletingCreatedPostBySelectingDeleteAndSubmitting_Should_BeSuccessful() {
         personalPostPage.deletePost();
-        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
+        deletePage = new DeletePage(String.format(deletePostPageUrl, post.getPostId()));
         deletePage.assertPageNavigated();
 
         deletePage.selectAndConfirm(ConfirmDelete.DELETE);
@@ -99,7 +99,7 @@ public class PostTests extends BaseTest {
     @Test
     public void FP_160_deletingCreatedPostBySelectingCancelAndSubmitting_Should_BeUnsuccessful() {
         personalPostPage.deletePost();
-        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
+        deletePage = new DeletePage(String.format(deletePostPageUrl, post.getPostId()));
         deletePage.assertPageNavigated();
 
         deletePage.selectAndConfirm(ConfirmDelete.CANCEL);
@@ -111,7 +111,7 @@ public class PostTests extends BaseTest {
     @Test
     public void FP_161_goingToDeletePostPageAndLeavingItWithoutResultingInDeletion_Should_BeSuccessful() {
         personalPostPage.deletePost();
-        deletePage = new DeletePage(actions.getDriver(), String.format(deletePostPageUrl, post.getPostId()));
+        deletePage = new DeletePage(String.format(deletePostPageUrl, post.getPostId()));
         deletePage.assertPageNavigated();
         deletePage.selectFromDropdown(ConfirmDelete.DELETE);
 

@@ -32,11 +32,11 @@ public class PersonalProfileTests extends BaseTest {
 
         login(user);
 
-        personalProfilePage = new PersonalProfilePage(actions.getDriver(), String.format(personalProfileUrl, userId));
+        personalProfilePage = new PersonalProfilePage(String.format(personalProfileUrl, userId));
         personalProfilePage.navigateToPage();
         personalProfilePage.editProfile();
 
-        personalProfileEditorPage = new PersonalProfileEditorPage(actions.getDriver(), String.format(personalProfileEditorUrl, userId));
+        personalProfileEditorPage = new PersonalProfileEditorPage(String.format(personalProfileEditorUrl, userId));
         personalProfilePage.assertPageNavigated();
         personalProfileEditorPage.enterAllPersonalInfoAndUpdate(user);
     }

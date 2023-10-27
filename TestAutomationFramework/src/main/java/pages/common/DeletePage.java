@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class DeletePage extends BasePage {
-    public DeletePage(WebDriver driver, String url) {
-        super(driver, url);
+    public DeletePage(String url) {
+        super(url);
     }
 
     private By dropdownBy = By.xpath(Utils.getUIMappingByKey("delete.dropdown"));

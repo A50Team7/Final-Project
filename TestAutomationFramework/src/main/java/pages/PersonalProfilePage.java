@@ -11,8 +11,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class PersonalProfilePage extends BasePage {
-    public PersonalProfilePage(WebDriver driver, String url) {
-        super(driver, url);
+    public PersonalProfilePage(String url) {
+        super(url);
     }
 
     private String baseXpath = Utils.getUIMappingByKey("personalProfile.data");

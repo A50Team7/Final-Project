@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class EditPostPage extends EditPage{
-    public EditPostPage(WebDriver driver, String url) {
-        super(driver, url);
+    public EditPostPage(String url) {
+        super(url);
     }
 
     private By editVisibilityBy = By.xpath(Utils.getUIMappingByKey("edit.visibility"));

@@ -17,7 +17,7 @@ import pages.homepage.HomePage;
 public class SearchTests extends BaseTest {
     private static String homepageUrl = Utils.getConfigPropertyByKey("weare.baseUrl");
     private static String searchUrl = Utils.getConfigPropertyByKey("weare.search.url");
-    private static HomePage homePage = new HomePage(actions.getDriver(), homepageUrl);
+    private static HomePage homePage = new HomePage(homepageUrl);
     private static ViewUsersPage viewUsersPage;
     private static String searchParam1 = "";
     private static String searchParam2 = "";
@@ -36,7 +36,7 @@ public class SearchTests extends BaseTest {
         searchParam1 = user.getCategory().getStringValue();
         homePage.searchByProfession(searchParam1);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertUserExists(user);
     }
 
@@ -45,7 +45,7 @@ public class SearchTests extends BaseTest {
         searchParam1 = GenerateRandom.generateRandomBoundedAlphanumericString(10);
         homePage.searchByProfession(searchParam1);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertErrorMessagePresent();
     }
 
@@ -54,7 +54,7 @@ public class SearchTests extends BaseTest {
         searchParam2 = user.getUsername();
         homePage.searchByName(searchParam2);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertUserExists(user);
     }
 
@@ -63,7 +63,7 @@ public class SearchTests extends BaseTest {
         searchParam2 = user.getProfile().getFirstName();
         homePage.searchByName(searchParam2);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertUserExists(user);
     }
 
@@ -72,7 +72,7 @@ public class SearchTests extends BaseTest {
         searchParam2 = user.getProfile().getLastName();
         homePage.searchByName(searchParam2);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertUserExists(user);
     }
 
@@ -81,7 +81,7 @@ public class SearchTests extends BaseTest {
         searchParam2 = user.getProfile().getFullName();
         homePage.searchByName(searchParam2);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertUserExists(user);
     }
 
@@ -89,7 +89,7 @@ public class SearchTests extends BaseTest {
     public void FP_123_searchByEmptyCriteria_Should_BeUnsuccessful() {
         homePage.clickSearch();
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertErrorMessagePresent();
     }
 
@@ -98,7 +98,7 @@ public class SearchTests extends BaseTest {
         searchParam2 = "%";
         homePage.searchByName(searchParam2);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertErrorMessagePresent();
     }
 
@@ -107,7 +107,7 @@ public class SearchTests extends BaseTest {
         searchParam2 = user.getEmail();
         homePage.searchByName(searchParam2);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertUserExists(user);
     }
 
@@ -116,7 +116,7 @@ public class SearchTests extends BaseTest {
         searchParam2 = ProfileFactory.generateFirstName();
         homePage.searchByName(searchParam2);
 
-        viewUsersPage = new ViewUsersPage(actions.getDriver(), String.format(searchUrl, searchParam1, searchParam2));
+        viewUsersPage = new ViewUsersPage(String.format(searchUrl, searchParam1, searchParam2));
         viewUsersPage.assertErrorMessagePresent();
     }
 

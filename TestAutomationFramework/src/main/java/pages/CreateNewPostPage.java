@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class CreateNewPostPage extends BasePage {
-    public CreateNewPostPage(WebDriver driver, String url) {
-        super(driver, url);
+    public CreateNewPostPage(String url) {
+        super(url);
     }
 
     public void createPostAndSubmit(Post post) {

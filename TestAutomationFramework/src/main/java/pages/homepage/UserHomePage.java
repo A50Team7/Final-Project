@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 
 public class UserHomePage extends HomePage{
 
-    public UserHomePage(WebDriver driver, String url) {
-        super(driver, url);
+    public UserHomePage(String url) {
+        super(url);
     }
 
     private static By logoutBy = By.xpath(Utils.getUIMappingByKey("user.homepage.logoutButton"));

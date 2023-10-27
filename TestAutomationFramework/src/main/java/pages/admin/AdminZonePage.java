@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class AdminZonePage extends BasePage {
-    public AdminZonePage(WebDriver driver, String url) {
-        super(driver, url);
+    public AdminZonePage(String url) {
+        super(url);
     }
 
     private static By usersBy = By.xpath(Utils.getUIMappingByKey("admin.adminZone.usersButton"));

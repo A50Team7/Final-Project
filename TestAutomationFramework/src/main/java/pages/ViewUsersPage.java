@@ -9,8 +9,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class ViewUsersPage extends BasePage {
-    public ViewUsersPage(WebDriver driver, String url) {
-        super(driver, url);
+    public ViewUsersPage(String url) {
+        super(url);
     }
 
     private static String userContainer = Utils.getUIMappingByKey("viewUsers.container");

@@ -11,11 +11,11 @@ import pages.common.BasePage;
 
 @Getter
 public class PostPage extends BasePage {
-    public PostPage(WebDriver driver, String url) {
-        super(driver, url);
-        commentSection = new CommentSection(driver);
-        personalComment = new PersonalComment(driver);
-        createCommentSection = new CreateCommentSection(driver);
+    public PostPage(String url) {
+        super(url);
+        commentSection = new CommentSection();
+        personalComment = new PersonalComment();
+        createCommentSection = new CreateCommentSection();
     }
 
     private By authorBy = By.xpath(Utils.getUIMappingByKey("post.author"));

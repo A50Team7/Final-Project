@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class PersonalPostPage extends PostPage {
-    public PersonalPostPage(WebDriver driver, String url) {
-        super(driver, url);
+    public PersonalPostPage(String url) {
+        super(url);
     }
 
     private By editPostBy = By.xpath(Utils.getUIMappingByKey("post.editPost"));

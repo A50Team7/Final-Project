@@ -20,7 +20,7 @@ import pages.post.PersonalPostPage;
 public class CreatePostTests extends BaseTest {
     private static String createPostUrl = Utils.getConfigPropertyByKey("weare.createpost.url");
     private static String personalPostPageUrl = Utils.getConfigPropertyByKey("weare.post.url");
-    private static CreateNewPostPage createNewPostPage = new CreateNewPostPage(actions.getDriver(), createPostUrl);
+    private static CreateNewPostPage createNewPostPage = new CreateNewPostPage(createPostUrl);
     private static PersonalPostPage personalPostPage;
     private Post post;
     private String cookieValue;
@@ -67,7 +67,7 @@ public class CreatePostTests extends BaseTest {
     }
 
     private void assertPostPage() {
-        personalPostPage = new PersonalPostPage(actions.getDriver(), String.format(personalPostPageUrl, post.getPostId()));
+        personalPostPage = new PersonalPostPage(String.format(personalPostPageUrl, post.getPostId()));
         personalPostPage.navigateToPage();
         personalPostPage.assertPost(post);
     }

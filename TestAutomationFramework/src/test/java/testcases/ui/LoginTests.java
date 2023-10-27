@@ -16,8 +16,8 @@ public class LoginTests extends BaseTest {
     private static String loginPageUrl = Utils.getConfigPropertyByKey("weare.login.url");
     private static String baseUrl = Utils.getConfigPropertyByKey("weare.baseUrl");
     private static String cookieName = Utils.getConfigPropertyByKey("auth.cookieName");
-    private static LoginPage loginPage = new LoginPage(actions.getDriver(), loginPageUrl);
-    private static UserHomePage homePage = new UserHomePage(actions.getDriver(), baseUrl);
+    private static LoginPage loginPage = new LoginPage(loginPageUrl);
+    private static UserHomePage homePage = new UserHomePage(baseUrl);
     private User unregisteredUser;
 
     @BeforeEach

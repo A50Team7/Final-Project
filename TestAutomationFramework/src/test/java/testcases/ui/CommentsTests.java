@@ -42,7 +42,7 @@ public class CommentsTests extends BaseTest {
 
         RestPostController.createPost(new PostRequest(post), cookieValue);
 
-        personalPostPage = new PersonalPostPage(actions.getDriver(), String.format(postPageUrl, post.getPostId()));
+        personalPostPage = new PersonalPostPage(String.format(postPageUrl, post.getPostId()));
         personalPostPage.navigateToPage();
         personalPostPage.assertPost(post);
     }
@@ -118,7 +118,7 @@ public class CommentsTests extends BaseTest {
 
         personalPostPage.showComments();
         personalPostPage.getPersonalComment().editComment(comment.getCommentId());
-        editCommentPage = new EditPage(actions.getDriver(), String.format(editCommentPageUrl, comment.getCommentId()));
+        editCommentPage = new EditPage(String.format(editCommentPageUrl, comment.getCommentId()));
         comment.setContent(CommentFactory.generateContent());
 
         editCommentPage.editAndSubmit(comment.getContent());
@@ -134,7 +134,7 @@ public class CommentsTests extends BaseTest {
 
         personalPostPage.showComments();
         personalPostPage.getPersonalComment().deleteComment(comment.getCommentId());
-        deletePage = new DeletePage(actions.getDriver(), String.format(deleteCommentPageUrl, comment.getCommentId()));
+        deletePage = new DeletePage(String.format(deleteCommentPageUrl, comment.getCommentId()));
         deletePage.selectAndConfirm(ConfirmDelete.DELETE);
 
         deletePage.assertDeletedSuccessfullyMessagePresent();
@@ -148,7 +148,7 @@ public class CommentsTests extends BaseTest {
 
         personalPostPage.showComments();
         personalPostPage.getPersonalComment().deleteComment(comment.getCommentId());
-        deletePage = new DeletePage(actions.getDriver(), String.format(deleteCommentPageUrl, comment.getCommentId()));
+        deletePage = new DeletePage(String.format(deleteCommentPageUrl, comment.getCommentId()));
         deletePage.selectAndConfirm(ConfirmDelete.CANCEL);
 
         personalPostPage.showComments();

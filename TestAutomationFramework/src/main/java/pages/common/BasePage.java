@@ -11,8 +11,8 @@ public abstract class BasePage extends BaseSection{
 
     protected String url;
 
-    public BasePage(WebDriver driver, String url) {
-        super(driver);
+    public BasePage(String url) {
+        super();
         this.url = url;
     }
 

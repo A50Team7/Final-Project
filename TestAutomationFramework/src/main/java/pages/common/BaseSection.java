@@ -8,9 +8,9 @@ public class BaseSection {
     protected WebDriver driver;
     public UserActions actions;
 
-    public BaseSection(WebDriver driver) {
-        this.driver = driver;
+    public BaseSection() {
         actions = new UserActions();
+        this.driver = actions.getDriver();
     }
 
 }

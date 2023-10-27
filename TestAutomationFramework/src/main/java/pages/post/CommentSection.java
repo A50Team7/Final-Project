@@ -9,8 +9,8 @@ import org.openqa.selenium.WebDriver;
 import pages.common.BaseSection;
 
 public class CommentSection extends BaseSection {
-    public CommentSection(WebDriver driver) {
-        super(driver);
+    public CommentSection() {
+        super();
     }
 
     private String commentAuthor = Utils.getUIMappingByKey("post.commentSection.commentAuthor");

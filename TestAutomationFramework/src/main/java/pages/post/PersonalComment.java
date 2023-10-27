@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 
 public class PersonalComment extends CommentSection{
 
-    public PersonalComment(WebDriver driver) {
-        super(driver);
+    public PersonalComment() {
+        super();
     }
 
     private String editComment = Utils.getUIMappingByKey("post.personalComment.editComment");

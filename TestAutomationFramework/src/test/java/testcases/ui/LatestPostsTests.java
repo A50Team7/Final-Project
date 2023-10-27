@@ -21,7 +21,7 @@ public class LatestPostsTests extends BaseTest {
 
     private static String latestPostsUrl = Utils.getConfigPropertyByKey("weare.latestposts.url");
     private static String postUrl = Utils.getConfigPropertyByKey("weare.post.url");
-    private static LatestPostsPage latestPostsPage = new LatestPostsPage(actions.getDriver(), latestPostsUrl);
+    private static LatestPostsPage latestPostsPage = new LatestPostsPage(latestPostsUrl);
     private static PersonalPostPage postPage;
     private Post post;
     private String cookieValue;
@@ -63,7 +63,7 @@ public class LatestPostsTests extends BaseTest {
     @Test
     public void FP_72_exploringAPost_Should_BeSuccessful() {
         int postId = post.getPostId();
-        postPage = new PersonalPostPage(actions.getDriver(), String.format(postUrl, postId));
+        postPage = new PersonalPostPage(String.format(postUrl, postId));
 
         latestPostsPage.explorePost(postId);
 
