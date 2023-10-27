@@ -20,6 +20,11 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 <br/>
 
 ### Test Plan
+* ##### [Test Plan](https://docs.google.com/document/d/1kHWJ7Rg_hjpx49X8WsDkF_12GdHrJSic/edit?usp=drive_link&ouid=102958470244515845434&rtpof=true&sd=true)
+<br/>
+
+### Jenkins
+* ##### [Jenkins](http://weare-socialnetwork.duckdns.org:8080/)
 <br/>
   
 ### JIRA Deliverables
