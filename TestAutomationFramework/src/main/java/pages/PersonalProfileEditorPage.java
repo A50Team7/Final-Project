@@ -86,7 +86,10 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterBirthday(LocalDate date) {
-        actions.typeValueInField(birthdayBy, FormatHelper.formatDateAmericanFormat(date).replace("/", ""));
+        actions.typeValueInField(birthdayBy, FormatHelper.formatDate(
+                        date,
+                        Utils.getConfigPropertyByKey("weare.format.date.americanStyle"))
+                .replace("/", ""));
     }
 
     public void clearBirthday() {
@@ -94,7 +97,7 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterGender(Gender gender) {
-    actions.typeValueInField(genderBy, String.valueOf(gender));
+        actions.typeValueInField(genderBy, String.valueOf(gender));
     }
 
     public void enterEmail(String email) {
@@ -126,11 +129,11 @@ public class PersonalProfileEditorPage extends BasePage {
     }
 
     public void enterWeeklyAvailability(double weeklyAvailability) {
- actions.clearAndTypeValueInField(weeklyAvailabilityBy, String.valueOf(weeklyAvailability));
+        actions.clearAndTypeValueInField(weeklyAvailabilityBy, String.valueOf(weeklyAvailability));
     }
 
     public void updateServices() {
-actions.clickElement(updateSurvicesBy);
+        actions.clickElement(updateSurvicesBy);
     }
 
     private String getFieldText(By locator) {

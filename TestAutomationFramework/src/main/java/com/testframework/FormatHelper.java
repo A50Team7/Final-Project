@@ -1,84 +1,62 @@
 package com.testframework;
 
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FormatHelper {
 
     /**
-     * Formats a LocalDateTime object into a string representation using the "dd/MM/yyyy HH:mm:ss" format.
+     * Formats a LocalDateTime object into a string representation using the specified format.
      *
      * @param dateTime the LocalDateTime object to be formatted
+     * @param format the format to be used
      * @return the formatted string
      */
-    public static String formatDateTime(LocalDateTime dateTime) {
+    public static String formatDateTime(LocalDateTime dateTime, String format) {
         if (dateTime == null) return null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return dateTime.format(formatter);
     }
 
     /**
-     * Parses a string representation of a date and time into a LocalDateTime object using the "dd/MM/yyyy HH:mm:ss" format.
+     * Parses a string representation of a date and time into a LocalDateTime object using the specified format.
      *
      * @param dateTime the string representation of the date and time
+     * @param format the format used
      * @return the parsed LocalDateTime object
      */
-    public static LocalDateTime parseDateTimeFromString(String dateTime) {
+    public static LocalDateTime parseDateTimeFromString(String dateTime, String format) {
         if (dateTime == null) return null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return LocalDateTime.parse(dateTime, formatter);
     }
 
     /**
-     * Formats a LocalDate object into a string representation using the "yyyy-MM-dd" format.
+     * Formats a LocalDate object into a string representation using the specified format.
      *
      * @param date the LocalDate object to be formatted
+     * @param format the format to be used
      * @return the formatted string
      */
-    public static String formatBirthdayDate(LocalDate date) {
+    public static String formatDate(LocalDate date, String format) {
         if (date == null) return null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return date.format(formatter);
     }
 
     /**
-     * Parses a string representation of a date into a LocalDate object using the "yyyy-MM-dd" format.
+     * Parses a string representation of a date into a LocalDate object using the specified format.
      *
      * @param dateTime the string representation of the date and time
+     * @param format the format used
      * @return the parsed LocalDate object
      */
-    public static LocalDate parseDateFromString(String dateTime) {
+    public static LocalDate parseDateFromString(String dateTime, String format) {
         if (dateTime == null) return null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return LocalDate.parse(dateTime, formatter);
-    }
-
-    /**
-     * Formats a LocalDate object into a string representation using the "dd/MM/yyyy" format.
-     *
-     * @param date the LocalDate object to be formatted
-     * @return the formatted string
-     */
-    public static String formatRegistrationDate(LocalDate date) {
-        if (date == null) return null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return date.format(formatter);
-    }
-
-    /**
-     * Formats a LocalDate object into a string representation using the "MM/dd/yyyy" format.
-     *
-     * @param date the LocalDate object to be formatted
-     * @return the formatted string
-     */
-    public static String formatDateAmericanFormat(LocalDate date) {
-        if (date == null) return null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        return date.format(formatter);
     }
 
     /**

@@ -136,7 +136,9 @@ public class PersonalProfileTests extends BaseTest {
 
         personalProfilePage.navigateToPage();
         String birthday = personalProfilePage.getFieldText(PersonalProfileData.BIRTHDAY);
-        Assertions.assertNotEquals(FormatHelper.formatBirthdayDate(user.getProfile().getBirthday()), birthday,
+        Assertions.assertNotEquals(FormatHelper.formatDate(
+                        user.getProfile().getBirthday(),
+                        Utils.getConfigPropertyByKey("weare.format.date.birthday")), birthday,
                 "The birthday date was changed successfully to an invalid date.");
     }
 
@@ -149,7 +151,9 @@ public class PersonalProfileTests extends BaseTest {
 
         personalProfilePage.navigateToPage();
         String birthday = personalProfilePage.getFieldText(PersonalProfileData.BIRTHDAY);
-        Assertions.assertNotEquals(FormatHelper.formatBirthdayDate(user.getProfile().getBirthday()), birthday,
+        Assertions.assertNotEquals(FormatHelper.formatDate(
+                        user.getProfile().getBirthday(),
+                        Utils.getConfigPropertyByKey("weare.format.date.birthday")), birthday,
                 "The birthday date was changed successfully to a date after the registration date.");
     }
 

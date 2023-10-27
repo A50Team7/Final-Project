@@ -7,7 +7,6 @@ import com.testframework.models.Profile;
 import com.testframework.models.User;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import pages.common.BasePage;
 
 public class PersonalProfilePage extends BasePage {
@@ -139,7 +138,9 @@ public class PersonalProfilePage extends BasePage {
         assertEqualProfileData(user.getUsername(), PersonalProfileData.USER_ID);
         assertEqualProfileData(profile.getFullName(), PersonalProfileData.FULL_NAME);
         assertEqualProfileData(user.getEmail(), PersonalProfileData.EMAIL);
-        assertEqualProfileData(FormatHelper.formatBirthdayDate(profile.getBirthday()), PersonalProfileData.BIRTHDAY);
+        assertEqualProfileData(FormatHelper.formatDate(
+                profile.getBirthday(),
+                Utils.getConfigPropertyByKey("weare.format.date.birthday")), PersonalProfileData.BIRTHDAY);
         assertEqualProfileData(profile.getLocation().getStringValue(), PersonalProfileData.LOCATION);
         assertEqualProfileData(String.format("%d friends", profile.getFriendList().size()), PersonalProfileData.FRIEND_LIST);
         assertEqualProfileData(profile.getBio(), PersonalProfileData.BIO);

@@ -33,7 +33,9 @@ public class ApiHelper {
                         "The content doesn't match."),
                 () -> {
                     int differenceThreshold = Integer.parseInt(Utils.getConfigPropertyByKey("weare.timeDifferenceThreshold"));
-                    LocalDateTime actualDateTime = FormatHelper.parseDateTimeFromString(commentResponse.getDate());
+                    LocalDateTime actualDateTime = FormatHelper.parseDateTimeFromString(
+                            commentResponse.getDate(),
+                            Utils.getConfigPropertyByKey("weare.format.dateTime"));
 
                     assertDateTimeApproxEqual(comment.getCreationDateTime(), actualDateTime, differenceThreshold);
                 }
@@ -54,8 +56,12 @@ public class ApiHelper {
                         "The content doesn't match."),
                 () -> {
                     int differenceThreshold = Integer.parseInt(Utils.getConfigPropertyByKey("weare.timeDifferenceThreshold"));
-                    LocalDateTime dateTime1 = FormatHelper.parseDateTimeFromString(response1.getDate());
-                    LocalDateTime dateTime2 = FormatHelper.parseDateTimeFromString(response2.getDate());
+                    LocalDateTime dateTime1 = FormatHelper.parseDateTimeFromString(
+                            response1.getDate(),
+                            Utils.getConfigPropertyByKey("weare.format.dateTime"));
+                    LocalDateTime dateTime2 = FormatHelper.parseDateTimeFromString(
+                            response2.getDate(),
+                            Utils.getConfigPropertyByKey("weare.format.dateTime"));
 
                     assertDateTimeApproxEqual(dateTime2, dateTime1, differenceThreshold);
                 }

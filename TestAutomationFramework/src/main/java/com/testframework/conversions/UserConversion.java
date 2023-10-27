@@ -1,6 +1,7 @@
 package com.testframework.conversions;
 
 import com.testframework.FormatHelper;
+import com.testframework.Utils;
 import com.testframework.api.models.UserResponse;
 import com.testframework.models.Profile;
 import com.testframework.models.Services;
@@ -28,7 +29,9 @@ public class UserConversion {
 
         Profile profile = new Profile(apiResponse.getFirstName(),
                 apiResponse.getLastName(),
-                FormatHelper.parseDateFromString(apiResponse.getBirthYear()),
+                FormatHelper.parseDateFromString(
+                        apiResponse.getBirthYear(),
+                        Utils.getConfigPropertyByKey("weare.format.date.birthday")),
                 Location.getLocationByString(city));
 
         profile.setServices(services);
@@ -39,4 +42,5 @@ public class UserConversion {
                 ProfessionalCategory.getProfessionalCategoryByString(apiResponse.getExpertise()),
                 profile);
     }
+
 }

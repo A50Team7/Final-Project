@@ -30,7 +30,9 @@ public class ViewUsersPage extends BasePage {
                 () -> Assertions.assertTrue(user.getCategory().getStringValue()
                                 .equalsIgnoreCase(getProfessionalCategory(user.getUserId())),
                         "The professional category doesn't match"),
-                () -> Assertions.assertEquals(FormatHelper.formatRegistrationDate(user.getRegistrationDate()),
+                () -> Assertions.assertEquals(FormatHelper.formatDate(
+                                user.getRegistrationDate(),
+                                Utils.getConfigPropertyByKey("weare.format.date.registration")),
                         getUserSince(user.getUserId()),
                         "The registration date doesn't match"),
                 () -> assertViewProfileButtonPresent(user.getUserId())
