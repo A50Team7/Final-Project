@@ -55,7 +55,7 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 * ##### [Postman Test Run 23.10.2023](https://drive.google.com/file/d/1YqEhFOknYw0Ce6MXw8Va6ft0kMccjHD4/view?usp=drive_link)
 <br/>
 
-### Postman Deliverables
+### Jenkins Reports
 
 * ##### [Postman Report](https://drive.google.com/file/d/1UThd2ozjbS3QpEW-h0WpXbvNkTgDQOHT/view?usp=drive_link)
 
