@@ -23,9 +23,6 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 * ##### [Test Plan](https://docs.google.com/document/d/1kHWJ7Rg_hjpx49X8WsDkF_12GdHrJSic/edit?usp=drive_link&ouid=102958470244515845434&rtpof=true&sd=true)
 <br/>
 
-### Jenkins
-* ##### [Jenkins](http://weare-socialnetwork.duckdns.org:8080/)
-<br/>
   
 ### JIRA Deliverables
 
@@ -55,7 +52,9 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 * ##### [Postman Test Run 23.10.2023](https://drive.google.com/file/d/1YqEhFOknYw0Ce6MXw8Va6ft0kMccjHD4/view?usp=drive_link)
 <br/>
 
-### Postman Deliverables
+### Jenkins Reports
+
+* ##### [Jenkins](http://weare-socialnetwork.duckdns.org:8080/)
 
 * ##### [Postman Report](https://drive.google.com/file/d/1UThd2ozjbS3QpEW-h0WpXbvNkTgDQOHT/view?usp=drive_link)
 
