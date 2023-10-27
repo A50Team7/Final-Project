@@ -2,7 +2,11 @@ package testcases.api;
 
 import com.testframework.api.controllers.RestSkillController;
 import com.testframework.api.models.Skill;
+import com.testframework.factories.ServicesFactory;
+import com.testframework.factories.UserFactory;
 import com.testframework.generations.GenerateRandom;
+import com.testframework.models.User;
+import com.testframework.models.enums.ProfessionalCategory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,13 +14,17 @@ import org.junit.jupiter.api.Test;
 
 public class RestSkillControllerTests extends BaseApiTest {
 
-    boolean deleted = false;
-    Skill skill;
-    Skill createResponse;
+    private boolean deleted = false;
+    private String skillName = ServicesFactory.generateService();
+    private ProfessionalCategory category = UserFactory.selectCategory();
+    private Skill skill;
+    private Skill createResponse;
+    private static final String ERROR = "The created skill doesn't match the expected skill.";
+
 
     @BeforeEach
     public void setup() {
-        skill = new Skill();
+        skill = new Skill(skillName, category);
 
         createResponse = RestSkillController.createSkill(skill);
 
@@ -30,7 +38,7 @@ public class RestSkillControllerTests extends BaseApiTest {
         for (Skill skill : skills) {
             var getOneResponse = RestSkillController.getOne(skill.getSkillId());
 
-            Assertions.assertEquals(skill, getOneResponse, "The json body doesn't match the created skill.");
+            Assertions.assertEquals(skill, getOneResponse, ERROR);
         }
     }
 
@@ -38,12 +46,12 @@ public class RestSkillControllerTests extends BaseApiTest {
     public void getOne() {
         var getOneResponse = RestSkillController.getOne(skill.getSkillId());
 
-        Assertions.assertEquals(skill, getOneResponse, "The json body doesn't match the created skill.");
+        Assertions.assertEquals(skill, getOneResponse, ERROR);
     }
 
     @Test
     public void createSkill() {
-        Assertions.assertEquals(skill, createResponse, "The json body doesn't match the created skill.");
+        Assertions.assertEquals(skill, createResponse, ERROR);
     }
 
     @Test
@@ -61,7 +69,7 @@ public class RestSkillControllerTests extends BaseApiTest {
         RestSkillController.editSkill(skill.getSkill(), skill.getSkillId());
 
         var getOneResponse = RestSkillController.getOne(skill.getSkillId());
-        Assertions.assertEquals(skill, getOneResponse, "The json body doesn't match the created skill.");
+        Assertions.assertEquals(skill, getOneResponse, ERROR);
     }
 
     @AfterEach
