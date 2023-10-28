@@ -92,12 +92,18 @@ public class DatabaseHelper {
     }
 
     public static void deleteEntity(String entityName, String table, String key, String value) {
+        if (!entityExists(getEntity(table, key, value))) {
+            Utils.LOGGER.info(String.format("No %s found.", entityName));
+            return;
+        }
+
+        executeQuery(String.format(deleteQuery, table, key, value));
         if (entityExists(getEntity(table, key, value))) {
-            executeQuery(String.format(deleteQuery, table, key, value));
-            if (!entityExists(getEntity(table, key, value)))
-                Utils.LOGGER.info(String.format("Successfully deleted %s.", entityName));
-            else Utils.LOGGER.info(String.format("Deleting %s was unsuccessful.", entityName));
-        } else Utils.LOGGER.info(String.format("No %s found.", entityName));
+            Utils.LOGGER.info(String.format("Deleting %s was unsuccessful.", entityName));
+            return;
+        }
+
+        Utils.LOGGER.info(String.format("Successfully deleted %s.", entityName));
     }
 
     public static int getEntityIdByKey(String table, String key, String value, String idColumnLabel) {
