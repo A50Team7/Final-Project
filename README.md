@@ -19,6 +19,14 @@ Xray for Jira is used to store, organize and run manual tests / test cases. The 
 3. UI/UX Automation Testing with Selenium WebDriver
 <br/>
 
+### Viewing the Results
+
+* [Jenkins](http://weare-socialnetwork.duckdns.org:8080/)
+
+Every day there are scheduled builds around 1-2 AM. There are 2 jobs - one for Postman and one for UI and RESTassured tests. As a guest, you can view the results from the scheduled builds.
+#### Running the Tests
+As a guest, in Jenkins, you can go to any of the 2 jobs and click 'Build Now'. Results should be ready soon after.
+
 ### Test Plan
 * ##### [Test Plan](https://docs.google.com/document/d/1kHWJ7Rg_hjpx49X8WsDkF_12GdHrJSic/edit?usp=drive_link&ouid=102958470244515845434&rtpof=true&sd=true)
 <br/>
